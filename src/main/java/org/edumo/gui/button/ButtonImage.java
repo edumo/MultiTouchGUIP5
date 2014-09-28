@@ -66,10 +66,7 @@ public class ButtonImage extends ButonText {
 			}
 
 		}
-		if (dragabble && tempIdTouch != null) {
-			canvas.image(pressedImg, posDraged.x + pos.x, posDraged.y + pos.y);
-		}
-
+		
 		canvas.popMatrix();
 		
 		super.draw(canvas);

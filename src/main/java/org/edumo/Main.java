@@ -61,7 +61,6 @@ public class Main extends PApplet {
 
 		ButonText butonText = currentGuiManager.addTextButton(g, "button1Name",
 				"button1Action", width / 2, height / 2, 36, CENTER);
-		
 		RectDecorator rectDecorator = new RectDecorator(butonText, 255);
 
 		components.add(rectDecorator);

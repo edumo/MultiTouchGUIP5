@@ -15,27 +15,12 @@ public abstract class AbstractButton extends Component implements
 	protected Integer tempIdTouch;
 	protected String action;
 
-	protected boolean dragabble = false;
-
-	protected boolean movable = false;
-
-	protected PVector posDraged = new PVector();
-	protected PVector incDraged = new PVector();
-	protected PVector posInitDrag = new PVector();
 	protected PVector minDraggedAbsPos;
 	protected PVector maxDraggedAbsPos;
 	
 	public abstract String draw(PGraphics canvas);
 
 	public abstract boolean isOver(PVector pos);
-
-	public void setDraggable() {
-		dragabble = true;
-	}
-
-	public void setMoveable() {
-		movable = true;
-	}
 
 	public String getAction() {
 		return action;
@@ -51,15 +36,6 @@ public abstract class AbstractButton extends Component implements
 		if (isOver(touchPos)) {
 			pressed = true;
 			tempIdTouch = touche.id;
-			if (dragabble) {
-				posDraged = new PVector();
-				posInitDrag = touche.getScreen();
-			}
-
-			if (movable) {
-				posDraged = pos.get();
-				posInitDrag = PVector.sub(touche.getScreen(), pos);
-			}
 			return "pressed:" + action;
 		}
 
@@ -101,38 +77,6 @@ public abstract class AbstractButton extends Component implements
 				pressed = false;
 			} else {
 				pressed = true;
-			}
-
-			if (dragabble) {
-				incDraged.x = posDraged.x;
-				incDraged.y = posDraged.y;
-
-				posDraged = PVector.sub(touche.getScreen(), posInitDrag);
-
-				incDraged.sub(posDraged);
-
-				ret = action;
-			}
-
-			if (movable) {
-				incDraged.x = posDraged.x;
-				incDraged.y = posDraged.y;
-				posDraged = PVector.sub(touche.getScreen(), posInitDrag);
-				if(minDraggedAbsPos!=null){
-					if(posDraged.x < minDraggedAbsPos.x)
-						posDraged.x = minDraggedAbsPos.x;
-					if(posDraged.y < minDraggedAbsPos.y)
-						posDraged.y = minDraggedAbsPos.y;
-				}
-				if(maxDraggedAbsPos!=null){
-					if(posDraged.x > maxDraggedAbsPos.x)
-						posDraged.x = maxDraggedAbsPos.x;
-					if(posDraged.y > maxDraggedAbsPos.y)
-						posDraged.y = maxDraggedAbsPos.y;
-				}
-				pos = posDraged.get();
-				incDraged.sub(posDraged);
-				ret = action;
 			}
 
 		} else {
