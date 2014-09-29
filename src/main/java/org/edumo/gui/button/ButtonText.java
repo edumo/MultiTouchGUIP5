@@ -12,7 +12,7 @@ import processing.core.PVector;
  * 
  */
 
-public class ButonText extends AbstractButton {
+public class ButtonText extends AbstractButton {
 
 	private String label = null;
 	private int textColor = 0;
@@ -178,7 +178,6 @@ public class ButonText extends AbstractButton {
 
 		canvas.textAlign(textAlign);
 		if (pressed) {
-			// canvas.fill(255,0,0);
 			canvas.textSize(textSize * 1.1f);
 		} else {
 			canvas.fill(textColor);
@@ -189,6 +188,12 @@ public class ButonText extends AbstractButton {
 			canvas.textFont(font, textSize);
 		}
 
+//		canvas.noFill();
+//		if (textAlign == PApplet.CENTER)
+//			canvas.rect(-width / 2, -height / 2, width, height);
+//		else
+//			canvas.rect(0, 0, width, height);
+
 		// if (textAlign == PApplet.CENTER)
 		// canvas.text(label, width / 2 + xOffset, height / 2 + textSize / 4
 		// + yOffset);
@@ -198,10 +203,10 @@ public class ButonText extends AbstractButton {
 		// if (textAlign == PApplet.CENTER)
 		// canvas.text(label, width / 2, height / 2 + textSize / 4);
 		// else
-		canvas.text(label, 0, textSize);
+		canvas.text(label, 0, textSize / 2);
 
 		realTextWidth = canvas.textWidth(label);
-		canvas.textAlign(PApplet.CORNER);
+		// canvas.textAlign(PApplet.CORNER);
 		canvas.popMatrix();
 		canvas.popStyle();
 
@@ -217,7 +222,7 @@ public class ButonText extends AbstractButton {
 		if (textAlign == PApplet.CENTER) {
 			if (realPos != null && pos.x > realPos.x - width / 2
 					&& pos.x < realPos.x + width) {
-				if (pos.y > realPos.y && pos.y < realPos.y + height) {
+				if (pos.y > realPos.y - height / 2 && pos.y < realPos.y + height / 2) {
 					over = true;
 				}
 			}

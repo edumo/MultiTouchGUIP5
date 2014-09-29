@@ -7,9 +7,9 @@ import org.edumo.content.ContentManager;
 import org.edumo.gui.ActionEvent;
 import org.edumo.gui.Component;
 import org.edumo.gui.GUIManager;
-import org.edumo.gui.button.ButtonImage;
 import org.edumo.gui.button.ButtonText;
 import org.edumo.gui.decorator.RectDecorator;
+import org.edumo.gui.keyboard.KeyboardComponent;
 import org.edumo.touch.TUIOConverter;
 import org.edumo.touch.TouchPointer;
 
@@ -18,7 +18,7 @@ import TUIO.TuioCursor;
 import TUIO.TuioProcessing;
 import TUIO.TuioTime;
 
-public class MainSimpleButton extends PApplet {
+public class MainKeyboard extends PApplet {
 
 	private TuioProcessing tuioClient;
 
@@ -62,15 +62,21 @@ public class MainSimpleButton extends PApplet {
 		tuioClient = new TuioProcessing(this);
 		tuioConverter.init(tuioClient);
 
-		ButtonText butonText = currentGuiManager.addTextButton(g,
-				"button1Name", "button1Action", width / 2, height / 2, 36,
-				CENTER);
+		KeyboardComponent keyboardComponent = new KeyboardComponent();
+		String[][] chars = {
+				{ "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "'", "@",
+						KeyboardComponent.DELETE },
+				{ "q", "w", "e", "r", "t", "y", "u", "i", "o", "p" },
+				{ "a", "s", "d", "f", "g", "h", "j", "k", "l", "ñ", "ç" },
+				{ "z", "x", "c", "v", "b", "n", "m", /* ",", */"-", "_", "." },
+				{ KeyboardComponent.SPACE } };
 
-		ButtonImage buttonImage = currentGuiManager.addButton("botonImagen",
-				width / 2, height / 3, "keyBlank.jpg", "keyBlank.jpg");
+		String[] imgs = { "keyblank.jpg", "keyblank.jpg", "keyblank.jpg" };
 
-		components.add(butonText);
-		components.add(buttonImage);
+		keyboardComponent
+				.init(this, currentGuiManager, chars, 50, "kb33", imgs);
+		keyboardComponent.setPosition(100, 200);
+		components.add(keyboardComponent);
 	}
 
 	public void draw() {
@@ -185,7 +191,7 @@ public class MainSimpleButton extends PApplet {
 
 	static public void main(String[] passedArgs) {
 
-		String[] appletArgs = new String[] { "org.edumo.MainSimpleButton" };
+		String[] appletArgs = new String[] { "org.edumo.MainKeyboard" };
 		if (passedArgs != null) {
 			PApplet.main(concat(appletArgs, passedArgs));
 		} else {

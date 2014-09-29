@@ -3,11 +3,13 @@ package org.edumo;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.edumo.content.ContentManager;
+import org.edumo.content.ContextApp;
 import org.edumo.gui.ActionEvent;
 import org.edumo.gui.Component;
 import org.edumo.gui.GUIManager;
 import org.edumo.gui.ScreenComponent;
-import org.edumo.gui.button.ButonText;
+import org.edumo.gui.button.ButtonText;
 import org.edumo.gui.decorator.RectDecorator;
 import org.edumo.screens.HomeScreen;
 import org.edumo.screens.SecondScreen;
@@ -70,12 +72,17 @@ public class MainScreenTransition extends PApplet {
 		tuioConverter = new TUIOConverter();
 		tuioClient = new TuioProcessing(this);
 		tuioConverter.init(tuioClient);
+		
+		ContextApp contextApp = new ContextApp();
+		contextApp.parent = this;
+		contextApp.canvas = g;
+		contextApp.contentManager = new ContentManager(this);
 
 		homeScreen = new HomeScreen();
-		homeScreen.init(g);
+		homeScreen.init(contextApp);
 
 		secondScreen = new SecondScreen();
-		secondScreen.init(g);
+		secondScreen.init(contextApp);
 
 		currentGuiManager = homeScreen.getGuiManager();
 		currentScreen = homeScreen;

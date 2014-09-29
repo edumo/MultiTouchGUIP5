@@ -1,5 +1,7 @@
 package org.edumo.gui;
 
+import org.edumo.content.ContextApp;
+
 import processing.core.PGraphics;
 
 public abstract class ScreenComponent extends Component{
@@ -10,5 +12,5 @@ public abstract class ScreenComponent extends Component{
 		return guiManager;
 	}
 
-	public abstract void init(PGraphics canvas);
+	public abstract void init(ContextApp contextApp);
 }

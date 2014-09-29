@@ -6,7 +6,7 @@ import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.core.PVector;
 
-public class ButtonImage extends ButonText {
+public class ButtonImage extends ButtonText {
 
 	int size;
 	public PImage img;

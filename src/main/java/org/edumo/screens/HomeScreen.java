@@ -1,8 +1,10 @@
 package org.edumo.screens;
 
+import org.edumo.content.ContentManager;
+import org.edumo.content.ContextApp;
 import org.edumo.gui.GUIManager;
 import org.edumo.gui.ScreenComponent;
-import org.edumo.gui.button.ButonText;
+import org.edumo.gui.button.ButtonText;
 import org.edumo.gui.decorator.RectDecorator;
 
 import processing.core.PApplet;
@@ -24,12 +26,12 @@ public class HomeScreen extends ScreenComponent {
 		return null;
 	}
 
-	public void init(PGraphics canvas){
+	public void init(ContextApp contextApp){
 		
-		guiManager = new GUIManager();
+		guiManager = new GUIManager(new ContentManager(contextApp.parent));
 		
-		ButonText butonText = guiManager.addTextButton(canvas, "button1Name",
-				"button1Action", canvas.width / 2, canvas.height / 2, 36, PApplet.CENTER);
+		ButtonText butonText = guiManager.addTextButton(contextApp.canvas, "button1Name",
+				"button1Action", contextApp.canvas.width / 2, contextApp.canvas.height / 2, 36, PApplet.CENTER);
 		
 		components.add(butonText);
 	}

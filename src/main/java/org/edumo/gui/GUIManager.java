@@ -6,7 +6,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.edumo.gui.button.ButonText;
+import org.edumo.content.ContentManager;
+import org.edumo.gui.button.ButtonText;
+import org.edumo.gui.button.ButtonImage;
 import org.edumo.touch.TouchPointer;
 
 import processing.core.PApplet;
@@ -26,6 +28,13 @@ public class GUIManager {
 	private List<HIDEventListener> listeners = new ArrayList<HIDEventListener>();
 
 	private Logger logger = Logger.getLogger(this.getClass());
+	
+	private ContentManager contentManager;
+
+	public GUIManager(ContentManager contentManager) {
+		super();
+		this.contentManager = contentManager;
+	}
 
 	public void addListener(HIDEventListener listener) {
 		listeners.add(listener);
@@ -133,14 +142,29 @@ public class GUIManager {
 		return actions;
 	}
 
-	public ButonText addTextButton(PGraphics canvas, String nombre,
+	public ButtonText addTextButton(PGraphics canvas, String nombre,
 			String action, int x, int y, int textSize, int textAlign) {
 
-		ButonText textButon = new ButonText();
+		ButtonText textButon = new ButtonText();
 		textButon.init(canvas, nombre, action, new PVector(x, y), textSize,
 				255, textAlign);
 		addListener(textButon);
 		return textButon;
+	}
+	
+	public ButtonImage addButton(String action, int x, int y, String imgPath,
+			String pressedImgPath) {
+
+		PImage img = contentManager.loadImage(imgPath);
+		PImage pressedImg = contentManager.loadImage(pressedImgPath);
+		int size = img.width / 2;
+		ButtonImage button = new ButtonImage();
+		button.init(action, img, pressedImg, new PVector(x, y), size,
+				PApplet.CENTER);
+
+		addListener(button);
+
+		return button;
 	}
 
 }

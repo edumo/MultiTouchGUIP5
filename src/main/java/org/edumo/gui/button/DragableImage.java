@@ -5,7 +5,7 @@ import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.core.PVector;
 
-public class DragableImage extends ButonText {
+public class DragableImage extends ButtonText {
 
 	int size;
 	public PImage img;
