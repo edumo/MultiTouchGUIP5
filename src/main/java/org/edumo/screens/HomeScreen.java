@@ -10,15 +10,18 @@ import processing.core.PApplet;
 import processing.core.PGraphics;
 
 
-public class Home extends ScreenComponent {
+public class HomeScreen extends ScreenComponent {
 
 	@Override
 	public String draw(PGraphics canvas) {
-		canvas.background(100);
+		
+		canvas.pushMatrix();
 		
 		canvas.translate(pos.x, pos.y);
 		
 		guiManager.drawComponentes(components, canvas);
+		
+		canvas.popMatrix();
 		
 		return null;
 	}

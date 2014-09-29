@@ -9,7 +9,8 @@ import org.edumo.gui.GUIManager;
 import org.edumo.gui.ScreenComponent;
 import org.edumo.gui.button.ButonText;
 import org.edumo.gui.decorator.RectDecorator;
-import org.edumo.screens.Home;
+import org.edumo.screens.HomeScreen;
+import org.edumo.screens.SecondScreen;
 import org.edumo.touch.TUIOConverter;
 import org.edumo.touch.TouchPointer;
 
@@ -20,7 +21,7 @@ import TUIO.TuioCursor;
 import TUIO.TuioProcessing;
 import TUIO.TuioTime;
 
-public class MainComponentScreen extends PApplet {
+public class MainScreenTransition extends PApplet {
 
 	private TuioProcessing tuioClient;
 
@@ -29,6 +30,13 @@ public class MainComponentScreen extends PApplet {
 	public int MAX_TUIOS_PROCESSED = 5;
 
 	private ScreenComponent currentScreen;
+	private ScreenComponent auxScreen;
+
+	private HomeScreen homeScreen;
+	private SecondScreen secondScreen;
+
+	private boolean transition = false;
+
 	private GUIManager currentGuiManager;
 
 	public void init() {
@@ -62,9 +70,15 @@ public class MainComponentScreen extends PApplet {
 		tuioClient = new TuioProcessing(this);
 		tuioConverter.init(tuioClient);
 
-		currentScreen = new Home();
-		currentScreen.init(g);
-		currentGuiManager = currentScreen.getGuiManager();
+		homeScreen = new HomeScreen();
+		homeScreen.init(g);
+
+		secondScreen = new SecondScreen();
+		secondScreen.init(g);
+
+		currentGuiManager = homeScreen.getGuiManager();
+		currentScreen = homeScreen;
+
 	}
 
 	public void draw() {
@@ -72,20 +86,44 @@ public class MainComponentScreen extends PApplet {
 		background(0);
 		drawDebugPointers();
 
-		currentScreen.draw(g);
-
-	}
-	
-	private void doAction(ActionEvent action) {
-		
-		println("action "+action.getAction());
-		
-		if(action.getAction().equals("button1Action")){
-			//vamos a ahcer algo como mover esta pantalla
-			currentScreen.animate(width/2, 0, 3);
+		if (transition) {
+			auxScreen.draw(g);
 		}
+
+		String action = currentScreen.draw(g);
+
 	}
 
+	private void doAction(ActionEvent action) {
+
+		println("action " + action.getAction());
+
+		if (currentScreen == homeScreen) {
+			if (action.getAction().equals("button1Action")) {
+				// vamos a ahcer algo como mover esta pantalla
+				auxScreen = currentScreen;
+				secondScreen.getPos().x = -width;
+				currentScreen = secondScreen;
+				transition = true;
+
+				currentScreen.animate(0, 0, 3);
+				auxScreen.animate(width, 0, 3);
+			}
+		} else if (currentScreen == secondScreen) {
+			if (action.getAction().equals("button1Action")) {
+				// vamos a ahcer algo como mover esta pantalla
+				auxScreen = currentScreen;
+				homeScreen.getPos().x = width;
+				currentScreen = homeScreen;
+				transition = true;
+
+				currentScreen.animate(0, 0, 3);
+				auxScreen.animate(-width, 0, 3);
+			}
+		}
+		
+		currentGuiManager = currentScreen.getGuiManager();
+	}
 
 	private void drawDebugPointers() {
 		List<TouchPointer> touches = tuioConverter.getPointers(g, this);
@@ -125,7 +163,6 @@ public class MainComponentScreen extends PApplet {
 			}
 		}
 	}
-
 
 	public void removeTuioCursor(TuioCursor tcur) {
 		if (tcur.getCursorID() <= MAX_TUIOS_PROCESSED) {
@@ -187,7 +224,7 @@ public class MainComponentScreen extends PApplet {
 
 	static public void main(String[] passedArgs) {
 
-		String[] appletArgs = new String[] { "org.edumo.MainComponentScreen" };
+		String[] appletArgs = new String[] { "org.edumo.MainScreenTransition" };
 		if (passedArgs != null) {
 			PApplet.main(concat(appletArgs, passedArgs));
 		} else {
