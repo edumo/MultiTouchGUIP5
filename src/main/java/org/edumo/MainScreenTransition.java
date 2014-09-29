@@ -31,6 +31,7 @@ public class MainScreenTransition extends PApplet {
 
 	private ScreenComponent currentScreen;
 	private ScreenComponent auxScreen;
+	private Ani anitransition;
 
 	private HomeScreen homeScreen;
 	private SecondScreen secondScreen;
@@ -88,6 +89,9 @@ public class MainScreenTransition extends PApplet {
 
 		if (transition) {
 			auxScreen.draw(g);
+			if (anitransition.isEnded()) {
+				transition = false;
+			}
 		}
 
 		String action = currentScreen.draw(g);
@@ -107,7 +111,7 @@ public class MainScreenTransition extends PApplet {
 				transition = true;
 
 				currentScreen.animate(0, 0, 3);
-				auxScreen.animate(width, 0, 3);
+				anitransition = auxScreen.animate(width, 0, 3);
 			}
 		} else if (currentScreen == secondScreen) {
 			if (action.getAction().equals("button1Action")) {
@@ -118,10 +122,10 @@ public class MainScreenTransition extends PApplet {
 				transition = true;
 
 				currentScreen.animate(0, 0, 3);
-				auxScreen.animate(-width, 0, 3);
+				anitransition = auxScreen.animate(-width, 0, 3);
 			}
 		}
-		
+
 		currentGuiManager = currentScreen.getGuiManager();
 	}
 

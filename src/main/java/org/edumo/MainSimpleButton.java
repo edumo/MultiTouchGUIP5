@@ -62,9 +62,8 @@ public class MainSimpleButton extends PApplet {
 
 		ButonText butonText = currentGuiManager.addTextButton(g, "button1Name",
 				"button1Action", width / 2, height / 2, 36, CENTER);
-		RectDecorator rectDecorator = new RectDecorator(butonText, 255);
 
-		components.add(rectDecorator);
+		components.add(butonText);
 	}
 
 	public void draw() {
@@ -179,7 +178,7 @@ public class MainSimpleButton extends PApplet {
 
 	static public void main(String[] passedArgs) {
 
-		String[] appletArgs = new String[] { "org.edumo.Main" };
+		String[] appletArgs = new String[] { "org.edumo.MainSimpleButton" };
 		if (passedArgs != null) {
 			PApplet.main(concat(appletArgs, passedArgs));
 		} else {

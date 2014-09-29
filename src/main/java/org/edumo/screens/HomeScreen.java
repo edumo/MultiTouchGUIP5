@@ -1,6 +1,5 @@
 package org.edumo.screens;
 
-import org.edumo.gui.Component;
 import org.edumo.gui.GUIManager;
 import org.edumo.gui.ScreenComponent;
 import org.edumo.gui.button.ButonText;
@@ -16,7 +15,6 @@ public class HomeScreen extends ScreenComponent {
 	public String draw(PGraphics canvas) {
 		
 		canvas.pushMatrix();
-		
 		canvas.translate(pos.x, pos.y);
 		
 		guiManager.drawComponentes(components, canvas);
@@ -33,9 +31,7 @@ public class HomeScreen extends ScreenComponent {
 		ButonText butonText = guiManager.addTextButton(canvas, "button1Name",
 				"button1Action", canvas.width / 2, canvas.height / 2, 36, PApplet.CENTER);
 		
-		RectDecorator rectDecorator = new RectDecorator(butonText, 255);
-		
-		components.add(rectDecorator);
+		components.add(butonText);
 	}
 	
 }

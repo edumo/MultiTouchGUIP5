@@ -1,10 +1,8 @@
 package org.edumo.screens;
 
-import org.edumo.gui.Component;
 import org.edumo.gui.GUIManager;
 import org.edumo.gui.ScreenComponent;
 import org.edumo.gui.button.ButonText;
-import org.edumo.gui.decorator.RectDecorator;
 
 import processing.core.PApplet;
 import processing.core.PGraphics;
@@ -30,9 +28,7 @@ public class SecondScreen extends ScreenComponent {
 				"button1Action", canvas.width / 2, canvas.height / 2, 36,
 				PApplet.CENTER);
 
-		RectDecorator rectDecorator = new RectDecorator(butonText, 255);
-
-		components.add(rectDecorator);
+		components.add(butonText);
 	}
 
 }

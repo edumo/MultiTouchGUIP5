@@ -45,13 +45,8 @@ public abstract class Component {
 		components.remove(component);
 	}
 
-	public void animate(int x, int y, float time) {
-		try {
-			Ani.to(pos, time, "x", x);
-			Ani.to(pos, time, "y", y);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	public Ani animate(int x, int y, float time) {
+		return animate(x, y, time, 0);
 	}
 
 	public Ani animate(int x, int y, float time, float delay) {
