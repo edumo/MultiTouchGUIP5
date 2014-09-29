@@ -7,13 +7,6 @@
 
 	<dependencies>
 
-		<dependency>
-			<groupId>org.processing</groupId>
-			<artifactId>TUIO</artifactId>
-			<version>1.0</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/lib/TUIOP5.jar</systemPath>
-		</dependency>
 
 		<dependency>
 			<groupId>log4j</groupId>
@@ -44,93 +37,48 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.processing</groupId>
-			<artifactId>Ani</artifactId>
+			<groupId>processing</groupId>
+			<artifactId>TUIO</artifactId>
 			<version>1.0</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/lib/Ani.jar</systemPath>
 		</dependency>
 
 		<dependency>
-			<groupId>org.processing</groupId>
+			<groupId>processing</groupId>
 			<artifactId>core</artifactId>
-			<version>1.0</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/lib/core.jar</systemPath>
-		</dependency>
-
-
-		<dependency>
-			<groupId>org.processing</groupId>
-			<artifactId>oscP5</artifactId>
-			<version>1.0</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/lib/oscP5.jar</systemPath>
-		</dependency>
-
-
-		<dependency>
-			<groupId>org.processing</groupId>
-			<artifactId>gluegen-rt-linux</artifactId>
-			<version>1.0</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/lib/gluegen-rt-natives-linux-i586.jar</systemPath>
+			<version>2.2.1</version>
 		</dependency>
 
 		<dependency>
-			<groupId>org.processing</groupId>
-			<artifactId>gluegen-rt-windows</artifactId>
-			<version>1.0</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/lib/gluegen-rt-natives-windows-i586.jar</systemPath>
+			<groupId>org.jogamp.jogl</groupId>
+			<artifactId>jogl-all-main</artifactId>
+			<version>2.1.2-rc-20131025</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jogamp.gluegen</groupId>
+			<artifactId>gluegen-rt-main</artifactId>
+			<version>2.1.2-rc-20131025</version>
 		</dependency>
 
 		<dependency>
-			<groupId>org.processing</groupId>
-			<artifactId>gluegen-rt</artifactId>
-			<version>1.0</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/lib/gluegen-rt.jar</systemPath>
+			<groupId>de.looksgood.ani</groupId>
+			<artifactId>Ani</artifactId>
+			<version>2.5</version>
 		</dependency>
 
-
-
-		<!-- <dependency> <groupId>org.processing</groupId> <artifactId>gifAnimation</artifactId> 
-			<version>1.0</version> <scope>system</scope> <systemPath>${project.basedir}/src/main/lib/jbox2d-library-2.1.2.2-jar-with-dependencies.jar</systemPath> 
-			</dependency> -->
-
-		<dependency>
-			<groupId>org.processing</groupId>
-			<artifactId>jogl-all-natives-linux</artifactId>
-			<version>1.0</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/lib/jogl-all-natives-linux-i586.jar</systemPath>
-		</dependency>
-
-		<dependency>
-			<groupId>org.processing</groupId>
-			<artifactId>jogl-all-natives-window</artifactId>
-			<version>1.0</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/lib/jogl-all-natives-windows-i586.jar</systemPath>
-		</dependency>
-
-		<dependency>
-			<groupId>org.processing</groupId>
-			<artifactId>jogl-all</artifactId>
-			<version>1.0</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/lib/jogl-all.jar</systemPath>
-		</dependency>
-
-		<dependency>
-			<groupId>org.processing</groupId>
-			<artifactId>net</artifactId>
-			<version>1.0</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/lib/net.jar</systemPath>
-		</dependency>
 
 
 	</dependencies>
+
+	<repositories>
+		<repository>
+			<id>edumo-processing</id>
+			<url>https://github.com/edumo/P5MavenRepo/raw/master/releases</url>
+		</repository>
+
+		<repository>
+			<id>edumo-processing</id>
+			<url>http://jogamp.org/deployment/maven/</url>
+		</repository>
+
+	</repositories>
 </project>
