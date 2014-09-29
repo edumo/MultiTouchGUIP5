@@ -15,9 +15,6 @@ public abstract class AbstractButton extends Component implements
 	protected Integer tempIdTouch;
 	protected String action;
 
-	protected PVector minDraggedAbsPos;
-	protected PVector maxDraggedAbsPos;
-	
 	public abstract String draw(PGraphics canvas);
 
 	public abstract boolean isOver(PVector pos);
@@ -101,22 +98,6 @@ public abstract class AbstractButton extends Component implements
 
 	public void setActive(boolean active) {
 		this.active = active;
-	}
-	
-	public PVector getMinDraggedAbsPos() {
-		return minDraggedAbsPos;
-	}
-
-	public void setMinDraggedAbsPos(PVector minDraggedPos) {
-		this.minDraggedAbsPos = minDraggedPos;
-	}
-
-	public PVector getMaxDraggedAbsPos() {
-		return maxDraggedAbsPos;
-	}
-
-	public void setMaxDraggedAbsPos(PVector maxDraggedPos) {
-		this.maxDraggedAbsPos = maxDraggedPos;
 	}
 
 }

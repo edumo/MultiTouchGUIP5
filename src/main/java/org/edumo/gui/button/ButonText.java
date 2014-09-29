@@ -195,10 +195,10 @@ public class ButonText extends AbstractButton {
 		// else
 		// canvas.text(label, xOffset, textSize + yOffset);
 
-		if (textAlign == PApplet.CENTER)
-			canvas.text(label, width / 2, height / 2 + textSize / 4);
-		else
-			canvas.text(label, 0, textSize);
+		// if (textAlign == PApplet.CENTER)
+		// canvas.text(label, width / 2, height / 2 + textSize / 4);
+		// else
+		canvas.text(label, 0, textSize);
 
 		realTextWidth = canvas.textWidth(label);
 		canvas.textAlign(PApplet.CORNER);
@@ -214,9 +214,19 @@ public class ButonText extends AbstractButton {
 		if (pos == null) {
 			return false;
 		}
-		if (realPos != null && pos.x > realPos.x && pos.x < realPos.x + width) {
-			if (pos.y > realPos.y && pos.y < realPos.y + height) {
-				over = true;
+		if (textAlign == PApplet.CENTER) {
+			if (realPos != null && pos.x > realPos.x - width / 2
+					&& pos.x < realPos.x + width) {
+				if (pos.y > realPos.y && pos.y < realPos.y + height) {
+					over = true;
+				}
+			}
+		} else {
+			if (realPos != null && pos.x > realPos.x
+					&& pos.x < realPos.x + width) {
+				if (pos.y > realPos.y && pos.y < realPos.y + height) {
+					over = true;
+				}
 			}
 		}
 		return over;

@@ -47,12 +47,14 @@ public class ButtonImage extends ButonText {
 	}
 
 	public String draw(PGraphics canvas) {
+		
 		if (!rendered)
 			return null;
 
 		canvas.pushMatrix();
 		canvas.imageMode(imageMode);
 		updateRealPos(canvas);
+		
 		if (!pressed) {
 			drawImage(canvas, img);
 		} else {
@@ -64,7 +66,6 @@ public class ButtonImage extends ButonText {
 			} else {
 				drawImage(canvas, pressedImg);
 			}
-
 		}
 		
 		canvas.popMatrix();

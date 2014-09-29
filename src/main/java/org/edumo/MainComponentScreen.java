@@ -6,17 +6,21 @@ import java.util.List;
 import org.edumo.gui.ActionEvent;
 import org.edumo.gui.Component;
 import org.edumo.gui.GUIManager;
+import org.edumo.gui.ScreenComponent;
 import org.edumo.gui.button.ButonText;
 import org.edumo.gui.decorator.RectDecorator;
+import org.edumo.screens.Home;
 import org.edumo.touch.TUIOConverter;
 import org.edumo.touch.TouchPointer;
+
+import de.looksgood.ani.Ani;
 
 import processing.core.PApplet;
 import TUIO.TuioCursor;
 import TUIO.TuioProcessing;
 import TUIO.TuioTime;
 
-public class Main extends PApplet {
+public class MainComponentScreen extends PApplet {
 
 	private TuioProcessing tuioClient;
 
@@ -24,9 +28,8 @@ public class Main extends PApplet {
 
 	public int MAX_TUIOS_PROCESSED = 5;
 
+	private ScreenComponent currentScreen;
 	private GUIManager currentGuiManager;
-
-	private List<Component> components;
 
 	public void init() {
 		// / to make a frame not displayable, you can
@@ -49,21 +52,19 @@ public class Main extends PApplet {
 
 		size(1024, 768, OPENGL);
 		frameRate(60);
+		Ani.init(this);
 		initGUI();
 	}
 
 	private void initGUI() {
-		currentGuiManager = new GUIManager();
-		components = new ArrayList<Component>();
+
 		tuioConverter = new TUIOConverter();
 		tuioClient = new TuioProcessing(this);
 		tuioConverter.init(tuioClient);
 
-		ButonText butonText = currentGuiManager.addTextButton(g, "button1Name",
-				"button1Action", width / 2, height / 2, 36, CENTER);
-		RectDecorator rectDecorator = new RectDecorator(butonText, 255);
-
-		components.add(rectDecorator);
+		currentScreen = new Home();
+		currentScreen.init(g);
+		currentGuiManager = currentScreen.getGuiManager();
 	}
 
 	public void draw() {
@@ -71,9 +72,20 @@ public class Main extends PApplet {
 		background(0);
 		drawDebugPointers();
 
-		currentGuiManager.drawComponentes(components, g);
+		currentScreen.draw(g);
 
 	}
+	
+	private void doAction(ActionEvent action) {
+		
+		println("action "+action.getAction());
+		
+		if(action.getAction().equals("button1Action")){
+			//vamos a ahcer algo como mover esta pantalla
+			currentScreen.animate(width/2, 0, 3);
+		}
+	}
+
 
 	private void drawDebugPointers() {
 		List<TouchPointer> touches = tuioConverter.getPointers(g, this);
@@ -114,9 +126,6 @@ public class Main extends PApplet {
 		}
 	}
 
-	private void doAction(ActionEvent action) {
-		println("tuvimos la acción  " + action.getAction());
-	}
 
 	public void removeTuioCursor(TuioCursor tcur) {
 		if (tcur.getCursorID() <= MAX_TUIOS_PROCESSED) {
@@ -178,7 +187,7 @@ public class Main extends PApplet {
 
 	static public void main(String[] passedArgs) {
 
-		String[] appletArgs = new String[] { "org.edumo.Main" };
+		String[] appletArgs = new String[] { "org.edumo.MainComponentScreen" };
 		if (passedArgs != null) {
 			PApplet.main(concat(appletArgs, passedArgs));
 		} else {

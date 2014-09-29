@@ -100,6 +100,13 @@ public abstract class Component {
 		return components;
 	}
 
+	/**
+	 * Because we can be contained by other componentes with translate, I've to
+	 * update my real position in the screen
+	 * 
+	 * @param canvas
+	 */
+
 	protected void updateRealPos(PGraphics canvas) {
 		realPos = new PVector(canvas.screenX(pos.x, pos.y), canvas.screenY(
 				pos.x, pos.y));
