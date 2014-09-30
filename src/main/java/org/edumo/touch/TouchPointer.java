@@ -46,12 +46,12 @@ public class TouchPointer {
 		return (int) (y * height);
 	}
 
-	public int getScreenX() {
-		return (int) (x * w);
+	public float getScreenX() {
+		return (x * w);
 	}
 
-	public int getScreenY() {
-		return (int) (y * h);
+	public float getScreenY() {
+		return (y * h);
 	}
 
 	public PVector getScreen() {

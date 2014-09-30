@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 import org.edumo.content.ContentManager;
 import org.edumo.gui.button.ButtonText;
 import org.edumo.gui.button.ButtonImage;
+import org.edumo.gui.button.DragableImage;
 import org.edumo.touch.TouchPointer;
 
 import processing.core.PApplet;
@@ -160,6 +161,19 @@ public class GUIManager {
 		int size = img.width / 2;
 		ButtonImage button = new ButtonImage();
 		button.init(action, img, pressedImg, new PVector(x, y), size,
+				PApplet.CENTER);
+
+		addListener(button);
+
+		return button;
+	}
+	
+	public DragableImage addDraggableImage(String action, int x, int y, String imgPath) {
+
+		PImage img = contentManager.loadImage(imgPath);
+		int size = img.width / 2;
+		DragableImage button = new DragableImage();
+		button.init(action, img, new PVector(x, y), size,
 				PApplet.CENTER);
 
 		addListener(button);

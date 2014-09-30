@@ -1,5 +1,11 @@
 package org.edumo.gui.button;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
+import org.edumo.touch.TouchPointer;
+
 import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -7,15 +13,17 @@ import processing.core.PVector;
 
 public class DragableImage extends ButtonText {
 
-	int size;
+	protected int size;
 	public PImage img;
 
-	int imageMode;
-	private PVector resizeOnDraw = null;
-	
+	protected int imageMode;
+	protected PVector resizeOnDraw = new PVector(1, 1);
+
 	protected PVector posDraged = new PVector();
 	protected PVector incDraged = new PVector();
 	protected PVector posInitDrag = new PVector();
+
+	Map<Integer, TouchPointer> pointers = new HashMap<Integer, TouchPointer>();
 
 	public void setResizeOnDraw(PVector resizeOnDraw) {
 		this.resizeOnDraw = resizeOnDraw;
@@ -62,6 +70,8 @@ public class DragableImage extends ButtonText {
 
 		canvas.popMatrix();
 
+		// System.out.println(pointers.size());
+
 		super.draw(canvas);
 
 		return null;
@@ -73,7 +83,8 @@ public class DragableImage extends ButtonText {
 		if (resizeOnDraw == null) {
 			canvas.image(img, pos.x, pos.y);
 		} else {
-			canvas.image(img, pos.x, pos.y, resizeOnDraw.x, resizeOnDraw.y);
+			canvas.image(img, pos.x, pos.y, img.width * resizeOnDraw.x,
+					img.height * resizeOnDraw.y);
 		}
 
 	}
@@ -90,24 +101,28 @@ public class DragableImage extends ButtonText {
 			} else {
 				// System.out.println("----" + this.pos.dist(pos));
 			}
-		} else if (resizeOnDraw != null) {
-			size = (int) resizeOnDraw.mag() / 2;
-			if (this.realPos != null) {
-				PVector newPos = realPos.get();
-				newPos.add(size / 2, size / 2, 0);
-				if (newPos.dist(pos) < size) {
-					return true;
-				}
-			} else {
-				// System.out.println("----" + this.pos.dist(pos));
-			}
+			// }
+			// else if (resizeOnDraw != null) {
+			// size = (int) resizeOnDraw.mag() / 2;
+			// if (this.realPos != null) {
+			// PVector newPos = realPos.get();
+			// newPos.add(size / 2, size / 2, 0);
+			// if (newPos.dist(pos) < size) {
+			// return true;
+			// }
+			// } else {
+			// // System.out.println("----" + this.pos.dist(pos));
+			// }
 		} else {
 			size = this.size;
-			if (imageMode == PApplet.CENTER && this.realPos != null
-					&& pos.x + img.width / 2 > this.realPos.x
-					&& pos.x + img.width / 2 < this.realPos.x + img.width
-					&& pos.y + img.height / 2 > this.realPos.y
-					&& pos.y + img.height / 2 < this.realPos.y + img.height) {
+			if (imageMode == PApplet.CENTER
+					&& this.realPos != null
+					&& pos.x + img.width * resizeOnDraw.x / 2 > this.realPos.x
+					&& pos.x + img.width * resizeOnDraw.x / 2 < this.realPos.x
+							+ img.width * resizeOnDraw.x
+					&& pos.y + img.height * resizeOnDraw.x / 2 > this.realPos.y
+					&& pos.y + img.height * resizeOnDraw.x / 2 < this.realPos.y
+							+ img.height * resizeOnDraw.x) {
 				return true;
 			}
 
@@ -124,6 +139,98 @@ public class DragableImage extends ButtonText {
 		}
 
 		return false;
+	}
+
+	@Override
+	public String hidDragged(TouchPointer touche) {
+		if (pointers.isEmpty())
+			return null;
+
+		if (pointers.size() == 1) {
+			TouchPointer p1 = pointers.values().iterator().next();
+			if (p1.id == touche.id) {
+				PVector dif = PVector.sub(touche.getScreen(), p1.getScreen());
+				pos.add(dif);
+				// actualizamos mi pos en función de la diferencia y
+				// actualizamos el map
+				pointers.put(touche.id, touche);
+			}
+		}
+
+		if (pointers.size() >= 2) {
+			Iterator<TouchPointer> pointsActive = pointers.values().iterator();
+
+			TouchPointer activePointer = null;
+			TouchPointer activePointerOld = null;
+			// buscamos el primer implicado
+			while (pointsActive.hasNext()) {
+				TouchPointer touchPointer = (TouchPointer) pointsActive.next();
+				if (touchPointer.id == touche.id) {
+					// Se mueve uno de los dos
+					// primero zoom vemos distancia anterior y la nueva
+					activePointer = touche;
+					activePointerOld = touchPointer;
+				}
+			}
+			// buscamos algún segundo implicado
+			TouchPointer activePointer2 = null;
+			pointsActive = pointers.values().iterator();
+			if (activePointer != null) {
+				while (pointsActive.hasNext()) {
+					TouchPointer touchPointer = (TouchPointer) pointsActive
+							.next();
+					if (touchPointer.id != activePointer.id) {
+						// Se mueve uno de los dos
+						// primero zoom vemos distancia anterior y la nueva
+						activePointer2 = touchPointer;
+					}
+				}
+
+				PVector tpv1 = activePointer.getScreen();
+				PVector tpv1Old = activePointerOld.getScreen();
+				PVector tpv2 = activePointer2.getScreen();
+
+				// tenemos los dos analizamos su distancia actual y la nueva
+				float distX = PApplet.dist(tpv1.x, tpv1.y, tpv2.x, tpv2.y);
+				float distXOld = PApplet.dist(tpv1Old.x, tpv1Old.y, tpv2.x,
+						tpv2.y);
+				distX /= img.width;
+				distXOld /= img.width;
+				resizeOnDraw.y += distX - distXOld;
+				resizeOnDraw.x += distX - distXOld;
+
+				pointers.put(touche.id, touche);
+			}
+		}
+
+		return null;
+	}
+
+	@Override
+	public String hidReleased(TouchPointer touche) {
+		PVector touchPos = touche.getScreen();
+
+		if (!active)
+			return null;
+
+		TouchPointer removeObject = pointers.remove(touche.id);
+
+		return null;
+
+	}
+
+	@Override
+	public String hidPressed(TouchPointer touche) {
+		PVector touchPos = touche.getScreen();
+
+		if (!active)
+			return null;
+
+		if (isOver(touchPos)) {
+			pointers.put(touche.id, touche);
+		}
+
+		return null;
 	}
 
 }
