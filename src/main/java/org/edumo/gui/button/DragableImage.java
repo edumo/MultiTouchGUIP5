@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.edumo.gui.ActionEvent;
 import org.edumo.touch.TouchPointer;
 
 import processing.core.PApplet;
@@ -142,7 +143,7 @@ public class DragableImage extends ButtonText {
 	}
 
 	@Override
-	public String hidDragged(TouchPointer touche) {
+	public ActionEvent hidDragged(TouchPointer touche) {
 		if (pointers.isEmpty())
 			return null;
 
@@ -151,7 +152,7 @@ public class DragableImage extends ButtonText {
 			if (p1.id == touche.id) {
 				PVector dif = PVector.sub(touche.getScreen(), p1.getScreen());
 				pos.add(dif);
-				// actualizamos mi pos en función de la diferencia y
+				// actualizamos mi pos en funciï¿½n de la diferencia y
 				// actualizamos el map
 				pointers.put(touche.id, touche);
 			}
@@ -172,7 +173,7 @@ public class DragableImage extends ButtonText {
 					activePointerOld = touchPointer;
 				}
 			}
-			// buscamos algún segundo implicado
+			// buscamos algï¿½n segundo implicado
 			TouchPointer activePointer2 = null;
 			pointsActive = pointers.values().iterator();
 			if (activePointer != null) {
@@ -207,7 +208,7 @@ public class DragableImage extends ButtonText {
 	}
 
 	@Override
-	public String hidReleased(TouchPointer touche) {
+	public ActionEvent hidReleased(TouchPointer touche) {
 		PVector touchPos = touche.getScreen();
 
 		if (!active)
@@ -220,7 +221,7 @@ public class DragableImage extends ButtonText {
 	}
 
 	@Override
-	public String hidPressed(TouchPointer touche) {
+	public ActionEvent hidPressed(TouchPointer touche) {
 		PVector touchPos = touche.getScreen();
 
 		if (!active)

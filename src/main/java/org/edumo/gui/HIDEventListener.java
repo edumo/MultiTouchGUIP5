@@ -11,11 +11,11 @@ import org.edumo.touch.TouchPointer;
 
 public interface HIDEventListener {
 
-	String hidPressed(TouchPointer touche);
+	ActionEvent hidPressed(TouchPointer touche);
 	
-	String hidReleased(TouchPointer touche);
+	ActionEvent hidReleased(TouchPointer touche);
 	
-	String hidDragged(TouchPointer touche);
+	ActionEvent hidDragged(TouchPointer touche);
 	
 	boolean isActive();
 	

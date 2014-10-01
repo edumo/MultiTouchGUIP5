@@ -3,6 +3,7 @@ package org.edumo.gui.keyboard;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.edumo.gui.ActionEvent;
 import org.edumo.gui.GUIComponent;
 import org.edumo.gui.WindowManager;
 import org.edumo.gui.HIDEventListener;
@@ -28,8 +29,8 @@ public class KeyboardComponent extends GUIComponent implements HIDEventListener 
 	private ButtonText comaB;
 	private ButtonText puntoB;
 
-	public void init(PApplet parent, WindowManager guiManager, String[][] chars,
-			int keySize, String action) {
+	public void init(PApplet parent, WindowManager guiManager,
+			String[][] chars, int keySize, String action) {
 
 		this.guiManager = guiManager;
 
@@ -88,8 +89,8 @@ public class KeyboardComponent extends GUIComponent implements HIDEventListener 
 	 *            se alternarán entre las teclas de tamaño uno
 	 */
 
-	public void init(PApplet parent, WindowManager guiManager, String[][] chars,
-			int keySize, String action, String[] imgs) {
+	public void init(PApplet parent, WindowManager guiManager,
+			String[][] chars, int keySize, String action, String[] imgs) {
 
 		this.guiManager = guiManager;
 
@@ -119,8 +120,8 @@ public class KeyboardComponent extends GUIComponent implements HIDEventListener 
 					posX += 26;
 				}
 
-				butonImage = guiManager.addButton(action + "-"
-						+ chars[i][j], posX, posY, imgPath, imgPath);
+				butonImage = guiManager.addButton(action + "-" + chars[i][j],
+						posX, posY, imgPath, imgPath,false);
 				butonImage.setLabel(string);
 				butonImage.setTextSize(22);
 				butonImage.setTextAlign(PApplet.CENTER);
@@ -158,21 +159,30 @@ public class KeyboardComponent extends GUIComponent implements HIDEventListener 
 	}
 
 	@Override
-	public String hidPressed(TouchPointer touche) {
+	public ActionEvent hidPressed(TouchPointer touche) {
 		String action = guiManager.pressed(listeners, touche).getAction();
-
-		return action;
+		if (action != null)
+			return new ActionEvent(action, this);
+		else
+			return null;
 	}
 
 	@Override
-	public String hidReleased(TouchPointer touche) {
-		String ret = guiManager.release(listeners, touche).getAction();
-		return ret;
+	public ActionEvent hidReleased(TouchPointer touche) {
+		String action = guiManager.release(listeners, touche).getAction();
+		if (action != null)
+			return new ActionEvent(action, this);
+		else
+			return null;
 	}
 
 	@Override
-	public String hidDragged(TouchPointer touche) {
-		return guiManager.drag(listeners, touche).getAction();
+	public ActionEvent hidDragged(TouchPointer touche) {
+		String action = guiManager.drag(listeners, touche).getAction();
+		if (action != null)
+			return new ActionEvent(action, this);
+		else
+			return null;
 	}
 
 	@Override

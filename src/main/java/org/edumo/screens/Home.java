@@ -1,7 +1,7 @@
 package org.edumo.screens;
 
 import org.edumo.content.ContentManager;
-import org.edumo.content.ContextApp;
+import org.edumo.content.MTContext;
 import org.edumo.gui.WindowManager;
 import org.edumo.gui.Window;
 import org.edumo.gui.button.ButtonText;
@@ -12,6 +12,10 @@ import processing.core.PGraphics;
 
 
 public class Home extends Window {
+
+	public Home(MTContext contextApp) {
+		super(contextApp);
+	}
 
 	@Override
 	public String draw(PGraphics canvas) {
@@ -26,9 +30,7 @@ public class Home extends Window {
 		return null;
 	}
 
-	public void init(ContextApp contextApp){
-		
-		windowManager = new WindowManager(new ContentManager(contextApp.parent));
+	public void init(MTContext contextApp){
 		
 		ButtonText butonText = windowManager.addTextButton(contextApp.canvas, "button1Name",
 				"button1Action", contextApp.canvas.width / 2, contextApp.canvas.height / 2, 36, PApplet.CENTER);

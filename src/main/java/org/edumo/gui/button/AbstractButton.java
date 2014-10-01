@@ -1,6 +1,6 @@
 package org.edumo.gui.button;
 
-
+import org.edumo.gui.ActionEvent;
 import org.edumo.gui.GUIComponent;
 import org.edumo.gui.HIDEventListener;
 import org.edumo.touch.TouchPointer;
@@ -23,33 +23,33 @@ public abstract class AbstractButton extends GUIComponent implements
 		return action;
 	}
 
-	public String hidPressed(TouchPointer touche) {
-		
+	public ActionEvent hidPressed(TouchPointer touche) {
+
 		PVector touchPos = touche.getScreen();
-		
-		if(!active)
+
+		if (!active)
 			return null;
-		
+
 		if (isOver(touchPos)) {
 			pressed = true;
 			tempIdTouch = touche.id;
-			return "pressed:" + action;
+			return new ActionEvent("pressed:" + action, this);
 		}
 
 		return null;
 	}
 
-	public String hidReleased(TouchPointer touche) {
-		
-		if(!active)
+	public ActionEvent hidReleased(TouchPointer touche) {
+
+		if (!active)
 			return null;
-		
+
 		if (tempIdTouch != null && touche.id == tempIdTouch) {
 			// pulsamos y soltamos el mismo botn
 			pressed = false;
 			tempIdTouch = null;
 			if (isOver(touche.getScreen())) {
-				return action;
+				return new ActionEvent(action, this);
 			}
 		} else {
 			if (isOver(touche.getScreen())) {
@@ -60,13 +60,13 @@ public abstract class AbstractButton extends GUIComponent implements
 		return null;
 	}
 
-	public String hidDragged(TouchPointer touche) {
+	public ActionEvent hidDragged(TouchPointer touche) {
 
-		String ret = null;
+		String action = null;
 
-		if(!active)
+		if (!active)
 			return null;
-		
+
 		if (tempIdTouch != null && touche.id == tempIdTouch) {
 
 			PVector touchPos = touche.getScreen();
@@ -84,7 +84,10 @@ public abstract class AbstractButton extends GUIComponent implements
 				pressed = false;
 			}
 		}
-		return ret;
+		if (action != null)
+			return new ActionEvent(action, this);
+		else
+			return null;
 	}
 
 	protected void init(String action, PVector pos) {

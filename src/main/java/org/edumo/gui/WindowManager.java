@@ -24,17 +24,19 @@ import processing.core.PVector;
  * 
  */
 
-public class WindowManager {
+public class WindowManager implements HIDEventListener {
 
 	private List<HIDEventListener> listeners = new ArrayList<HIDEventListener>();
 
 	private Logger logger = Logger.getLogger(this.getClass());
-	
-	private ContentManager contentManager;
 
-	public WindowManager(ContentManager contentManager) {
+	private ContentManager contentManager;
+	private Window window;
+
+	public WindowManager(ContentManager contentManager, Window window) {
 		super();
 		this.contentManager = contentManager;
+		this.window = window;
 	}
 
 	public void addListener(HIDEventListener listener) {
@@ -45,22 +47,18 @@ public class WindowManager {
 		listeners.remove(listener);
 	}
 
-	public ActionEvent pressed(TouchPointer touchPointer) {
+	public ActionEvent hidPressed(TouchPointer touchPointer) {
 		return pressed(listeners, touchPointer);
 	}
 
-	public ActionEvent pressed(List<HIDEventListener> listeners,
+	public ActionEvent pressed(List<HIDEventListener> actionEvent,
 			TouchPointer touchPointer) {
-
+		ActionEvent action = null;
 		for (int i = listeners.size() - 1; i >= 0; i--) {
 			HIDEventListener button = listeners.get(i);
 			if (button.isActive()) {
 				try {
-					String action = button.hidPressed(touchPointer);
-					if (action != null) {
-						// System.out.println("accion " + action);
-						return new ActionEvent(action, (GUIComponent) button);
-					}
+					action = button.hidPressed(touchPointer);
 				} catch (Exception e) {
 					logger.error(
 							"error al manejar el pressed en "
@@ -69,23 +67,21 @@ public class WindowManager {
 			}
 		}
 
-		return null;
+		return action;
 	}
 
-	public ActionEvent drag(TouchPointer touchPointer) {
+	public ActionEvent hidDragged(TouchPointer touchPointer) {
 		return drag(listeners, touchPointer);
 	}
 
 	public ActionEvent drag(List<HIDEventListener> listeners,
 			TouchPointer touchPointer) {
+		ActionEvent action = null;
 		for (int i = 0; i < listeners.size(); i++) {
 			HIDEventListener button = listeners.get(i);
 			if (button.isActive()) {
 				try {
-					String action = button.hidDragged(touchPointer);
-					if (action != null) {
-						return new ActionEvent(action, (GUIComponent) button);
-					}
+					action = button.hidDragged(touchPointer);
 				} catch (Exception e) {
 					logger.error(
 							"error al manejar el drag en " + button.getClass()
@@ -93,10 +89,10 @@ public class WindowManager {
 				}
 			}
 		}
-		return null;
+		return action;
 	}
 
-	public ActionEvent onRelease(TouchPointer touchPointer) {
+	public ActionEvent hidReleased(TouchPointer touchPointer) {
 		return release(listeners, touchPointer);
 	}
 
@@ -107,9 +103,9 @@ public class WindowManager {
 			HIDEventListener button = listeners.get(i);
 			if (button.isActive()) {
 				try {
-					String actionTemp = button.hidReleased(touchPointer);
-					if (actionTemp != null) {
-						action = new ActionEvent(actionTemp, (GUIComponent) button);
+					ActionEvent tempaction = button.hidReleased(touchPointer);
+					if(tempaction != null){
+						action = tempaction;
 					}
 				} catch (Exception e) {
 					logger.error(
@@ -143,12 +139,12 @@ public class WindowManager {
 		return actions;
 	}
 
-	public ButtonText addTextButton(PGraphics canvas, String nombre,
-			int x, int y, int textSize, int textAlign) {
+	public ButtonText addTextButton(PGraphics canvas, String nombre, int x,
+			int y, int textSize, int textAlign) {
 
 		return addTextButton(canvas, nombre, nombre, x, y, textSize, textAlign);
 	}
-	
+
 	public ButtonText addTextButton(PGraphics canvas, String nombre,
 			String action, int x, int y, int textSize, int textAlign) {
 
@@ -156,11 +152,17 @@ public class WindowManager {
 		textButon.init(canvas, nombre, action, new PVector(x, y), textSize,
 				255, textAlign);
 		addListener(textButon);
+		window.components.add(textButon);
 		return textButon;
 	}
-	
+
 	public ButtonImage addButton(String action, int x, int y, String imgPath,
 			String pressedImgPath) {
+		return addButton(action, x, y, imgPath, pressedImgPath, true);
+	}
+
+	public ButtonImage addButton(String action, int x, int y, String imgPath,
+			String pressedImgPath, boolean insertComponent) {
 
 		PImage img = contentManager.loadImage(imgPath);
 		PImage pressedImg = contentManager.loadImage(pressedImgPath);
@@ -170,21 +172,30 @@ public class WindowManager {
 				PApplet.CENTER);
 
 		addListener(button);
+		if (insertComponent)
+			window.components.add(button);
 
 		return button;
 	}
-	
-	public DragableImage addDraggableImage(String action, int x, int y, String imgPath) {
+
+	public DragableImage addDraggableImage(String action, int x, int y,
+			String imgPath) {
 
 		PImage img = contentManager.loadImage(imgPath);
 		int size = img.width / 2;
 		DragableImage button = new DragableImage();
-		button.init(action, img, new PVector(x, y), size,
-				PApplet.CENTER);
+		button.init(action, img, new PVector(x, y), size, PApplet.CENTER);
 
 		addListener(button);
+		window.components.add(button);
 
 		return button;
+	}
+
+	@Override
+	public boolean isActive() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }
