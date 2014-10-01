@@ -11,7 +11,7 @@ import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.core.PVector;
 
-public abstract class Component {
+public abstract class GUIComponent {
 
 	protected PVector pos = new PVector();
 
@@ -21,7 +21,7 @@ public abstract class Component {
 	protected int width;
 	protected int height;
 
-	protected List<Component> components = new ArrayList<Component>();
+	protected List<GUIComponent> components = new ArrayList<GUIComponent>();
 
 	public abstract String draw(PGraphics canvas);
 
@@ -33,15 +33,15 @@ public abstract class Component {
 
 	protected boolean active = true;
 
-	public void add(Component component) {
+	public void add(GUIComponent component) {
 		components.add(component);
 	}
 
-	public void add(int index, Component component) {
+	public void add(int index, GUIComponent component) {
 		components.add(index, component);
 	}
 
-	public void remove(Component component) {
+	public void remove(GUIComponent component) {
 		components.remove(component);
 	}
 
@@ -91,7 +91,7 @@ public abstract class Component {
 		return pos;
 	}
 
-	public List<Component> getComponents() {
+	public List<GUIComponent> getComponents() {
 		return components;
 	}
 
@@ -114,7 +114,7 @@ public abstract class Component {
 	public void setRendered(boolean rendered) {
 		this.rendered = rendered;
 		for (int i = 0; i < components.size(); i++) {
-			Component component = components.get(i);
+			GUIComponent component = components.get(i);
 			component.setRendered(rendered);
 		}
 	}
@@ -126,7 +126,7 @@ public abstract class Component {
 	public void setActive(boolean active) {
 		this.active = active;
 		for (int i = 0; i < components.size(); i++) {
-			Component component = components.get(i);
+			GUIComponent component = components.get(i);
 			component.setActive(active);
 		}
 

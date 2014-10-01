@@ -4,7 +4,7 @@ public class ActionEvent {
 
 	String action;
 	
-	Component component;
+	GUIComponent component;
 
 	public String getAction() {
 		return action;
@@ -14,15 +14,15 @@ public class ActionEvent {
 		this.action = action;
 	}
 
-	public Component getComponent() {
+	public GUIComponent getComponent() {
 		return component;
 	}
 
-	public void setComponent(Component component) {
+	public void setComponent(GUIComponent component) {
 		this.component = component;
 	}
 
-	public ActionEvent(String action, Component component) {
+	public ActionEvent(String action, GUIComponent component) {
 		super();
 		this.action = action;
 		this.component = component;

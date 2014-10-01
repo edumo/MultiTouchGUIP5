@@ -5,8 +5,8 @@ import java.util.List;
 
 import org.edumo.content.ContentManager;
 import org.edumo.gui.ActionEvent;
-import org.edumo.gui.Component;
-import org.edumo.gui.GUIManager;
+import org.edumo.gui.GUIComponent;
+import org.edumo.gui.WindowManager;
 import org.edumo.gui.button.ButtonImage;
 import org.edumo.gui.button.ButtonText;
 import org.edumo.gui.button.DragableImage;
@@ -27,9 +27,9 @@ public class MainDraggableImage extends PApplet {
 
 	public int MAX_TUIOS_PROCESSED = 5;
 
-	private GUIManager currentGuiManager;
+	private WindowManager currentGuiManager;
 
-	private List<Component> components;
+	private List<GUIComponent> components;
 
 	public void init() {
 		// / to make a frame not displayable, you can
@@ -57,8 +57,8 @@ public class MainDraggableImage extends PApplet {
 
 	private void initGUI() {
 
-		currentGuiManager = new GUIManager(new ContentManager(this));
-		components = new ArrayList<Component>();
+		currentGuiManager = new WindowManager(new ContentManager(this));
+		components = new ArrayList<GUIComponent>();
 		tuioConverter = new TUIOConverter();
 		tuioClient = new TuioProcessing(this);
 		tuioConverter.init(tuioClient);
@@ -116,7 +116,7 @@ public class MainDraggableImage extends PApplet {
 	}
 
 	private void doAction(ActionEvent action) {
-		println("tuvimos la acción  " + action.getAction());
+		println("tuvimos la acciï¿½n  " + action.getAction());
 	}
 
 	public void removeTuioCursor(TuioCursor tcur) {
@@ -124,7 +124,7 @@ public class MainDraggableImage extends PApplet {
 			TouchPointer touchPointer = tuioConverter.tuioToTouchPointer(g,
 					tcur);
 			if (currentGuiManager != null) {
-				ActionEvent action = currentGuiManager.release(touchPointer);
+				ActionEvent action = currentGuiManager.onRelease(touchPointer);
 				if (action != null) {
 					doAction(action);
 				}
@@ -147,7 +147,7 @@ public class MainDraggableImage extends PApplet {
 	public void mouseReleased() {
 		TouchPointer touchPointer = tuioConverter.mouseToPointer(g, this);
 		if (currentGuiManager != null) {
-			ActionEvent action = currentGuiManager.release(touchPointer);
+			ActionEvent action = currentGuiManager.onRelease(touchPointer);
 			if (action != null) {
 				doAction(action);
 			}

@@ -24,7 +24,7 @@ import processing.core.PVector;
  * 
  */
 
-public class GUIManager {
+public class WindowManager {
 
 	private List<HIDEventListener> listeners = new ArrayList<HIDEventListener>();
 
@@ -32,7 +32,7 @@ public class GUIManager {
 	
 	private ContentManager contentManager;
 
-	public GUIManager(ContentManager contentManager) {
+	public WindowManager(ContentManager contentManager) {
 		super();
 		this.contentManager = contentManager;
 	}
@@ -59,7 +59,7 @@ public class GUIManager {
 					String action = button.hidPressed(touchPointer);
 					if (action != null) {
 						// System.out.println("accion " + action);
-						return new ActionEvent(action, (Component) button);
+						return new ActionEvent(action, (GUIComponent) button);
 					}
 				} catch (Exception e) {
 					logger.error(
@@ -84,7 +84,7 @@ public class GUIManager {
 				try {
 					String action = button.hidDragged(touchPointer);
 					if (action != null) {
-						return new ActionEvent(action, (Component) button);
+						return new ActionEvent(action, (GUIComponent) button);
 					}
 				} catch (Exception e) {
 					logger.error(
@@ -96,7 +96,7 @@ public class GUIManager {
 		return null;
 	}
 
-	public ActionEvent release(TouchPointer touchPointer) {
+	public ActionEvent onRelease(TouchPointer touchPointer) {
 		return release(listeners, touchPointer);
 	}
 
@@ -109,7 +109,7 @@ public class GUIManager {
 				try {
 					String actionTemp = button.hidReleased(touchPointer);
 					if (actionTemp != null) {
-						action = new ActionEvent(actionTemp, (Component) button);
+						action = new ActionEvent(actionTemp, (GUIComponent) button);
 					}
 				} catch (Exception e) {
 					logger.error(
@@ -122,13 +122,13 @@ public class GUIManager {
 		return action;
 	}
 
-	public List<ActionEvent> drawComponentes(List<Component> components,
+	public List<ActionEvent> drawComponentes(List<GUIComponent> components,
 			PGraphics canvas) {
 
 		List<ActionEvent> actions = new ArrayList<ActionEvent>();
 
 		for (int i = 0; i < components.size(); i++) {
-			Component component = components.get(i);
+			GUIComponent component = components.get(i);
 			String action = null;
 
 			if (component.isRendered())
@@ -143,6 +143,12 @@ public class GUIManager {
 		return actions;
 	}
 
+	public ButtonText addTextButton(PGraphics canvas, String nombre,
+			int x, int y, int textSize, int textAlign) {
+
+		return addTextButton(canvas, nombre, nombre, x, y, textSize, textAlign);
+	}
+	
 	public ButtonText addTextButton(PGraphics canvas, String nombre,
 			String action, int x, int y, int textSize, int textAlign) {
 

@@ -2,8 +2,8 @@ package org.edumo.screens;
 
 import org.edumo.content.ContentManager;
 import org.edumo.content.ContextApp;
-import org.edumo.gui.GUIManager;
-import org.edumo.gui.ScreenComponent;
+import org.edumo.gui.WindowManager;
+import org.edumo.gui.Window;
 import org.edumo.gui.button.ButtonText;
 import org.edumo.gui.decorator.RectDecorator;
 
@@ -11,7 +11,7 @@ import processing.core.PApplet;
 import processing.core.PGraphics;
 
 
-public class HomeScreen extends ScreenComponent {
+public class Home extends Window {
 
 	@Override
 	public String draw(PGraphics canvas) {
@@ -19,7 +19,7 @@ public class HomeScreen extends ScreenComponent {
 		canvas.pushMatrix();
 		canvas.translate(pos.x, pos.y);
 		
-		guiManager.drawComponentes(components, canvas);
+		windowManager.drawComponentes(components, canvas);
 		
 		canvas.popMatrix();
 		
@@ -28,9 +28,9 @@ public class HomeScreen extends ScreenComponent {
 
 	public void init(ContextApp contextApp){
 		
-		guiManager = new GUIManager(new ContentManager(contextApp.parent));
+		windowManager = new WindowManager(new ContentManager(contextApp.parent));
 		
-		ButtonText butonText = guiManager.addTextButton(contextApp.canvas, "button1Name",
+		ButtonText butonText = windowManager.addTextButton(contextApp.canvas, "button1Name",
 				"button1Action", contextApp.canvas.width / 2, contextApp.canvas.height / 2, 36, PApplet.CENTER);
 		
 		components.add(butonText);

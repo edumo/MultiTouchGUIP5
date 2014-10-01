@@ -4,12 +4,12 @@ import org.edumo.content.ContextApp;
 
 import processing.core.PGraphics;
 
-public abstract class ScreenComponent extends Component{
+public abstract class Window extends GUIComponent{
 
-	protected GUIManager guiManager;
+	protected WindowManager windowManager;
 
-	public GUIManager getGuiManager() {
-		return guiManager;
+	public WindowManager getGuiManager() {
+		return windowManager;
 	}
 
 	public abstract void init(ContextApp contextApp);

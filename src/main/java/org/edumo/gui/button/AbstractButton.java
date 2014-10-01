@@ -1,14 +1,14 @@
 package org.edumo.gui.button;
 
 
-import org.edumo.gui.Component;
+import org.edumo.gui.GUIComponent;
 import org.edumo.gui.HIDEventListener;
 import org.edumo.touch.TouchPointer;
 
 import processing.core.PGraphics;
 import processing.core.PVector;
 
-public abstract class AbstractButton extends Component implements
+public abstract class AbstractButton extends GUIComponent implements
 		HIDEventListener {
 
 	protected boolean pressed;

@@ -6,12 +6,12 @@ import java.util.List;
 import org.edumo.content.ContentManager;
 import org.edumo.content.ContextApp;
 import org.edumo.gui.ActionEvent;
-import org.edumo.gui.Component;
-import org.edumo.gui.GUIManager;
-import org.edumo.gui.ScreenComponent;
+import org.edumo.gui.GUIComponent;
+import org.edumo.gui.WindowManager;
+import org.edumo.gui.Window;
 import org.edumo.gui.button.ButtonText;
 import org.edumo.gui.decorator.RectDecorator;
-import org.edumo.screens.HomeScreen;
+import org.edumo.screens.Home;
 import org.edumo.screens.SecondScreen;
 import org.edumo.touch.TUIOConverter;
 import org.edumo.touch.TouchPointer;
@@ -31,16 +31,16 @@ public class MainScreenTransition extends PApplet {
 
 	public int MAX_TUIOS_PROCESSED = 5;
 
-	private ScreenComponent currentScreen;
-	private ScreenComponent auxScreen;
+	private Window currentScreen;
+	private Window auxScreen;
 	private Ani anitransition;
 
-	private HomeScreen homeScreen;
+	private Home homeScreen;
 	private SecondScreen secondScreen;
 
 	private boolean transition = false;
 
-	private GUIManager currentGuiManager;
+	private WindowManager currentWindowManager;
 
 	public void init() {
 		// / to make a frame not displayable, you can
@@ -78,13 +78,13 @@ public class MainScreenTransition extends PApplet {
 		contextApp.canvas = g;
 		contextApp.contentManager = new ContentManager(this);
 
-		homeScreen = new HomeScreen();
+		homeScreen = new Home();
 		homeScreen.init(contextApp);
 
 		secondScreen = new SecondScreen();
 		secondScreen.init(contextApp);
 
-		currentGuiManager = homeScreen.getGuiManager();
+		currentWindowManager = homeScreen.getGuiManager();
 		currentScreen = homeScreen;
 
 	}
@@ -133,7 +133,7 @@ public class MainScreenTransition extends PApplet {
 			}
 		}
 
-		currentGuiManager = currentScreen.getGuiManager();
+		currentWindowManager = currentScreen.getGuiManager();
 	}
 
 	private void drawDebugPointers() {
@@ -152,8 +152,8 @@ public class MainScreenTransition extends PApplet {
 		if (tcur.getCursorID() <= MAX_TUIOS_PROCESSED) {
 			TouchPointer touchPointer = tuioConverter.tuioToTouchPointer(g,
 					tcur);
-			if (currentGuiManager != null) {
-				ActionEvent action = currentGuiManager.pressed(touchPointer);
+			if (currentWindowManager != null) {
+				ActionEvent action = currentWindowManager.pressed(touchPointer);
 				// if (action != null) {
 				// doAction(action);
 				// }
@@ -166,8 +166,8 @@ public class MainScreenTransition extends PApplet {
 		if (tcur.getCursorID() <= MAX_TUIOS_PROCESSED) {
 			TouchPointer touchPointer = tuioConverter.tuioToTouchPointer(g,
 					tcur);
-			if (currentGuiManager != null) {
-				ActionEvent action = currentGuiManager.drag(touchPointer);
+			if (currentWindowManager != null) {
+				ActionEvent action = currentWindowManager.drag(touchPointer);
 				if (action != null) {
 					doAction(action);
 				}
@@ -179,8 +179,8 @@ public class MainScreenTransition extends PApplet {
 		if (tcur.getCursorID() <= MAX_TUIOS_PROCESSED) {
 			TouchPointer touchPointer = tuioConverter.tuioToTouchPointer(g,
 					tcur);
-			if (currentGuiManager != null) {
-				ActionEvent action = currentGuiManager.release(touchPointer);
+			if (currentWindowManager != null) {
+				ActionEvent action = currentWindowManager.onRelease(touchPointer);
 				if (action != null) {
 					doAction(action);
 				}
@@ -191,8 +191,8 @@ public class MainScreenTransition extends PApplet {
 	@Override
 	public void mousePressed() {
 		TouchPointer touchPointer = tuioConverter.mouseToPointer(g, this);
-		if (currentGuiManager != null) {
-			ActionEvent action = currentGuiManager.pressed(touchPointer);
+		if (currentWindowManager != null) {
+			ActionEvent action = currentWindowManager.pressed(touchPointer);
 			// if (action != null) {
 			// doAction(action);
 			// }
@@ -202,8 +202,8 @@ public class MainScreenTransition extends PApplet {
 	@Override
 	public void mouseReleased() {
 		TouchPointer touchPointer = tuioConverter.mouseToPointer(g, this);
-		if (currentGuiManager != null) {
-			ActionEvent action = currentGuiManager.release(touchPointer);
+		if (currentWindowManager != null) {
+			ActionEvent action = currentWindowManager.onRelease(touchPointer);
 			if (action != null) {
 				doAction(action);
 			}
@@ -213,8 +213,8 @@ public class MainScreenTransition extends PApplet {
 	@Override
 	public void mouseDragged() {
 		TouchPointer touchPointer = tuioConverter.mouseToPointer(g, this);
-		if (currentGuiManager != null) {
-			ActionEvent action = currentGuiManager.drag(touchPointer);
+		if (currentWindowManager != null) {
+			ActionEvent action = currentWindowManager.drag(touchPointer);
 			if (action != null) {
 				doAction(action);
 			}

@@ -3,8 +3,8 @@ package org.edumo.gui.keyboard;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.edumo.gui.Component;
-import org.edumo.gui.GUIManager;
+import org.edumo.gui.GUIComponent;
+import org.edumo.gui.WindowManager;
 import org.edumo.gui.HIDEventListener;
 import org.edumo.gui.button.ButtonText;
 import org.edumo.gui.button.ButtonImage;
@@ -15,9 +15,9 @@ import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.core.PVector;
 
-public class KeyboardComponent extends Component implements HIDEventListener {
+public class KeyboardComponent extends GUIComponent implements HIDEventListener {
 
-	private GUIManager guiManager;
+	private WindowManager guiManager;
 	private String action;
 	private List<HIDEventListener> listeners = new ArrayList<>();
 
@@ -28,7 +28,7 @@ public class KeyboardComponent extends Component implements HIDEventListener {
 	private ButtonText comaB;
 	private ButtonText puntoB;
 
-	public void init(PApplet parent, GUIManager guiManager, String[][] chars,
+	public void init(PApplet parent, WindowManager guiManager, String[][] chars,
 			int keySize, String action) {
 
 		this.guiManager = guiManager;
@@ -88,7 +88,7 @@ public class KeyboardComponent extends Component implements HIDEventListener {
 	 *            se alternarán entre las teclas de tamaño uno
 	 */
 
-	public void init(PApplet parent, GUIManager guiManager, String[][] chars,
+	public void init(PApplet parent, WindowManager guiManager, String[][] chars,
 			int keySize, String action, String[] imgs) {
 
 		this.guiManager = guiManager;

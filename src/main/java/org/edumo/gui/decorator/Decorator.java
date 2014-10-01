@@ -3,17 +3,17 @@ package org.edumo.gui.decorator;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.edumo.gui.Component;
+import org.edumo.gui.GUIComponent;
 
 
 import processing.core.PGraphics;
 import processing.core.PVector;
 
-public abstract class Decorator extends Component {
+public abstract class Decorator extends GUIComponent {
 	
-	protected Component component;
+	protected GUIComponent component;
 
-	public Decorator(Component componente) {
+	public Decorator(GUIComponent componente) {
 		this.component = componente;
 	}
 
@@ -22,8 +22,8 @@ public abstract class Decorator extends Component {
 	}
 
 	@Override
-	public List<Component> getComponents() {
-		List<Component> ret = new ArrayList<Component>();
+	public List<GUIComponent> getComponents() {
+		List<GUIComponent> ret = new ArrayList<GUIComponent>();
 		ret.add(component);
 		return ret;
 	}
@@ -33,11 +33,11 @@ public abstract class Decorator extends Component {
 		return component.getPos();
 	}
 
-	public Component getComponent() {
+	public GUIComponent getComponent() {
 		return component;
 	}
 
-	public void setComponent(Component component) {
+	public void setComponent(GUIComponent component) {
 		this.component = component;
 	}
 	

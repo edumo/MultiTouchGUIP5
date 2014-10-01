@@ -1,6 +1,6 @@
 package org.edumo.gui.decorator;
 
-import org.edumo.gui.Component;
+import org.edumo.gui.GUIComponent;
 
 import processing.core.PGraphics;
 import processing.core.PVector;
@@ -18,7 +18,7 @@ public class RectDecorator extends Decorator {
 		this.strokeWeight = strokeWeight;
 	}
 
-	public RectDecorator(Component componente, int strokeColor) {
+	public RectDecorator(GUIComponent componente, int strokeColor) {
 		super(componente);
 		this.strokeColor = strokeColor;
 	}
