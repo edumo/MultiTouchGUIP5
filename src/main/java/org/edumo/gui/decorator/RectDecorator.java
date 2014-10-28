@@ -18,20 +18,24 @@ public class RectDecorator extends Decorator {
 		this.strokeWeight = strokeWeight;
 	}
 
-	public RectDecorator(GUIComponent componente, int strokeColor) {
-		super(componente);
+	public RectDecorator( int strokeColor ) {
+		super();
 		this.strokeColor = strokeColor;
 	}
 
 	@Override
 	public String draw(PGraphics canvas) {
-		super.draw(canvas);
+		
+		// First, we need to draw only the component internal graphics
+		String message = component.drawUndecorated( canvas );
+		
+		// Then we draw the decorator
 		canvas.noFill();
 		canvas.stroke(strokeColor);
 		canvas.strokeWeight(strokeWeight);
-		canvas.rect(component.getPos().x, component.getPos().y,
+		canvas.rect(component.getPosition().x, component.getPosition().y,
 				component.getWidth(), component.getHeight());
-		return null;
+		return message;
 	}
 
 	public int getStrokeColor() {
@@ -50,6 +54,11 @@ public class RectDecorator extends Decorator {
 	@Override
 	public void setPosition(float x, float y) {
 		component.setPosition(x, y);
+	}
+
+	@Override
+	public String drawUndecorated(PGraphics canvas) {
+		return null;
 	}
 
 }

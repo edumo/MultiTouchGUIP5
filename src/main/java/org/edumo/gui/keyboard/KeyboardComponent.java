@@ -7,6 +7,7 @@ import org.edumo.gui.ActionEvent;
 import org.edumo.gui.GUIComponent;
 import org.edumo.gui.WindowManager;
 import org.edumo.gui.HIDEventListener;
+import org.edumo.gui.button.AbstractButton;
 import org.edumo.gui.button.ButtonText;
 import org.edumo.gui.button.ButtonImage;
 import org.edumo.gui.decorator.RectDecorator;
@@ -26,9 +27,13 @@ public class KeyboardComponent extends GUIComponent implements HIDEventListener 
 	public static String DELETE = "DELETECAD2147";
 
 	private long nextDelete = 0;
-	private ButtonText comaB;
-	private ButtonText puntoB;
-
+	private AbstractButton comaB;
+	private AbstractButton puntoB;
+	
+	private ButtonImage espacio;
+	private ButtonImage borrar;
+	private ButtonImage letra;
+	
 	public void init(PApplet parent, WindowManager guiManager,
 			String[][] chars, int keySize, String action) {
 
@@ -49,15 +54,13 @@ public class KeyboardComponent extends GUIComponent implements HIDEventListener 
 					string = " ";
 					keySizeW = keySize * 5;
 				} else if (string.equals(DELETE)) {
-					string = "<--";
+					string = "DELETE";
 					keySizeW = keySize * 2;
 				}
 				ButtonText butonText = new ButtonText();
 				butonText.init(string, action + "-" + chars[i][j], new PVector(
 						posX, posY), keySizeW, keySize, 22);
-				RectDecorator roundedRectDecorator = new RectDecorator(
-						butonText, 255);
-				components.add(roundedRectDecorator);
+				components.add(butonText);
 				listeners.add(butonText);
 
 				if (string.equals(".")) {
@@ -69,7 +72,7 @@ public class KeyboardComponent extends GUIComponent implements HIDEventListener 
 
 				posX += 65;
 			}
-			posXCero += keySize / 3;
+			posXCero += keySize / 5;
 			posX = posXCero;
 			posY += 65;
 		}
@@ -100,37 +103,57 @@ public class KeyboardComponent extends GUIComponent implements HIDEventListener 
 		int posX = 0;
 		int posY = 0;
 
-		int imageIndex = 0;
-
+		ButtonImage firstButtonImage = null;
+		
 		for (int i = 0; i < chars.length; i++) {
 			String[] line = chars[i];
-			ButtonImage butonImage = null;
+			ButtonImage buttonImage = null;
+			
 			for (int j = 0; j < line.length; j++) {
+				
+				String imgPath = imgs[0];
+				String imgPathPressed = imgs[1];
 
 				String string = line[j].toUpperCase();
-				String imgPath = imgs[imageIndex];
 
 				if (string.equals(SPACE)) {
 					string = " ";
-					imgPath = imgs[imgs.length - 1];
-					posX += 102;
-				} else if (string.equals(DELETE)) {
-					string = "<--";
 					imgPath = imgs[imgs.length - 2];
-					posX += 26;
+					imgPathPressed = imgs[imgs.length - 1];
+				} else if (string.equals(DELETE)) {
+					string = "DELETE";
+					imgPath = imgs[imgs.length - 4];
+					imgPathPressed = imgs[imgs.length - 3];
 				}
 
-				butonImage = guiManager.addButton(action + "-" + chars[i][j],
-						posX, posY, imgPath, imgPath,false);
-				butonImage.setLabel(string);
-				butonImage.setTextSize(22);
-				butonImage.setTextAlign(PApplet.CENTER);
-				imageIndex++;
-
-				if (imageIndex >= imgs.length - 2) {
-					imageIndex = 0;
+				buttonImage = guiManager.addButton(action + "-" + chars[i][j],
+						posX, posY, imgPath, imgPathPressed, false,
+						PApplet.CENTER);
+				
+				buttonImage.setLabel(string);
+				buttonImage.setTextSize(28);
+				buttonImage.setTextColor(255);
+				buttonImage.setTextAlign(PApplet.CENTER);
+				
+				// Hack: para el proyecto Confesionario
+				buttonImage.setTextOffset(-2, -8);
+				
+				if(firstButtonImage == null){
+					firstButtonImage = buttonImage; 
 				}
-
+				
+				// Hack: para el proyecto Confesionario
+				if (string.equals(" ")) {
+					espacio = buttonImage;
+					espacio.setPosition(354, 280);
+				} else if (string.equals("DELETE")) {
+					borrar = buttonImage;
+					borrar.setLabel(" ");
+					borrar.setPosition(840, 0);
+				} else if (string.equals("Q")) {
+					letra = buttonImage;
+				}
+				
 				// if (string.equals(".")) {
 				// butonImage.setyOffset(10);
 				// }
@@ -148,13 +171,13 @@ public class KeyboardComponent extends GUIComponent implements HIDEventListener 
 				// butonImage.setyOffset(4);
 				// }
 
-				components.add(butonImage);
+				components.add(buttonImage);
 
-				posX += butonImage.img.width + 1;
+				posX += buttonImage.img.width + 1;
 			}
-			posXCero += keySize / 3;
+			posXCero += keySize / 5;
 			posX = posXCero;
-			posY += butonImage.img.height;
+			posY += firstButtonImage.img.height;
 		}
 	}
 
@@ -184,14 +207,21 @@ public class KeyboardComponent extends GUIComponent implements HIDEventListener 
 		else
 			return null;
 	}
+	
+	@Override
+	public ActionEvent hidMoved(TouchPointer touche) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	@Override
-	public String draw(PGraphics canvas) {
+	public String drawUndecorated(PGraphics canvas) {
 
 		canvas.pushMatrix();
 		canvas.translate(pos.x, pos.y);
 		guiManager.drawComponentes(components, canvas);
 		canvas.popMatrix();
+		
 		return null;
 	}
 

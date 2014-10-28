@@ -12,10 +12,9 @@ import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.core.PVector;
 
-public class DragableImage extends ButtonText {
+public class DraggablePNGImage extends ButtonImage {
 
 	protected int size;
-	public PImage img;
 
 	protected int imageMode;
 	protected PVector resizeOnDraw = new PVector(1, 1);
@@ -23,6 +22,8 @@ public class DragableImage extends ButtonText {
 	protected PVector posDraged = new PVector();
 	protected PVector incDraged = new PVector();
 	protected PVector posInitDrag = new PVector();
+
+	protected PImage matteImage = null;
 
 	Map<Integer, TouchPointer> pointers = new HashMap<Integer, TouchPointer>();
 
@@ -38,20 +39,17 @@ public class DragableImage extends ButtonText {
 		this.size = size;
 	}
 
-	public void init(String action, PImage img, PVector pos, int size) {
-		init(action, img, pos, size, PApplet.CENTER);
-	}
-
 	public void init(String action, PImage img, PVector pos, int size,
 			int imageMode) {
 
 		this.imageMode = imageMode;
 		this.img = img;
 		this.size = -1;
-		super.init(action, pos);
+
+		super.init(action, img, pressedImg, pos, size, imageMode);
 	}
 
-	public String draw(PGraphics canvas) {
+	public String drawUndecorated(PGraphics canvas) {
 
 		if (!rendered)
 			return null;
@@ -73,19 +71,18 @@ public class DragableImage extends ButtonText {
 
 		// System.out.println(pointers.size());
 
-		super.draw(canvas);
+		super.drawUndecorated(canvas);
 
 		return null;
 
 	}
 
-	private void drawImage(PGraphics canvas, PImage img) {
+	protected void drawImage(PGraphics canvas, PImage img) {
 
 		if (resizeOnDraw == null) {
 			canvas.image(img, pos.x, pos.y);
 		} else {
-			canvas.image(img, pos.x, pos.y, img.width * resizeOnDraw.x,
-					img.height * resizeOnDraw.y);
+			canvas.image(img, pos.x, pos.y, resizeOnDraw.x, resizeOnDraw.y);
 		}
 
 	}
@@ -116,14 +113,11 @@ public class DragableImage extends ButtonText {
 			// }
 		} else {
 			size = this.size;
-			if (imageMode == PApplet.CENTER
-					&& this.realPos != null
-					&& pos.x + img.width * resizeOnDraw.x / 2 > this.realPos.x
-					&& pos.x + img.width * resizeOnDraw.x / 2 < this.realPos.x
-							+ img.width * resizeOnDraw.x
-					&& pos.y + img.height * resizeOnDraw.x / 2 > this.realPos.y
-					&& pos.y + img.height * resizeOnDraw.x / 2 < this.realPos.y
-							+ img.height * resizeOnDraw.x) {
+			if (imageMode == PApplet.CENTER && this.realPos != null
+					&& pos.x + getWidth() / 2 > this.realPos.x
+					&& pos.x + getWidth() / 2 < this.realPos.x + getWidth()
+					&& pos.y + getHeight() / 2 > this.realPos.y
+					&& pos.y + getHeight() / 2 < this.realPos.y + getHeight()) {
 				return true;
 			}
 
@@ -155,6 +149,8 @@ public class DragableImage extends ButtonText {
 				// actualizamos mi pos en funci�n de la diferencia y
 				// actualizamos el map
 				pointers.put(touche.id, touche);
+				String compoundAction = "dragged::" + action;
+				return new ActionEvent(compoundAction, this);
 			}
 		}
 
@@ -229,9 +225,27 @@ public class DragableImage extends ButtonText {
 
 		if (isOver(touchPos)) {
 			pointers.put(touche.id, touche);
+			return new ActionEvent("selectDragImage", this);
 		}
 
 		return null;
+	}
+
+	public void forceUpdateRealPos(PGraphics canvas) {
+		updateRealPos(canvas);
+	}
+
+	public PImage getMatteImg() {
+		return matteImage;
+	}
+
+	public void loadMatteImage(String pathMatteImg) {
+		// TODO: repasar porqué parent es null
+		matteImage = parent.loadImage(pathMatteImg);
+	}
+
+	public void setMatteImage(PImage img) {
+		matteImage = img;
 	}
 
 }

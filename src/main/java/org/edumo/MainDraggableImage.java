@@ -1,17 +1,16 @@
-package org.edumo;
+	package org.edumo;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.edumo.content.ContentManager;
-import org.edumo.content.MTContext;
+import org.edumo.content.BaseApp;
 import org.edumo.gui.ActionEvent;
 import org.edumo.gui.GUIComponent;
 import org.edumo.gui.Window;
 import org.edumo.gui.WindowManager;
 import org.edumo.gui.button.ButtonImage;
 import org.edumo.gui.button.ButtonText;
-import org.edumo.gui.button.DragableImage;
 import org.edumo.gui.decorator.RectDecorator;
 import org.edumo.touch.TUIOConverter;
 import org.edumo.touch.TouchPointer;
@@ -23,14 +22,14 @@ import TUIO.TuioTime;
 
 public class MainDraggableImage extends PApplet {
 
-	MTContext mtContext;
+	BaseApp mtContext;
 
 	private Window window;
 
 
 	public void setup() {
 		size(1024, 768, OPENGL);
-		mtContext = new MTContext(this, g);
+		mtContext = new BaseApp(this, g);
 		frameRate(60);
 		initGUI();
 	}
@@ -39,7 +38,7 @@ public class MainDraggableImage extends PApplet {
 
 		window = new Window(mtContext);
 
-		DragableImage dragableImage = window.getGuiManager().addDraggableImage("", width / 2, height / 2, "keyblank.jpg");
+		GUIComponent dragableImage = window.getWindowManager().addDraggableImage("", width / 2, height / 2, "keyblank.jpg");
 	}
 
 	public void draw() {
@@ -47,13 +46,13 @@ public class MainDraggableImage extends PApplet {
 		background(0);
 		mtContext.drawDebugPointers(g);
 
-		window.draw( g);
+		window.drawUndecorated( g);
 
 	}
 
 	private void doAction(ActionEvent action) {
 		if (action != null)
-			println("tuvimos la acci�n  " + action.getAction());
+			println("action " + action.getAction());
 	}
 
 	public void addTuioCursor(TuioCursor tcur) {

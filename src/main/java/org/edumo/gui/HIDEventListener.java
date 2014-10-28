@@ -17,6 +17,8 @@ public interface HIDEventListener {
 	
 	ActionEvent hidDragged(TouchPointer touche);
 	
+	ActionEvent hidMoved(TouchPointer touche);
+	
 	boolean isActive();
 	
 }

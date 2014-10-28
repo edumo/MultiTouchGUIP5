@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.edumo.content.ContentManager;
-import org.edumo.content.MTContext;
+import org.edumo.content.BaseApp;
 import org.edumo.gui.ActionEvent;
 import org.edumo.gui.GUIComponent;
 import org.edumo.gui.WindowManager;
@@ -33,11 +33,11 @@ public class MainScreenTransition extends PApplet {
 
 	private boolean transition = false;
 
-	MTContext mtContext;
+	BaseApp mtContext;
 
 	public void setup() {
 
-		size(1024, 768, OPENGL);
+		size(1024, 768, P2D);
 		frameRate(60);
 		Ani.init(this);
 		initGUI();
@@ -45,7 +45,7 @@ public class MainScreenTransition extends PApplet {
 
 	private void initGUI() {
 
-		mtContext = new MTContext(this, g);
+		mtContext = new BaseApp(this, g);
 
 		homeScreen = new Home(mtContext);
 		homeScreen.init(mtContext);
@@ -63,41 +63,44 @@ public class MainScreenTransition extends PApplet {
 		mtContext.drawDebugPointers(g);
 
 		if (transition) {
-			auxWindow.draw(g);
+			auxWindow.drawUndecorated(g);
 			if (anitransition.isEnded()) {
 				transition = false;
 			}
 		}
 
-		String action = window.draw(g);
+		String action = window.drawUndecorated(g);
 
 	}
 
 	private void doAction(ActionEvent action) {
 
-		println("action " + action.getAction());
+		if (action != null) {
 
-		if (window == homeScreen) {
-			if (action.getAction().equals("button1Action")) {
-				// vamos a ahcer algo como mover esta pantalla
-				auxWindow = window;
-				secondScreen.getPos().x = -width;
-				window = secondScreen;
-				transition = true;
+			println("action " + action.getAction());
 
-				window.animate(0, 0, 3);
-				anitransition = auxWindow.animate(width, 0, 3);
-			}
-		} else if (window == secondScreen) {
-			if (action.getAction().equals("button1Action")) {
-				// vamos a ahcer algo como mover esta pantalla
-				auxWindow = window;
-				homeScreen.getPos().x = width;
-				window = homeScreen;
-				transition = true;
+			if (window == homeScreen) {
+				if (action.getAction().equals("button1Action")) {
+					// vamos a ahcer algo como mover esta pantalla
+					auxWindow = window;
+					secondScreen.getPosition().x = -width;
+					window = secondScreen;
+					transition = true;
 
-				window.animate(0, 0, 3);
-				anitransition = auxWindow.animate(-width, 0, 3);
+					window.animate(0, 0, 3);
+					anitransition = auxWindow.animate(width, 0, 3);
+				}
+			} else if (window == secondScreen) {
+				if (action.getAction().equals("button1Action")) {
+					// vamos a ahcer algo como mover esta pantalla
+					auxWindow = window;
+					homeScreen.getPosition().x = width;
+					window = homeScreen;
+					transition = true;
+
+					window.animate(0, 0, 3);
+					anitransition = auxWindow.animate(-width, 0, 3);
+				}
 			}
 		}
 

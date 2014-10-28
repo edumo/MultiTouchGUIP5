@@ -71,6 +71,7 @@ public class TUIOConverter {
 				/ (float) canvas.height, lastPressedStart);
 		
 		pointer.init(canvas.width, canvas.height);
+		pointerLast.init(canvas.width, canvas.height);
 		
 		pointer.last = pointerLast;
 		return pointer;

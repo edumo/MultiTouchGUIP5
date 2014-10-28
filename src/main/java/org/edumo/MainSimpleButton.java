@@ -1,28 +1,18 @@
 package org.edumo;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.edumo.content.ContentManager;
-import org.edumo.content.MTContext;
+import org.edumo.content.BaseApp;
 import org.edumo.gui.ActionEvent;
-import org.edumo.gui.GUIComponent;
 import org.edumo.gui.Window;
-import org.edumo.gui.WindowManager;
+import org.edumo.gui.button.AbstractButton;
 import org.edumo.gui.button.ButtonImage;
-import org.edumo.gui.button.ButtonText;
-import org.edumo.gui.decorator.RectDecorator;
-import org.edumo.touch.TUIOConverter;
 import org.edumo.touch.TouchPointer;
 
 import processing.core.PApplet;
 import TUIO.TuioCursor;
-import TUIO.TuioProcessing;
-import TUIO.TuioTime;
 
 public class MainSimpleButton extends PApplet {
 
-	MTContext mtContext;
+	BaseApp mtContext;
 
 	private Window window;
 
@@ -31,7 +21,7 @@ public class MainSimpleButton extends PApplet {
 		// size(displayWidth, displayHeight, OPENGL);
 
 		size(1024, 768, OPENGL);
-		mtContext = new MTContext(this, g);
+		mtContext = new BaseApp(this, g);
 		frameRate(60);
 		initGUI();
 	}
@@ -40,11 +30,11 @@ public class MainSimpleButton extends PApplet {
 
 		window = new Window(mtContext);
 
-		ButtonText butonText = window.getGuiManager().addTextButton(g,
+		AbstractButton butonText = window.getWindowManager().addTextButton(g,
 				"button1Name", "button1Action", width / 2, height / 2, 36,
 				CENTER);
 
-		ButtonImage buttonImage = window.getGuiManager().addButton(
+		ButtonImage buttonImage = window.getWindowManager().addButton(
 				"botonImagen", width / 2, height / 3, "keyblank.jpg",
 				"keyblank.jpg");
 
@@ -54,13 +44,13 @@ public class MainSimpleButton extends PApplet {
 
 		background(0);
 		mtContext.drawDebugPointers(g);
-		window.draw(g);
+		window.drawUndecorated(g);
 
 	}
 
 	private void doAction(ActionEvent action) {
 		if (action != null)
-			println("tuvimos la acci�n  " + action.getAction());
+			println("action  " + action.getAction());
 	}
 
 	public void addTuioCursor(TuioCursor tcur) {
@@ -115,6 +105,14 @@ public class MainSimpleButton extends PApplet {
 		doAction(action);
 	}
 
+
+	public void mouseOver() {
+		TouchPointer touchPointer = mtContext.tuioConverter.mouseToPointer(g,
+				this);
+		ActionEvent action = window.hidMoved(touchPointer);
+		doAction(action);
+	}
+	
 	static public void main(String[] passedArgs) {
 
 		String[] appletArgs = new String[] { "org.edumo.MainSimpleButton" };

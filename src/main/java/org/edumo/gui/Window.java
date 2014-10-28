@@ -1,19 +1,22 @@
 package org.edumo.gui;
 
-import org.edumo.content.MTContext;
+import org.edumo.content.BaseApp;
+import org.edumo.gui.button.ButtonImage;
 import org.edumo.touch.TouchPointer;
 
+import processing.core.PApplet;
 import processing.core.PGraphics;
+import processing.core.PVector;
 
 public class Window extends GUIComponent implements HIDEventListener {
 
-	protected WindowManager windowManager;
+	protected BaseApp mtContext;
 
-	public WindowManager getGuiManager() {
+	public WindowManager getWindowManager() {
 		return windowManager;
 	}
 
-	public String draw(PGraphics canvas) {
+	public String drawUndecorated(PGraphics canvas) {
 
 		canvas.pushMatrix();
 		canvas.translate(pos.x, pos.y);
@@ -25,9 +28,18 @@ public class Window extends GUIComponent implements HIDEventListener {
 		return null;
 	}
 
-	public Window(MTContext contextApp) {
+	public void startWindow() {
 
+	}
+
+	public Window(BaseApp contextApp) {
 		windowManager = new WindowManager(contextApp.contentManager, this);
+		init( contextApp );
+		delegateConstructor( contextApp );
+	}
+
+	public ActionEvent doAction(ActionEvent action) {
+		return null;
 	}
 
 	public ActionEvent hidPressed(TouchPointer touche) {
@@ -41,4 +53,17 @@ public class Window extends GUIComponent implements HIDEventListener {
 	public ActionEvent hidDragged(TouchPointer touche) {
 		return windowManager.hidDragged(touche);
 	}
+	
+	public ActionEvent hidMoved(TouchPointer touche) {
+		return windowManager.hidMoved(touche);
+	}
+
+	public void init(BaseApp contextApp) {
+		this.mtContext = contextApp;
+	}
+	
+	protected void delegateConstructor( BaseApp contextApp ){
+		
+	}
+
 }

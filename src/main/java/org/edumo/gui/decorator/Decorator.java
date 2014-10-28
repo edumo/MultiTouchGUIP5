@@ -5,21 +5,13 @@ import java.util.List;
 
 import org.edumo.gui.GUIComponent;
 
-
+import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.core.PVector;
 
 public abstract class Decorator extends GUIComponent {
 	
 	protected GUIComponent component;
-
-	public Decorator(GUIComponent componente) {
-		this.component = componente;
-	}
-
-	public String draw(PGraphics canvas) {
-		return component.draw(canvas);
-	}
 
 	@Override
 	public List<GUIComponent> getComponents() {
@@ -29,16 +21,22 @@ public abstract class Decorator extends GUIComponent {
 	}
 
 	@Override
-	public PVector getPos() {
-		return component.getPos();
+	public PVector getPosition() {
+		return component.getPosition();
 	}
 
 	public GUIComponent getComponent() {
 		return component;
 	}
 
-	public void setComponent(GUIComponent component) {
+	public void setComponent(GUIComponent component) throws Exception {
 		this.component = component;
+	}
+	
+	public void setParent( PApplet parent )
+	{
+		super.parent = parent;
+		
 	}
 	
 }

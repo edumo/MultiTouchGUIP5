@@ -12,10 +12,15 @@ public abstract class AbstractButton extends GUIComponent implements
 		HIDEventListener {
 
 	protected boolean pressed;
+	protected boolean moved;
 	protected Integer tempIdTouch;
 	protected String action;
+	protected boolean actionOnPressed = false;
+	
+	//TODO mal, pero es lo que hay :/
+	int imageMode = -1;
 
-	public abstract String draw(PGraphics canvas);
+	public abstract String drawUndecorated(PGraphics canvas);
 
 	public abstract boolean isOver(PVector pos);
 
@@ -33,7 +38,11 @@ public abstract class AbstractButton extends GUIComponent implements
 		if (isOver(touchPos)) {
 			pressed = true;
 			tempIdTouch = touche.id;
-			return new ActionEvent("pressed:" + action, this);
+			if(actionOnPressed){
+				return new ActionEvent("pressed:" + action, this);
+			}else{
+				return null;
+			}
 		}
 
 		return null;
@@ -89,6 +98,36 @@ public abstract class AbstractButton extends GUIComponent implements
 		else
 			return null;
 	}
+	
+	@Override
+	public ActionEvent hidMoved(TouchPointer touche) {
+		String action = null;
+
+		if (!active)
+			return null;
+
+		if (tempIdTouch != null && touche.id == tempIdTouch) {
+
+			PVector touchPos = touche.getScreen();
+			if (!isOver(touchPos)) {
+				moved = false;
+			} else {
+				moved = true;
+			}
+
+		} else {
+			PVector touchPos = touche.getScreen();
+			if (isOver(touchPos)) {
+				moved = true;
+			} else {
+				moved = false;
+			}
+		}
+		if (action != null)
+			return new ActionEvent(action, this);
+		else
+			return null;
+	}
 
 	protected void init(String action, PVector pos) {
 		this.pos = pos;
@@ -101,6 +140,14 @@ public abstract class AbstractButton extends GUIComponent implements
 
 	public void setActive(boolean active) {
 		this.active = active;
+	}
+	
+	public void hide() {
+		setRenderedAndActive(false);
+	}
+
+	public void show() {
+		setRenderedAndActive(true);
 	}
 
 }

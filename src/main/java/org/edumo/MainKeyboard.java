@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.edumo.content.ContentManager;
-import org.edumo.content.MTContext;
+import org.edumo.content.BaseApp;
 import org.edumo.gui.ActionEvent;
 import org.edumo.gui.GUIComponent;
 import org.edumo.gui.Window;
@@ -22,7 +22,7 @@ import TUIO.TuioTime;
 
 public class MainKeyboard extends PApplet {
 
-	MTContext mtContext;
+	BaseApp mtContext;
 
 	Window window;
 
@@ -30,7 +30,7 @@ public class MainKeyboard extends PApplet {
 
 		size(1024, 768, OPENGL);
 		
-		mtContext = new MTContext(this,g);
+		mtContext = new BaseApp(this,g);
 		frameRate(60);
 		initGUI();
 	}
@@ -50,7 +50,7 @@ public class MainKeyboard extends PApplet {
 		String[] imgs = { "keyblank.jpg", "keyblank.jpg", "keyblank.jpg" };
 
 		keyboardComponent
-				.init(this, window.getGuiManager(), chars, 50, "kb33", imgs);
+				.init(this, window.getWindowManager(), chars, 50, "kb33", imgs);
 		keyboardComponent.setPosition(100, 200);
 		
 		window.add(keyboardComponent);
@@ -61,13 +61,13 @@ public class MainKeyboard extends PApplet {
 		background(0);
 		mtContext.drawDebugPointers(g);
 
-		window.draw(g);
+		window.drawUndecorated(g);
 
 	}
 
 	private void doAction(ActionEvent action) {
 		if (action != null)
-			println("tuvimos la acci�n  " + action.getAction());
+			println("action  " + action.getAction());
 	}
 
 	public void addTuioCursor(TuioCursor tcur) {
