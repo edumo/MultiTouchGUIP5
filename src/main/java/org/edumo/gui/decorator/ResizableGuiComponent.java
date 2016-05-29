@@ -34,6 +34,10 @@ public class ResizableGuiComponent extends Decorator implements HIDEventListener
 	public ActionEvent hidDragged(TouchPointer touche) {
 		if (pointers.isEmpty())
 			return null;
+		
+		if(!active){
+			return null;
+		}
 
 		/*
 		 * if (pointers.size() == 1) { TouchPointer p1 =
@@ -134,7 +138,8 @@ public class ResizableGuiComponent extends Decorator implements HIDEventListener
 				lastSize = component.getResizeOnDraw();
 			}
 			pointers.put(touche.id, touche);
-			return new ActionEvent("selectDragImage", this);
+			//return new ActionEvent("selectDragImage", this);
+			return null;
 		}
 
 		return null;

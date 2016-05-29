@@ -21,6 +21,8 @@ public class DraggableGuiComponent extends Decorator implements HIDEventListener
 	protected PVector posInitDrag = new PVector();
 	
 	protected String action;
+	
+	protected float walkedWay = 0; 
 
 	Map<Integer, TouchPointer> pointers = new HashMap<Integer, TouchPointer>();
 	
@@ -38,60 +40,17 @@ public class DraggableGuiComponent extends Decorator implements HIDEventListener
 			if (p1.id == touche.id) {
 				PVector dif = PVector.sub(touche.getScreen(), p1.getScreen());
 				component.getPosition().add(dif);
+				walkedWay += dif.mag();
 				// actualizamos mi pos en funci�n de la diferencia y
 				// actualizamos el map
 				pointers.put(touche.id, touche);
 				String compoundAction = "dragged::" + component;
 				return new ActionEvent(compoundAction, this);
 			}
+		}else{
+			walkedWay = 0;
 		}
-
-		/*if (pointers.size() >= 2) {
-			Iterator<TouchPointer> pointsActive = pointers.values().iterator();
-
-			TouchPointer activePointer = null;
-			TouchPointer activePointerOld = null;
-			// buscamos el primer implicado
-			while (pointsActive.hasNext()) {
-				TouchPointer touchPointer = (TouchPointer) pointsActive.next();
-				if (touchPointer.id == touche.id) {
-					// Se mueve uno de los dos
-					// primero zoom vemos distancia anterior y la nueva
-					activePointer = touche;
-					activePointerOld = touchPointer;
-				}
-			}
-			// buscamos alg�n segundo implicado
-			TouchPointer activePointer2 = null;
-			pointsActive = pointers.values().iterator();
-			if (activePointer != null) {
-				while (pointsActive.hasNext()) {
-					TouchPointer touchPointer = (TouchPointer) pointsActive
-							.next();
-					if (touchPointer.id != activePointer.id) {
-						// Se mueve uno de los dos
-						// primero zoom vemos distancia anterior y la nueva
-						activePointer2 = touchPointer;
-					}
-				}
-
-				PVector tpv1 = activePointer.getScreen();
-				PVector tpv1Old = activePointerOld.getScreen();
-				PVector tpv2 = activePointer2.getScreen();
-
-				// tenemos los dos analizamos su distancia actual y la nueva
-				float distX = PApplet.dist(tpv1.x, tpv1.y, tpv2.x, tpv2.y);
-				float distXOld = PApplet.dist(tpv1Old.x, tpv1Old.y, tpv2.x,
-						tpv2.y);
-				distX /= img.width;
-				distXOld /= img.width;
-				component.getWidth() + distX - distXOld;//resizeOnDraw.y += distX - distXOld;
-				resizeOnDraw.x += distX - distXOld;
-
-				pointers.put(touche.id, touche);
-			}
-		}*/
-
+		
 		return null;
 	}
 
@@ -101,6 +60,22 @@ public class DraggableGuiComponent extends Decorator implements HIDEventListener
 			return null;
 
 		TouchPointer removeObject = pointers.remove(touche.id);
+		if(removeObject != null){
+			PVector dif = PVector.sub(posInitDrag, touche.getScreen());
+			float threshold = 2;
+			if(dif.mag()<threshold && walkedWay < threshold){
+				if(component instanceof HIDEventListener){
+					HIDEventListener listener = (HIDEventListener)component;
+					ActionEvent actionEvent = listener.hidPressed(touche);
+					if(actionEvent == null){
+						return listener.hidReleased(touche);
+					}else{
+						listener.hidReleased(touche);
+						return actionEvent;
+					}
+				}
+			}
+		}
 
 		return null;
 
@@ -114,8 +89,11 @@ public class DraggableGuiComponent extends Decorator implements HIDEventListener
 			return null;
 
 		if (component.isOver(touchPos)) {
+			posInitDrag = touchPos;
 			pointers.put(touche.id, touche);
-			return new ActionEvent("selectDragImage", this);
+			walkedWay = 0;
+			//return new ActionEvent("selectDragImage", this);
+			return null;
 		}
 
 		return null;

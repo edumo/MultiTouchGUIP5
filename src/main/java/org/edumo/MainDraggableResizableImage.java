@@ -26,7 +26,8 @@ public class MainDraggableResizableImage extends MTGuiP5PApplet {
 		GUIComponent dragableImage = window.getWindowManager().addButton("", width / 2, height / 2, "keyblank.jpg","keyblank.jpg");
 		dragableImage.setResizeOnDraw(new PVector(200,200));
 		
-		window.getWindowManager().addResizable("dragabble", dragableImage);
+		window.getWindowManager().addDraggable("dragabble", dragableImage);
+		window.getWindowManager().addResizable("resizable", dragableImage);
 	}
 
 	public void draw() {
