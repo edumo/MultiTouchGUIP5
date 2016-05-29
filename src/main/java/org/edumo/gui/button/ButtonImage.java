@@ -12,14 +12,6 @@ public class ButtonImage extends ButtonText {
 
 	public PImage pressedImg;
 
-	protected PVector resizeOnDraw = null;
-
-	public void setResizeOnDraw(PVector resizeOnDraw) {
-		this.width = (int) resizeOnDraw.x;
-		this.height = (int) resizeOnDraw.y;
-		this.resizeOnDraw = resizeOnDraw;
-	}
-
 	public int getSize() {
 		return size;
 	}
@@ -136,7 +128,7 @@ public class ButtonImage extends ButtonText {
 	}
 	
 	@Override
-	public int getWidth() {
+	public float getWidth() {
 		if ( resizeOnDraw == null )
 			return img.width;
 		else
@@ -144,7 +136,7 @@ public class ButtonImage extends ButtonText {
 	}
 	
 	@Override
-	public int getHeight() {
+	public float getHeight() {
 		if ( resizeOnDraw == null )
 			return img.height;
 		else
@@ -152,7 +144,7 @@ public class ButtonImage extends ButtonText {
 	}
 	
 	@Override
-	public void setWidth(int width) {
+	public void setWidth(float width) {
 		if(resizeOnDraw == null){
 			resizeOnDraw = new PVector();
 		}

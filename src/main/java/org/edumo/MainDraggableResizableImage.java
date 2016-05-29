@@ -7,14 +7,16 @@ import org.edumo.gui.MTGuiP5PApplet;
 import org.edumo.gui.Window;
 
 import processing.core.PApplet;
+import processing.core.PVector;
 
-public class MainDraggableImage extends MTGuiP5PApplet {
+public class MainDraggableResizableImage extends MTGuiP5PApplet {
 
 	public void setup() {
 		size(1024, 768, OPENGL);
 		mtContext = new BaseApp(this, g);
 		frameRate(60);
 		initGUI();
+		mtContext.ignoreMouseIfTUIO = true;
 	}
 
 	private void initGUI() {
@@ -22,14 +24,15 @@ public class MainDraggableImage extends MTGuiP5PApplet {
 		window = new Window(mtContext);
 
 		GUIComponent dragableImage = window.getWindowManager().addButton("", width / 2, height / 2, "keyblank.jpg","keyblank.jpg");
-		window.getWindowManager().addDraggable("dragabble", dragableImage);
+		dragableImage.setResizeOnDraw(new PVector(200,200));
+		
+		window.getWindowManager().addResizable("dragabble", dragableImage);
 	}
 
 	public void draw() {
 
 		background(0);
 		mtContext.drawDebugPointers(g);
-
 		window.drawUndecorated( g);
 
 	}
@@ -41,7 +44,7 @@ public class MainDraggableImage extends MTGuiP5PApplet {
 
 	static public void main(String[] passedArgs) {
 
-		String[] appletArgs = new String[] { "org.edumo.MainDraggableImage" };
+		String[] appletArgs = new String[] { "org.edumo.MainDraggableResizableImage" };
 		if (passedArgs != null) {
 			PApplet.main(concat(appletArgs, passedArgs));
 		} else {

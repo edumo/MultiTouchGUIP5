@@ -1,25 +1,12 @@
 package org.edumo;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.edumo.content.ContentManager;
 import org.edumo.content.BaseApp;
 import org.edumo.gui.ActionEvent;
-import org.edumo.gui.GUIComponent;
 import org.edumo.gui.MTGuiP5PApplet;
 import org.edumo.gui.Window;
-import org.edumo.gui.WindowManager;
-import org.edumo.gui.button.ButtonText;
-import org.edumo.gui.decorator.RectDecorator;
 import org.edumo.gui.keyboard.KeyboardComponent;
-import org.edumo.touch.TUIOConverter;
-import org.edumo.touch.TouchPointer;
 
 import processing.core.PApplet;
-import TUIO.TuioCursor;
-import TUIO.TuioProcessing;
-import TUIO.TuioTime;
 
 public class MainKeyboard extends MTGuiP5PApplet {
 

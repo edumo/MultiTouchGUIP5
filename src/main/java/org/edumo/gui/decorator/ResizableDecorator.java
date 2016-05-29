@@ -5,7 +5,6 @@ import org.edumo.gui.GUIComponent;
 import org.edumo.gui.HIDEventListener;
 import org.edumo.gui.WindowManager;
 import org.edumo.gui.button.ButtonImage;
-import org.edumo.gui.button.DraggableGuiComponent;
 import org.edumo.touch.TouchPointer;
 
 import processing.core.PApplet;

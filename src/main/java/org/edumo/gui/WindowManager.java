@@ -10,7 +10,8 @@ import org.edumo.gui.button.AbstractButton;
 import org.edumo.gui.button.ButtonText;
 import org.edumo.gui.button.ButtonImage;
 import org.edumo.gui.button.CheckBoxImage;
-import org.edumo.gui.button.DraggableGuiComponent;
+import org.edumo.gui.decorator.DraggableGuiComponent;
+import org.edumo.gui.decorator.ResizableGuiComponent;
 import org.edumo.touch.TouchPointer;
 
 import processing.core.PApplet;
@@ -265,5 +266,22 @@ public class WindowManager implements HIDEventListener {
 
 		return draggableGuiComponent;
 	}
+	
+	public ResizableGuiComponent addResizable(String action, GUIComponent component) {
+
+		ResizableGuiComponent resizableGuiComponent = new ResizableGuiComponent();
+		resizableGuiComponent.init(component);
+
+		if (component instanceof HIDEventListener)
+			removeListener((HIDEventListener) component);
+		
+		removeComponent(component);
+
+		addListener(resizableGuiComponent);
+		addComponent(resizableGuiComponent);
+
+		return resizableGuiComponent;
+	}
+
 
 }

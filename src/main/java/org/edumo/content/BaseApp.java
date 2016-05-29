@@ -26,12 +26,16 @@ public class BaseApp {
 	public int MAX_TUIOS_PROCESSED = 5;
 
 	public Properties properties;
+	
+	public boolean ignoreMouse = false;
+
+	public boolean ignoreMouseIfTUIO = false;
 
 	public BaseApp(PApplet parent, PGraphics canvas) {
 
 		tuioConverter = new TUIOConverter();
 		tuioClient = new TuioProcessing(parent,3333);
-		tuioConverter.init(tuioClient);
+		tuioConverter.init(tuioClient,this);
 		contentManager = new ContentManager(parent);
 		this.parent = parent;
 		this.canvas = canvas;

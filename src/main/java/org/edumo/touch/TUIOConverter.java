@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
+import org.edumo.content.BaseApp;
+
 import processing.core.PApplet;
 import processing.core.PGraphics;
 import TUIO.TuioCursor;
@@ -20,12 +22,14 @@ public class TUIOConverter {
 	long lastPressedStart = 0;
 
 	TuioProcessing tuioClient;
-
 	// Map<>
 	Map<Integer, TouchPointer> grifos; // ID , Contador
 
-	public void init(TuioProcessing tuioClient) {
+	BaseApp mtContext;
+
+	public void init(TuioProcessing tuioClient, BaseApp mtContext) {
 		this.tuioClient = tuioClient;
+		this.mtContext = mtContext;
 	}
 
 	public List<TouchPointer> getPointers(PGraphics canvas, PApplet parent) {
@@ -42,37 +46,37 @@ public class TUIOConverter {
 
 		}
 
-		if (parent.mousePressed) {
-			
-			if (lastPressedStart == 0) {
-				lastPressedStart = parent.millis();
-			}
-			
-			TouchPointer pointer = mouseToPointer(canvas, parent);
+		if (!mtContext.ignoreMouse) {
+			if (parent.mousePressed) {
 
-			pointers.add(pointer);
-			
-		} else {
-			
-			lastPressedStart = 0;
-			
+				if (lastPressedStart == 0) {
+					lastPressedStart = parent.millis();
+				}
+
+				TouchPointer pointer = mouseToPointer(canvas, parent);
+
+				pointers.add(pointer);
+
+			} else {
+
+				lastPressedStart = 0;
+
+			}
 		}
 
 		return pointers;
 	}
 
 	public TouchPointer mouseToPointer(PGraphics canvas, PApplet parent) {
-		TouchPointer pointer = new TouchPointer(-1, parent.mouseX
-				/ (float) canvas.width, parent.mouseY
-				/ (float) canvas.height, lastPressedStart);
+		TouchPointer pointer = new TouchPointer(-1, parent.mouseX / (float) canvas.width,
+				parent.mouseY / (float) canvas.height, lastPressedStart);
 
-		TouchPointer pointerLast = new TouchPointer(-1, parent.pmouseX
-				/ (float) canvas.width, parent.pmouseY
-				/ (float) canvas.height, lastPressedStart);
-		
+		TouchPointer pointerLast = new TouchPointer(-1, parent.pmouseX / (float) canvas.width,
+				parent.pmouseY / (float) canvas.height, lastPressedStart);
+
 		pointer.init(canvas.width, canvas.height);
 		pointerLast.init(canvas.width, canvas.height);
-		
+
 		pointer.last = pointerLast;
 		return pointer;
 	}
@@ -80,18 +84,16 @@ public class TUIOConverter {
 	public TouchPointer tuioToTouchPointer(PGraphics canvas, TuioCursor tcur) {
 		Vector pointList = tcur.getPath();
 
-		TouchPointer pointer = new TouchPointer(tcur.getCursorID(),
-				tcur.getX(), tcur.getY(), tcur.getStartTime()
-						.getTotalMilliseconds());
+		TouchPointer pointer = new TouchPointer(tcur.getCursorID(), tcur.getX(), tcur.getY(),
+				tcur.getStartTime().getTotalMilliseconds());
 
 		// aquí inicializamos con el tamaño para simplificar
 		pointer.init(canvas.width, canvas.height);
 
 		if (tcur.getPath().size() > 1) {
 			TuioPoint lastPoint = tcur.getPath().get(1);
-			TouchPointer pointerBefore = new TouchPointer(tcur.getCursorID(),
-					lastPoint.getX(), lastPoint.getY(), tcur.getStartTime()
-							.getTotalMilliseconds());
+			TouchPointer pointerBefore = new TouchPointer(tcur.getCursorID(), lastPoint.getX(), lastPoint.getY(),
+					tcur.getStartTime().getTotalMilliseconds());
 			pointer.last = pointerBefore;
 		}
 
@@ -110,10 +112,8 @@ public class TUIOConverter {
 
 		for (int i = 0; i < pointers.size(); i++) {
 			TouchPointer touchPointer = pointers.get(i);
-			canvas.ellipse(touchPointer.getScreenX(canvas.width),
-					touchPointer.getScreenY(canvas.height), 30, 30);
-			canvas.text("" + touchPointer.millisStartTouch,
-					touchPointer.getScreenX(canvas.width) + 20,
+			canvas.ellipse(touchPointer.getScreenX(canvas.width), touchPointer.getScreenY(canvas.height), 30, 30);
+			canvas.text("" + touchPointer.millisStartTouch, touchPointer.getScreenX(canvas.width) + 20,
 					touchPointer.getScreenY(canvas.height));
 		}
 	}
@@ -134,10 +134,8 @@ public class TUIOConverter {
 				;
 				for (int j = 0; j < pointList.size(); j++) {
 					TuioPoint end_point = (TuioPoint) pointList.elementAt(j);
-					canvas.line(start_point.getScreenX(canvas.width),
-							start_point.getScreenY(canvas.height),
-							end_point.getScreenX(canvas.width),
-							end_point.getScreenY(canvas.height));
+					canvas.line(start_point.getScreenX(canvas.width), start_point.getScreenY(canvas.height),
+							end_point.getScreenX(canvas.width), end_point.getScreenY(canvas.height));
 					start_point = end_point;
 				}
 

@@ -20,12 +20,24 @@ public abstract class GUIComponent {
 	protected PApplet parent;
 	protected PVector pos = new PVector();
 	protected PVector realPos = null; // posicin real en la pantalla
-	protected int width;
-	protected int height;
+	protected float width;
+	protected float height;
 	protected List<GUIComponent> components = new ArrayList<GUIComponent>();
 	protected Decorator decorator;
 	protected boolean rendered = true;
 	protected boolean active = true;
+	
+	protected PVector resizeOnDraw = null;
+	
+	public void setResizeOnDraw(PVector resizeOnDraw) {
+		this.width = (int) resizeOnDraw.x;
+		this.height = (int) resizeOnDraw.y;
+		this.resizeOnDraw = resizeOnDraw;
+	}
+	
+	public PVector getResizeOnDraw() {
+		return resizeOnDraw;
+	}
 
 	// ------------------------------------------------------------------------
 	// Abstract methods
@@ -168,15 +180,15 @@ public abstract class GUIComponent {
 
 	}
 
-	public int getWidth() {
+	public float getWidth() {
 		return width;
 	}
 
-	public void setWidth(int width) {
+	public void setWidth(float width) {
 		this.width = width;
 	}
 
-	public int getHeight() {
+	public float getHeight() {
 		return height;
 	}
 

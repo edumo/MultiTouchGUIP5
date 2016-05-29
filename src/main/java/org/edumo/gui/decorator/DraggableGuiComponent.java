@@ -1,4 +1,4 @@
-package org.edumo.gui.button;
+package org.edumo.gui.decorator;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -7,7 +7,6 @@ import java.util.Map;
 import org.edumo.gui.ActionEvent;
 import org.edumo.gui.GUIComponent;
 import org.edumo.gui.HIDEventListener;
-import org.edumo.gui.decorator.Decorator;
 import org.edumo.touch.TouchPointer;
 
 import processing.core.PApplet;
