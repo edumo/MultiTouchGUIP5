@@ -19,6 +19,7 @@ public abstract class GUIComponent {
 	protected WindowManager windowManager;
 	protected PApplet parent;
 	protected PVector pos = new PVector();
+	protected PVector posTarget = new PVector();
 	protected PVector realPos = null; // posicin real en la pantalla
 	protected float width;
 	protected float height;
@@ -76,6 +77,9 @@ public abstract class GUIComponent {
 
 		resizeOnDraw.x = resizeOnDraw.x + (resizeOnDrawTarget.x - resizeOnDraw.x) * 0.1f;
 		resizeOnDraw.y = resizeOnDraw.y + (resizeOnDrawTarget.y - resizeOnDraw.y) * 0.1f;
+
+		pos.x = pos.x + (posTarget.x - pos.x) * 0.33f;
+		pos.y = pos.y + (posTarget.y - pos.y) * 0.33f;
 
 		// PVector temp = resizeOnDrawTarget.get();
 		// temp.sub(resizeOnDraw);
@@ -148,10 +152,14 @@ public abstract class GUIComponent {
 	public void setPosition(float x, float y) {
 		this.pos.x = x;
 		this.pos.y = y;
+		posTarget.x = x;
+		posTarget.y = y;
 	}
 
 	public void setPosition(PVector pos) {
 		this.pos = pos;
+		posTarget.x = pos.x;
+		posTarget.y = pos.y;
 	}
 
 	public PVector getPosition() {
@@ -221,6 +229,10 @@ public abstract class GUIComponent {
 
 	public void addResizeOnDraw(float x, float y) {
 		resizeOnDrawTarget.add(x, y, 0);
+	}
+
+	public void addPosition(PVector addPos) {
+		posTarget.add(addPos);
 	}
 
 }

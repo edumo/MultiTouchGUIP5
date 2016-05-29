@@ -39,7 +39,7 @@ public class DraggableGuiComponent extends Decorator implements HIDEventListener
 			TouchPointer p1 = pointers.values().iterator().next();
 			if (p1.id == touche.id) {
 				PVector dif = PVector.sub(touche.getScreen(), p1.getScreen());
-				component.getPosition().add(dif);
+				component.addPosition(dif);
 				walkedWay += dif.mag();
 				// actualizamos mi pos en funci�n de la diferencia y
 				// actualizamos el map
