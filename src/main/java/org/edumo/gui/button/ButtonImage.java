@@ -9,11 +9,10 @@ public class ButtonImage extends ButtonText {
 
 	int size;
 	public PImage img;
-	
 
 	public PImage pressedImg;
 
-	private PVector resizeOnDraw = null;
+	protected PVector resizeOnDraw = null;
 
 	public void setResizeOnDraw(PVector resizeOnDraw) {
 		this.width = (int) resizeOnDraw.x;
@@ -85,17 +84,9 @@ public class ButtonImage extends ButtonText {
 
 		if (resizeOnDraw == null) {
 			canvas.image(img, pos.x, pos.y);
-//			canvas.stroke(255,0,0);
-//			canvas.rectMode(imageMode);
-//			canvas.rect(pos.x, pos.y,img.width,img.height);
-//			canvas.stroke(255);
 		} else {
 			canvas.image(img, pos.x, pos.y, resizeOnDraw.x, resizeOnDraw.y);
 		}
-
-		// if (movable) {
-		// canvas.popMatrix();
-		// }
 	}
 
 	public boolean isOver(PVector pos) {

@@ -26,7 +26,6 @@ public class MainDraggableImage extends PApplet {
 
 	private Window window;
 
-
 	public void setup() {
 		size(1024, 768, OPENGL);
 		mtContext = new BaseApp(this, g);
@@ -38,7 +37,8 @@ public class MainDraggableImage extends PApplet {
 
 		window = new Window(mtContext);
 
-		GUIComponent dragableImage = window.getWindowManager().addDraggableImage("", width / 2, height / 2, "keyblank.jpg");
+		GUIComponent dragableImage = window.getWindowManager().addButton("", width / 2, height / 2, "keyblank.jpg","keyblank.jpg");
+		window.getWindowManager().addDraggable("dragabble", dragableImage);
 	}
 
 	public void draw() {

@@ -30,7 +30,7 @@ public class BaseApp {
 	public BaseApp(PApplet parent, PGraphics canvas) {
 
 		tuioConverter = new TUIOConverter();
-		tuioClient = new TuioProcessing(parent);
+		tuioClient = new TuioProcessing(parent,3333);
 		tuioConverter.init(tuioClient);
 		contentManager = new ContentManager(parent);
 		this.parent = parent;

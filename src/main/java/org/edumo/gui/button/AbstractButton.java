@@ -22,8 +22,6 @@ public abstract class AbstractButton extends GUIComponent implements
 
 	public abstract String drawUndecorated(PGraphics canvas);
 
-	public abstract boolean isOver(PVector pos);
-
 	public String getAction() {
 		return action;
 	}

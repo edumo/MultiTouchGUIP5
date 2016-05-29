@@ -10,7 +10,7 @@ import org.edumo.gui.button.AbstractButton;
 import org.edumo.gui.button.ButtonText;
 import org.edumo.gui.button.ButtonImage;
 import org.edumo.gui.button.CheckBoxImage;
-import org.edumo.gui.button.DraggableImage;
+import org.edumo.gui.button.DraggableGuiComponent;
 import org.edumo.gui.button.DraggablePNGImage;
 import org.edumo.touch.TouchPointer;
 
@@ -51,8 +51,7 @@ public class WindowManager implements HIDEventListener {
 		return pressed(listeners, touchPointer);
 	}
 
-	public ActionEvent pressed(List<HIDEventListener> actionEvent,
-			TouchPointer touchPointer) {
+	public ActionEvent pressed(List<HIDEventListener> actionEvent, TouchPointer touchPointer) {
 		ActionEvent action = null;
 		for (int i = listeners.size() - 1; i >= 0; i--) {
 			HIDEventListener button = listeners.get(i);
@@ -74,8 +73,7 @@ public class WindowManager implements HIDEventListener {
 		return drag(listeners, touchPointer);
 	}
 
-	public ActionEvent drag(List<HIDEventListener> listeners,
-			TouchPointer touchPointer) {
+	public ActionEvent drag(List<HIDEventListener> listeners, TouchPointer touchPointer) {
 		ActionEvent action = null;
 		for (int i = 0; i < listeners.size(); i++) {
 			HIDEventListener button = listeners.get(i);
@@ -94,8 +92,7 @@ public class WindowManager implements HIDEventListener {
 		return release(listeners, touchPointer);
 	}
 
-	public ActionEvent release(List<HIDEventListener> listeners,
-			TouchPointer touchPointer) {
+	public ActionEvent release(List<HIDEventListener> listeners, TouchPointer touchPointer) {
 		ActionEvent action = null;
 		for (int i = 0; i < listeners.size(); i++) {
 			HIDEventListener button = listeners.get(i);
@@ -117,9 +114,8 @@ public class WindowManager implements HIDEventListener {
 	public ActionEvent hidMoved(TouchPointer touchPointer) {
 		return release(listeners, touchPointer);
 	}
-	
-	public ActionEvent over(List<HIDEventListener> listeners,
-			TouchPointer touchPointer) {
+
+	public ActionEvent over(List<HIDEventListener> listeners, TouchPointer touchPointer) {
 		ActionEvent action = null;
 		for (int i = 0; i < listeners.size(); i++) {
 			HIDEventListener button = listeners.get(i);
@@ -137,10 +133,8 @@ public class WindowManager implements HIDEventListener {
 
 		return action;
 	}
-	
-	
-	public List<ActionEvent> drawComponentes(List<GUIComponent> components,
-			PGraphics canvas) {
+
+	public List<ActionEvent> drawComponentes(List<GUIComponent> components, PGraphics canvas) {
 
 		List<ActionEvent> actions = new ArrayList<ActionEvent>();
 
@@ -172,6 +166,11 @@ public class WindowManager implements HIDEventListener {
 		window.components.add(c);
 		c.setWindowManager(this);
 	}
+	
+	public void removeComponent(GUIComponent c) {
+		window.components.remove(c);
+		c.setWindowManager(this);
+	}
 
 	public void addComponent(GUIComponent c, List<GUIComponent> components) {
 		components.add(c);
@@ -180,15 +179,12 @@ public class WindowManager implements HIDEventListener {
 
 	// --------------------------------------------------------------------------------------------
 	// Buttons
-	public ButtonImage addButton(String action, int x, int y, String imgPath,
-			String pressedImgPath) {
-		return addButton(action, x, y, imgPath, pressedImgPath, true,
-				PApplet.CENTER);
+	public ButtonImage addButton(String action, int x, int y, String imgPath, String pressedImgPath) {
+		return addButton(action, x, y, imgPath, pressedImgPath, true, PApplet.CENTER);
 	}
 
-	public ButtonImage addButton(String action, int x, int y, String imgPath,
-			String pressedImgPath, boolean insertComponent, int align,
-			List<GUIComponent> componentsTemp) {
+	public ButtonImage addButton(String action, int x, int y, String imgPath, String pressedImgPath,
+			boolean insertComponent, int align, List<GUIComponent> componentsTemp) {
 
 		PImage img = contentManager.loadImage(imgPath);
 		PImage pressedImg = contentManager.loadImage(pressedImgPath);
@@ -203,21 +199,18 @@ public class WindowManager implements HIDEventListener {
 		return button;
 	}
 
-	public ButtonImage addButton(String action, int x, int y, String imgPath,
-			String pressedImgPath, int align) {
+	public ButtonImage addButton(String action, int x, int y, String imgPath, String pressedImgPath, int align) {
 		return addButton(action, x, y, imgPath, pressedImgPath, true, align);
 	}
 
-	public ButtonImage addButton(String action, int x, int y, String imgPath,
-			String pressedImgPath, boolean insertComponent, int align) {
+	public ButtonImage addButton(String action, int x, int y, String imgPath, String pressedImgPath,
+			boolean insertComponent, int align) {
 
-		return addButton(action, x, y, imgPath, pressedImgPath,
-				insertComponent, align, window.components);
+		return addButton(action, x, y, imgPath, pressedImgPath, insertComponent, align, window.components);
 	}
 
-	public CheckBoxImage addCheckBox(String action, int x, int y,
-			String imgPath, String pressedImgPath, String checkImgPath,
-			boolean insertComponent, int align) {
+	public CheckBoxImage addCheckBox(String action, int x, int y, String imgPath, String pressedImgPath,
+			String checkImgPath, boolean insertComponent, int align) {
 
 		PImage img = contentManager.loadImage(imgPath);
 		PImage pressedImg = contentManager.loadImage(pressedImgPath);
@@ -225,8 +218,7 @@ public class WindowManager implements HIDEventListener {
 
 		int size = img.width / 2;
 		CheckBoxImage button = new CheckBoxImage();
-		button.init(action, img, pressedImg, checkedImg, new PVector(x, y),
-				size, align);
+		button.init(action, img, pressedImg, checkedImg, new PVector(x, y), size, align);
 
 		addListener(button);
 		if (insertComponent)
@@ -237,25 +229,21 @@ public class WindowManager implements HIDEventListener {
 
 	// --------------------------------------------------------------------------------------------
 	// Text buttons
-	public ButtonText addTextButton(PGraphics canvas, String nombre, int x,
-			int y, int textSize, int textAlign) {
+	public ButtonText addTextButton(PGraphics canvas, String nombre, int x, int y, int textSize, int textAlign) {
 
 		return addTextButton(canvas, nombre, nombre, x, y, textSize, textAlign);
 	}
 
-	public ButtonText addTextButton(PGraphics canvas, String nombre,
-			String action, int x, int y, int textSize, int textAlign) {
-		return addTextButton(canvas, nombre, action, x, y, textSize, textAlign,
-				window.components);
+	public ButtonText addTextButton(PGraphics canvas, String nombre, String action, int x, int y, int textSize,
+			int textAlign) {
+		return addTextButton(canvas, nombre, action, x, y, textSize, textAlign, window.components);
 	}
 
-	public ButtonText addTextButton(PGraphics canvas, String nombre,
-			String action, int x, int y, int textSize, int textAlign,
-			List<GUIComponent> components) {
+	public ButtonText addTextButton(PGraphics canvas, String nombre, String action, int x, int y, int textSize,
+			int textAlign, List<GUIComponent> components) {
 
 		ButtonText textButon = new ButtonText();
-		textButon.init(canvas, nombre, action, new PVector(x, y), textSize,
-				255, textAlign);
+		textButon.init(canvas, nombre, action, new PVector(x, y), textSize, 255, textAlign);
 
 		addListener(textButon);
 		addComponent(textButon, components);
@@ -265,22 +253,39 @@ public class WindowManager implements HIDEventListener {
 
 	// --------------------------------------------------------------------------------------------
 	// DraggableImage
-	public DraggableImage addDraggableImage(String action, int x, int y,
-			String imgPath) {
+	// public DraggableGuiComponent addDraggableImage(String action, int x, int
+	// y,
+	// String imgPath) {
+	//
+	// PImage img = contentManager.loadImage(imgPath);
+	// int size = img.width / 2;
+	// DraggableGuiComponent button = new DraggableGuiComponent();
+	// button.init(action, img, new PVector(x, y), size, PApplet.CENTER);
+	//
+	// addListener(button);
+	// addComponent(button);
+	//
+	// return button;
+	// }
 
-		PImage img = contentManager.loadImage(imgPath);
-		int size = img.width / 2;
-		DraggableImage button = new DraggableImage();
-		button.init(action, img, new PVector(x, y), size, PApplet.CENTER);
+	public DraggableGuiComponent addDraggable(String action, GUIComponent component) {
 
-		addListener(button);
-		addComponent(button);
+		DraggableGuiComponent draggableGuiComponent = new DraggableGuiComponent();
+		draggableGuiComponent.init(component);
 
-		return button;
+		if (component instanceof HIDEventListener)
+			removeListener((HIDEventListener) component);
+		
+		removeComponent(component);
+
+		addListener(draggableGuiComponent);
+		addComponent(draggableGuiComponent);
+
+		return draggableGuiComponent;
 	}
+
 	// DraggablePNGImage
-	public DraggablePNGImage addDraggablePNGImage(String action, int x, int y,
-			String imgPath) {
+	public DraggablePNGImage addDraggablePNGImage(String action, int x, int y, String imgPath) {
 
 		PImage img = contentManager.loadImage(imgPath);
 		int size = img.width / 2;
@@ -292,6 +297,5 @@ public class WindowManager implements HIDEventListener {
 
 		return button;
 	}
-
 
 }

@@ -33,9 +33,10 @@ public class Window extends GUIComponent implements HIDEventListener {
 	}
 
 	public Window(BaseApp contextApp) {
+		delegateConstructor( contextApp );
 		windowManager = new WindowManager(contextApp.contentManager, this);
 		init( contextApp );
-		delegateConstructor( contextApp );
+		
 	}
 
 	public ActionEvent doAction(ActionEvent action) {

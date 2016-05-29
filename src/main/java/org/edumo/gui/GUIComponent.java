@@ -33,6 +33,16 @@ public abstract class GUIComponent {
 
 	// ------------------------------------------------------------------------
 	// Protected methods
+	
+	public boolean isOver(PVector pos){
+		if (this.realPos != null
+				&& pos.x > this.realPos.x && pos.x < this.realPos.x + getWidth()
+				&& pos.y > this.realPos.y && pos.y < this.realPos.y + getHeight()) {
+			//System.out.println("SI--" + this.pos.dist(pos));
+			return true;
+		}
+		return false;
+	}
 	/**
 	 * Because we can be contained by other componentes with translate, I've to
 	 * update my real position in the screen
