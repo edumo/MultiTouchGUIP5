@@ -5,7 +5,7 @@ import org.edumo.gui.GUIComponent;
 import org.edumo.gui.HIDEventListener;
 import org.edumo.gui.WindowManager;
 import org.edumo.gui.button.ButtonImage;
-import org.edumo.gui.button.DraggablePNGImage;
+import org.edumo.gui.button.DraggableGuiComponent;
 import org.edumo.touch.TouchPointer;
 
 import processing.core.PApplet;
@@ -67,12 +67,9 @@ public class ResizableDecorator extends Decorator implements HIDEventListener {
 		// component.drawUndecorated(canvas);
 		//------------------------------------------------------------------------
 		// Draw component image (an small hack to avoid image size errors...)
-		DraggablePNGImage c = (DraggablePNGImage) component;
+		DraggableGuiComponent c = (DraggableGuiComponent) component;
 		c.forceUpdateRealPos(canvas);
-		PImage cImg = c.getImg();
-		canvas.imageMode(PApplet.CENTER);
-		canvas.image(cImg, c.getRealPos().x, c.getRealPos().y, c.getWidth(),
-				c.getHeight());
+		c.drawUndecorated(canvas);
 
 
 		//------------------------------------------------------------------------

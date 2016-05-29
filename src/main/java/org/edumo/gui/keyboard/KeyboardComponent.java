@@ -60,6 +60,7 @@ public class KeyboardComponent extends GUIComponent implements HIDEventListener 
 				ButtonText butonText = new ButtonText();
 				butonText.init(string, action + "-" + chars[i][j], new PVector(
 						posX, posY), keySizeW, keySize, 22);
+				butonText.setTextColor(0);
 				components.add(butonText);
 				listeners.add(butonText);
 
@@ -132,7 +133,7 @@ public class KeyboardComponent extends GUIComponent implements HIDEventListener 
 				
 				buttonImage.setLabel(string);
 				buttonImage.setTextSize(28);
-				buttonImage.setTextColor(255);
+				buttonImage.setTextColor(0);
 				buttonImage.setTextAlign(PApplet.CENTER);
 				
 				// Hack: para el proyecto Confesionario

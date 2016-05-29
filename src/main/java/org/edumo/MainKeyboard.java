@@ -7,6 +7,7 @@ import org.edumo.content.ContentManager;
 import org.edumo.content.BaseApp;
 import org.edumo.gui.ActionEvent;
 import org.edumo.gui.GUIComponent;
+import org.edumo.gui.MTGuiP5PApplet;
 import org.edumo.gui.Window;
 import org.edumo.gui.WindowManager;
 import org.edumo.gui.button.ButtonText;
@@ -20,11 +21,7 @@ import TUIO.TuioCursor;
 import TUIO.TuioProcessing;
 import TUIO.TuioTime;
 
-public class MainKeyboard extends PApplet {
-
-	BaseApp mtContext;
-
-	Window window;
+public class MainKeyboard extends MTGuiP5PApplet {
 
 	public void setup() {
 
@@ -47,7 +44,7 @@ public class MainKeyboard extends PApplet {
 				{ "z", "x", "c", "v", "b", "n", "m", /* ",", */"-", "_", "." },
 				{ KeyboardComponent.SPACE } };
 
-		String[] imgs = { "keyblank.jpg", "keyblank.jpg", "keyblank.jpg" };
+		String[] imgs = { "keyblank.jpg", "keyblank.jpg", "keyblank.jpg","keyblank.jpg" };
 
 		keyboardComponent
 				.init(this, window.getWindowManager(), chars, 50, "kb33", imgs);
@@ -65,61 +62,9 @@ public class MainKeyboard extends PApplet {
 
 	}
 
-	private void doAction(ActionEvent action) {
+	protected void doAction(ActionEvent action) {
 		if (action != null)
 			println("action  " + action.getAction());
-	}
-
-	public void addTuioCursor(TuioCursor tcur) {
-		if (tcur.getCursorID() <= mtContext.MAX_TUIOS_PROCESSED) {
-			TouchPointer touchPointer = mtContext.tuioConverter
-					.tuioToTouchPointer(g, tcur);
-			ActionEvent action = window.hidPressed(touchPointer);
-			// doAction(action);
-		}
-
-	}
-
-	public void updateTuioCursor(TuioCursor tcur) {
-		if (tcur.getCursorID() <= mtContext.MAX_TUIOS_PROCESSED) {
-			TouchPointer touchPointer = mtContext.tuioConverter
-					.tuioToTouchPointer(g, tcur);
-			ActionEvent action = window.hidDragged(touchPointer);
-			doAction(action);
-		}
-	}
-
-	public void removeTuioCursor(TuioCursor tcur) {
-		if (tcur.getCursorID() <= mtContext.MAX_TUIOS_PROCESSED) {
-			TouchPointer touchPointer = mtContext.tuioConverter
-					.tuioToTouchPointer(g, tcur);
-			ActionEvent action = window.hidReleased(touchPointer);
-			doAction(action);
-		}
-	}
-
-	@Override
-	public void mousePressed() {
-		TouchPointer touchPointer = mtContext.tuioConverter.mouseToPointer(g,
-				this);
-		ActionEvent action = window.hidPressed(touchPointer);
-		doAction(action);
-	}
-
-	@Override
-	public void mouseReleased() {
-		TouchPointer touchPointer = mtContext.tuioConverter.mouseToPointer(g,
-				this);
-		ActionEvent action = window.hidReleased(touchPointer);
-		doAction(action);
-	}
-
-	@Override
-	public void mouseDragged() {
-		TouchPointer touchPointer = mtContext.tuioConverter.mouseToPointer(g,
-				this);
-		ActionEvent action = window.hidDragged(touchPointer);
-		doAction(action);
 	}
 
 	static public void main(String[] passedArgs) {

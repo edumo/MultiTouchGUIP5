@@ -2,19 +2,14 @@ package org.edumo;
 
 import org.edumo.content.BaseApp;
 import org.edumo.gui.ActionEvent;
+import org.edumo.gui.MTGuiP5PApplet;
 import org.edumo.gui.Window;
 import org.edumo.gui.button.AbstractButton;
 import org.edumo.gui.button.ButtonImage;
-import org.edumo.touch.TouchPointer;
 
 import processing.core.PApplet;
-import TUIO.TuioCursor;
 
-public class MainSimpleButton extends PApplet {
-
-	BaseApp mtContext;
-
-	private Window window;
+public class MainSimpleButton extends MTGuiP5PApplet {
 
 	public void setup() {
 
@@ -48,69 +43,9 @@ public class MainSimpleButton extends PApplet {
 
 	}
 
-	private void doAction(ActionEvent action) {
+	protected void doAction(ActionEvent action) {
 		if (action != null)
 			println("action  " + action.getAction());
-	}
-
-	public void addTuioCursor(TuioCursor tcur) {
-		if (tcur.getCursorID() <= mtContext.MAX_TUIOS_PROCESSED) {
-			TouchPointer touchPointer = mtContext.tuioConverter
-					.tuioToTouchPointer(g, tcur);
-			ActionEvent action = window.hidPressed(touchPointer);
-			// doAction(action);
-		}
-
-	}
-
-	public void updateTuioCursor(TuioCursor tcur) {
-		if (tcur.getCursorID() <= mtContext.MAX_TUIOS_PROCESSED) {
-			TouchPointer touchPointer = mtContext.tuioConverter
-					.tuioToTouchPointer(g, tcur);
-			ActionEvent action = window.hidDragged(touchPointer);
-			doAction(action);
-		}
-	}
-
-	public void removeTuioCursor(TuioCursor tcur) {
-		if (tcur.getCursorID() <= mtContext.MAX_TUIOS_PROCESSED) {
-			TouchPointer touchPointer = mtContext.tuioConverter
-					.tuioToTouchPointer(g, tcur);
-			ActionEvent action = window.hidReleased(touchPointer);
-			doAction(action);
-		}
-	}
-
-	@Override
-	public void mousePressed() {
-		TouchPointer touchPointer = mtContext.tuioConverter.mouseToPointer(g,
-				this);
-		ActionEvent action = window.hidPressed(touchPointer);
-		doAction(action);
-	}
-
-	@Override
-	public void mouseReleased() {
-		TouchPointer touchPointer = mtContext.tuioConverter.mouseToPointer(g,
-				this);
-		ActionEvent action = window.hidReleased(touchPointer);
-		doAction(action);
-	}
-
-	@Override
-	public void mouseDragged() {
-		TouchPointer touchPointer = mtContext.tuioConverter.mouseToPointer(g,
-				this);
-		ActionEvent action = window.hidDragged(touchPointer);
-		doAction(action);
-	}
-
-
-	public void mouseOver() {
-		TouchPointer touchPointer = mtContext.tuioConverter.mouseToPointer(g,
-				this);
-		ActionEvent action = window.hidMoved(touchPointer);
-		doAction(action);
 	}
 	
 	static public void main(String[] passedArgs) {

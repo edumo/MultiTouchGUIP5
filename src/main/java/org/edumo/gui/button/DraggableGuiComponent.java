@@ -7,6 +7,7 @@ import java.util.Map;
 import org.edumo.gui.ActionEvent;
 import org.edumo.gui.GUIComponent;
 import org.edumo.gui.HIDEventListener;
+import org.edumo.gui.decorator.Decorator;
 import org.edumo.touch.TouchPointer;
 
 import processing.core.PApplet;
@@ -14,13 +15,11 @@ import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.core.PVector;
 
-public class DraggableGuiComponent extends GUIComponent implements HIDEventListener{
+public class DraggableGuiComponent extends Decorator implements HIDEventListener{
 
 	protected PVector posDraged = new PVector();
 	protected PVector incDraged = new PVector();
 	protected PVector posInitDrag = new PVector();
-	
-	protected GUIComponent component;
 	
 	protected String action;
 
@@ -43,7 +42,7 @@ public class DraggableGuiComponent extends GUIComponent implements HIDEventListe
 				// actualizamos mi pos en funci�n de la diferencia y
 				// actualizamos el map
 				pointers.put(touche.id, touche);
-				String compoundAction = "dragged::" + action;
+				String compoundAction = "dragged::" + component;
 				return new ActionEvent(compoundAction, this);
 			}
 		}
@@ -99,8 +98,6 @@ public class DraggableGuiComponent extends GUIComponent implements HIDEventListe
 
 	@Override
 	public ActionEvent hidReleased(TouchPointer touche) {
-		PVector touchPos = touche.getScreen();
-
 		if (!active)
 			return null;
 

@@ -11,7 +11,6 @@ import org.edumo.gui.button.ButtonText;
 import org.edumo.gui.button.ButtonImage;
 import org.edumo.gui.button.CheckBoxImage;
 import org.edumo.gui.button.DraggableGuiComponent;
-import org.edumo.gui.button.DraggablePNGImage;
 import org.edumo.touch.TouchPointer;
 
 import processing.core.PApplet;
@@ -251,23 +250,6 @@ public class WindowManager implements HIDEventListener {
 		return textButon;
 	}
 
-	// --------------------------------------------------------------------------------------------
-	// DraggableImage
-	// public DraggableGuiComponent addDraggableImage(String action, int x, int
-	// y,
-	// String imgPath) {
-	//
-	// PImage img = contentManager.loadImage(imgPath);
-	// int size = img.width / 2;
-	// DraggableGuiComponent button = new DraggableGuiComponent();
-	// button.init(action, img, new PVector(x, y), size, PApplet.CENTER);
-	//
-	// addListener(button);
-	// addComponent(button);
-	//
-	// return button;
-	// }
-
 	public DraggableGuiComponent addDraggable(String action, GUIComponent component) {
 
 		DraggableGuiComponent draggableGuiComponent = new DraggableGuiComponent();
@@ -282,20 +264,6 @@ public class WindowManager implements HIDEventListener {
 		addComponent(draggableGuiComponent);
 
 		return draggableGuiComponent;
-	}
-
-	// DraggablePNGImage
-	public DraggablePNGImage addDraggablePNGImage(String action, int x, int y, String imgPath) {
-
-		PImage img = contentManager.loadImage(imgPath);
-		int size = img.width / 2;
-		DraggablePNGImage button = new DraggablePNGImage();
-		button.init(action, img, new PVector(x, y), size, PApplet.CENTER);
-
-		addListener(button);
-		addComponent(button);
-
-		return button;
 	}
 
 }
