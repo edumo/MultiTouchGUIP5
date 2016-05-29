@@ -78,7 +78,6 @@ public class DraggableGuiComponent extends Decorator implements HIDEventListener
 		}
 
 		return null;
-
 	}
 
 	@Override

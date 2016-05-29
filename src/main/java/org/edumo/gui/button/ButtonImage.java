@@ -74,11 +74,16 @@ public class ButtonImage extends ButtonText {
 
 	protected void drawImage(PGraphics canvas, PImage img) {
 
+		canvas.pushMatrix();
+		canvas.translate(pos.x, pos.y);
+		canvas.rotate(rotation);
 		if (resizeOnDraw == null) {
-			canvas.image(img, pos.x, pos.y);
+			canvas.image(img, 0,0);
 		} else {
-			canvas.image(img, pos.x, pos.y, resizeOnDraw.x, resizeOnDraw.y);
+			canvas.image(img, 0,0, resizeOnDraw.x, resizeOnDraw.y);
 		}
+		
+		canvas.popMatrix();
 	}
 
 	public boolean isOver(PVector pos) {

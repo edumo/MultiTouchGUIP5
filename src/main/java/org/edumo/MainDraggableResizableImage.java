@@ -1,4 +1,4 @@
-	package org.edumo;
+package org.edumo;
 
 import org.edumo.content.BaseApp;
 import org.edumo.gui.ActionEvent;
@@ -23,9 +23,10 @@ public class MainDraggableResizableImage extends MTGuiP5PApplet {
 
 		window = new Window(mtContext);
 
-		GUIComponent dragableImage = window.getWindowManager().addButton("", width / 2, height / 2, "keyblank.jpg","keyblank.jpg");
-		dragableImage.setResizeOnDraw(new PVector(200,200));
-		
+		GUIComponent dragableImage = window.getWindowManager().addButton("", width / 2, height / 2, "keyblank.jpg",
+				"keyblank.jpg", PApplet.CENTER);
+		dragableImage.setResizeOnDraw(new PVector(200, 200));
+
 		window.getWindowManager().addDraggable("dragabble", dragableImage);
 		window.getWindowManager().addResizable("resizable", dragableImage);
 	}
@@ -34,7 +35,7 @@ public class MainDraggableResizableImage extends MTGuiP5PApplet {
 
 		background(0);
 		mtContext.drawDebugPointers(g);
-		window.drawUndecorated( g);
+		window.drawUndecorated(g);
 
 	}
 

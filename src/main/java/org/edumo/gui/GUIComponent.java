@@ -29,6 +29,12 @@ public abstract class GUIComponent {
 	
 	protected PVector resizeOnDraw = null;
 	
+	protected float rotation = 0;
+	
+	public void setRotation(float rotation){
+		this.rotation = rotation;
+	}
+	
 	public void setResizeOnDraw(PVector resizeOnDraw) {
 		this.width = (int) resizeOnDraw.x;
 		this.height = (int) resizeOnDraw.y;
@@ -213,6 +219,10 @@ public abstract class GUIComponent {
 
 	public void setOrder(float zOffset) {
 		pos.z = zOffset;
+	}
+
+	public void addRotation(float dif) {
+		rotation += dif;
 	}
 
 }
