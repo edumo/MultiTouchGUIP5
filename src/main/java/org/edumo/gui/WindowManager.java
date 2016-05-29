@@ -80,6 +80,9 @@ public class WindowManager implements HIDEventListener {
 			if (button.isActive()) {
 				try {
 					action = button.hidDragged(touchPointer);
+					if(action != null){
+						break;
+					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -259,10 +262,10 @@ public class WindowManager implements HIDEventListener {
 		if (component instanceof HIDEventListener)
 			removeListener((HIDEventListener) component);
 		
-		removeComponent(component);
+		//removeComponent(component);
 
 		addListener(draggableGuiComponent);
-		addComponent(draggableGuiComponent);
+		//addComponent(draggableGuiComponent);
 
 		return draggableGuiComponent;
 	}
@@ -275,10 +278,10 @@ public class WindowManager implements HIDEventListener {
 		if (component instanceof HIDEventListener)
 			removeListener((HIDEventListener) component);
 		
-		removeComponent(component);
+		//removeComponent(component);
 
 		addListener(resizableGuiComponent);
-		addComponent(resizableGuiComponent);
+		//addComponent(resizableGuiComponent);
 
 		return resizableGuiComponent;
 	}

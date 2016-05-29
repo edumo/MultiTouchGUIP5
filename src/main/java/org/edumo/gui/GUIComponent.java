@@ -23,24 +23,26 @@ public abstract class GUIComponent {
 	protected float width;
 	protected float height;
 	protected List<GUIComponent> components = new ArrayList<GUIComponent>();
-	protected Decorator decorator;
 	protected boolean rendered = true;
 	protected boolean active = true;
-	
+
 	protected PVector resizeOnDraw = null;
-	
+	protected PVector resizeOnDrawTarget = null;
+
 	protected float rotation = 0;
-	
-	public void setRotation(float rotation){
+	protected float targetRotation = 0;
+
+	public void setRotation(float rotation) {
 		this.rotation = rotation;
 	}
-	
+
 	public void setResizeOnDraw(PVector resizeOnDraw) {
 		this.width = (int) resizeOnDraw.x;
 		this.height = (int) resizeOnDraw.y;
 		this.resizeOnDraw = resizeOnDraw;
+		resizeOnDrawTarget = new PVector(resizeOnDraw.x, resizeOnDraw.y);
 	}
-	
+
 	public PVector getResizeOnDraw() {
 		return resizeOnDraw;
 	}
@@ -51,16 +53,16 @@ public abstract class GUIComponent {
 
 	// ------------------------------------------------------------------------
 	// Protected methods
-	
-	public boolean isOver(PVector pos){
-		if (this.realPos != null
-				&& pos.x > this.realPos.x && pos.x < this.realPos.x + getWidth()
+
+	public boolean isOver(PVector pos) {
+		if (this.realPos != null && pos.x > this.realPos.x && pos.x < this.realPos.x + getWidth()
 				&& pos.y > this.realPos.y && pos.y < this.realPos.y + getHeight()) {
-			//System.out.println("SI--" + this.pos.dist(pos));
+			// System.out.println("SI--" + this.pos.dist(pos));
 			return true;
 		}
 		return false;
 	}
+
 	/**
 	 * Because we can be contained by other componentes with translate, I've to
 	 * update my real position in the screen
@@ -69,8 +71,16 @@ public abstract class GUIComponent {
 	 */
 
 	protected void updateRealPos(PGraphics canvas) {
-		realPos = new PVector(canvas.screenX(pos.x, pos.y), canvas.screenY(
-				pos.x, pos.y), pos.z);
+		realPos = new PVector(canvas.screenX(pos.x, pos.y), canvas.screenY(pos.x, pos.y), pos.z);
+		rotation = rotation + (targetRotation - rotation) * 0.1f;
+
+		resizeOnDraw.x = resizeOnDraw.x + (resizeOnDrawTarget.x - resizeOnDraw.x) * 0.1f;
+		resizeOnDraw.y = resizeOnDraw.y + (resizeOnDrawTarget.y - resizeOnDraw.y) * 0.1f;
+
+		// PVector temp = resizeOnDrawTarget.get();
+		// temp.sub(resizeOnDraw);
+		// temp.mult(0.1f);
+		// resizeOnDraw.add(temp);
 	}
 
 	// ------------------------------------------------------------------------
@@ -81,11 +91,7 @@ public abstract class GUIComponent {
 
 	public String draw(PGraphics canvas) {
 		// Decorator management
-		if (decorator != null) {
-			return decorator.draw(canvas);
-		} else {
-			return drawUndecorated(canvas);
-		}
+		return drawUndecorated(canvas);
 	}
 
 	// protected Logger logger = Logger.getLogger(this.getClass());
@@ -183,7 +189,6 @@ public abstract class GUIComponent {
 			GUIComponent component = components.get(i);
 			component.setActive(active);
 		}
-
 	}
 
 	public float getWidth() {
@@ -206,23 +211,16 @@ public abstract class GUIComponent {
 		return realPos;
 	}
 
-	public void addDecorator(ResizableDecorator decorator) {
-		this.decorator = decorator;
-		try {
-			decorator.setComponent(this);
-			decorator.setWindowManager(windowManager);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-	}
-
 	public void setOrder(float zOffset) {
 		pos.z = zOffset;
 	}
 
 	public void addRotation(float dif) {
-		rotation += dif;
+		targetRotation += dif;
+	}
+
+	public void addResizeOnDraw(float x, float y) {
+		resizeOnDrawTarget.add(x, y, 0);
 	}
 
 }

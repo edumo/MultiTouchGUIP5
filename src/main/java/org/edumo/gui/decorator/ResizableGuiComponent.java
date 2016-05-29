@@ -22,9 +22,9 @@ public class ResizableGuiComponent extends Decorator implements HIDEventListener
 
 	protected String action;
 
-	PVector lastSize;
+	protected PVector lastSize;
 
-	Map<Integer, TouchPointer> pointers = new HashMap<Integer, TouchPointer>();
+	protected Map<Integer, TouchPointer> pointers = new HashMap<Integer, TouchPointer>();
 
 	float angle;
 
@@ -89,7 +89,7 @@ public class ResizableGuiComponent extends Decorator implements HIDEventListener
 				PVector tpv1 = activePointer.getScreen();
 				PVector tpv1Old = activePointerOld.getScreen();
 				PVector tpv2 = activePointer2.getScreen();
-				
+
 				boolean freeResize = false;
 
 				if (freeResize) {
@@ -109,14 +109,15 @@ public class ResizableGuiComponent extends Decorator implements HIDEventListener
 					// distXOld /= component.getWidth();
 					// component.setWidth(component.getWidth() + distX -
 					// distXOld);//resizeOnDraw.y += distX - distXOld;
-					component.getResizeOnDraw().x += distX - distXOld;
-					component.getResizeOnDraw().y += distY - distYOld;
+					float x = component.getResizeOnDraw().x + distX - distXOld;
+					float y = component.getResizeOnDraw().y + distY - distYOld;
+					component.addResizeOnDraw(x, y);
 
 				} else {
 					float dist = PApplet.dist(tpv1.x, tpv1.y, tpv2.x, tpv2.y);
 					float distOld = PApplet.dist(tpv1Old.x, tpv1Old.y, tpv2.x, tpv2.y);
 
-					if(activePointer.id > activePointer2.id){
+					if (activePointer.id > activePointer2.id) {
 						PVector temp = tpv1;
 						tpv1 = tpv2;
 						tpv2 = temp;
@@ -133,8 +134,11 @@ public class ResizableGuiComponent extends Decorator implements HIDEventListener
 					float ratioX = (1f / lastSize.x) * lastSize.x;
 					float ratioY = (1f / lastSize.y) * lastSize.x;
 
-					component.getResizeOnDraw().x += (dist - distOld) * ratioX;
-					component.getResizeOnDraw().y += (dist - distOld) * ratioY;
+					// component.getResizeOnDraw().x += (dist - distOld) *
+					// ratioX;
+					// component.getResizeOnDraw().y += (dist - distOld) *
+					// ratioY;
+					component.addResizeOnDraw((dist - distOld) * ratioX, (dist - distOld) * ratioY);
 
 					component.addRotation(dif);
 				}

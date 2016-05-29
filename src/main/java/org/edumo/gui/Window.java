@@ -67,4 +67,9 @@ public class Window extends GUIComponent implements HIDEventListener {
 		
 	}
 
+	public void setTopDraw(GUIComponent component) {
+		components.remove(component);
+		components.add(component);
+	}
+
 }

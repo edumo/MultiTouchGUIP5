@@ -13,6 +13,7 @@ public class MainDraggableResizableImage extends MTGuiP5PApplet {
 
 	public void setup() {
 		size(1024, 768, OPENGL);
+		smooth(4);
 		mtContext = new BaseApp(this, g);
 		frameRate(60);
 		initGUI();
