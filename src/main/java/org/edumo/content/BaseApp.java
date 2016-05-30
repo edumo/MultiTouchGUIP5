@@ -26,16 +26,15 @@ public class BaseApp {
 	public int MAX_TUIOS_PROCESSED = 5;
 
 	public Properties properties;
-	
-	public boolean ignoreMouse = false;
 
+	public boolean ignoreMouse = false;
 	public boolean ignoreMouseIfTUIO = false;
 
 	public BaseApp(PApplet parent, PGraphics canvas) {
 
 		tuioConverter = new TUIOConverter();
-		tuioClient = new TuioProcessing(parent,3333);
-		tuioConverter.init(tuioClient,this);
+		tuioClient = new TuioProcessing(parent, 3333);
+		tuioConverter.init(tuioClient, this);
 		contentManager = new ContentManager(parent);
 		this.parent = parent;
 		this.canvas = canvas;
@@ -50,8 +49,7 @@ public class BaseApp {
 
 			canvas.stroke(192, 192, 192);
 			canvas.fill(192, 192, 192);
-			canvas.ellipse(pointer.getScreenX(canvas.width),
-					pointer.getScreenY(canvas.height), 5, 5);
+			canvas.ellipse(pointer.getScreenX(canvas.width), pointer.getScreenY(canvas.height), 5, 5);
 		}
 	}
 
@@ -62,9 +60,7 @@ public class BaseApp {
 			int ret = Integer.parseInt(string);
 			return ret;
 		} else {
-			System.out
-					.println("SE SOLICITO PROPIEDAD QUE NO EXISTE CON CADENA '"
-							+ key + "'");
+			System.out.println("SE SOLICITO PROPIEDAD QUE NO EXISTE CON CADENA '" + key + "'");
 		}
 		return 0;
 	}
@@ -77,9 +73,7 @@ public class BaseApp {
 			string = string.replace("::user.home::", homeUser);
 			return string;
 		} else {
-			System.out
-					.println("SE SOLICITO PROPIEDAD QUE NO EXISTE CON CADENA '"
-							+ key + "'");
+			System.out.println("SE SOLICITO PROPIEDAD QUE NO EXISTE CON CADENA '" + key + "'");
 		}
 		return null;
 	}

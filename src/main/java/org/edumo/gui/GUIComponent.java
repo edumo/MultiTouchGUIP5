@@ -72,7 +72,7 @@ public abstract class GUIComponent {
 	 */
 
 	protected void updateRealPos(PGraphics canvas) {
-		realPos = new PVector(canvas.screenX(pos.x, pos.y), canvas.screenY(pos.x, pos.y), pos.z);
+		realPos = new PVector(canvas.screenX(pos.x, pos.y, pos.z), canvas.screenY(pos.x, pos.y, pos.z), pos.z);
 		rotation = rotation + (targetRotation - rotation) * 0.1f;
 
 		resizeOnDraw.x = resizeOnDraw.x + (resizeOnDrawTarget.x - resizeOnDraw.x) * 0.1f;
@@ -80,7 +80,7 @@ public abstract class GUIComponent {
 
 		pos.x = pos.x + (posTarget.x - pos.x) * 0.33f;
 		pos.y = pos.y + (posTarget.y - pos.y) * 0.33f;
-
+		
 		// PVector temp = resizeOnDrawTarget.get();
 		// temp.sub(resizeOnDraw);
 		// temp.mult(0.1f);

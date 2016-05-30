@@ -57,11 +57,14 @@ public class ButtonImage extends ButtonText {
 				canvas.pushStyle();
 				canvas.tint(100, 100, 100);
 				drawImage(canvas, pressedImg);
+				
 				canvas.popStyle();
 			} else {
 				drawImage(canvas, pressedImg);
 			}
 		}
+		canvas.fill(255,0,0);
+		canvas.rect(realPos.x, realPos.y, 20,20);
 		canvas.noTint();
 
 //		canvas.popMatrix();
@@ -75,13 +78,17 @@ public class ButtonImage extends ButtonText {
 	protected void drawImage(PGraphics canvas, PImage img) {
 
 		canvas.pushMatrix();
-		canvas.translate(pos.x, pos.y);
+		canvas.translate(pos.x, pos.y,pos.z);
 		canvas.rotate(rotation);
+		canvas.tint(255,100);
 		if (resizeOnDraw == null) {
 			canvas.image(img, 0,0);
 		} else {
 			canvas.image(img, 0,0, resizeOnDraw.x, resizeOnDraw.y);
 		}
+		
+		canvas.fill(255,0,0);
+		canvas.rect(realPos.x, realPos.y, 20,20);
 		
 		canvas.popMatrix();
 	}
