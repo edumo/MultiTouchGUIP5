@@ -10,6 +10,7 @@ import org.edumo.gui.behaviour.DraggableDecorator;
 import org.edumo.gui.behaviour.PlayableDecorator;
 import org.edumo.gui.behaviour.ResizableDecorator;
 import org.edumo.gui.button.AbstractButton;
+import org.edumo.gui.button.ButtonCapture;
 import org.edumo.gui.button.ButtonText;
 import org.edumo.gui.button.ButtonVideo;
 import org.edumo.gui.button.ButtonImage;
@@ -23,6 +24,7 @@ import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.core.PVector;
+import processing.video.Capture;
 import processing.video.Movie;
 
 /**
@@ -61,7 +63,8 @@ public class WindowManager implements HIDEventListener {
 		return pressed(listeners, touchPointer);
 	}
 
-	public ActionEvent pressed(List<HIDEventListener> actionEvent, TouchPointer touchPointer) {
+	public ActionEvent pressed(List<HIDEventListener> actionEvent,
+			TouchPointer touchPointer) {
 		ActionEvent action = null;
 		for (int i = listeners.size() - 1; i >= 0; i--) {
 			HIDEventListener button = listeners.get(i);
@@ -83,7 +86,8 @@ public class WindowManager implements HIDEventListener {
 		return drag(listeners, touchPointer);
 	}
 
-	public ActionEvent drag(List<HIDEventListener> listeners, TouchPointer touchPointer) {
+	public ActionEvent drag(List<HIDEventListener> listeners,
+			TouchPointer touchPointer) {
 		ActionEvent action = null;
 		for (int i = 0; i < listeners.size(); i++) {
 			HIDEventListener button = listeners.get(i);
@@ -105,7 +109,8 @@ public class WindowManager implements HIDEventListener {
 		return release(listeners, touchPointer);
 	}
 
-	public ActionEvent release(List<HIDEventListener> listeners, TouchPointer touchPointer) {
+	public ActionEvent release(List<HIDEventListener> listeners,
+			TouchPointer touchPointer) {
 		ActionEvent action = null;
 		for (int i = 0; i < listeners.size(); i++) {
 			HIDEventListener button = listeners.get(i);
@@ -128,7 +133,8 @@ public class WindowManager implements HIDEventListener {
 		return release(listeners, touchPointer);
 	}
 
-	public ActionEvent over(List<HIDEventListener> listeners, TouchPointer touchPointer) {
+	public ActionEvent over(List<HIDEventListener> listeners,
+			TouchPointer touchPointer) {
 		ActionEvent action = null;
 		for (int i = 0; i < listeners.size(); i++) {
 			HIDEventListener button = listeners.get(i);
@@ -147,7 +153,8 @@ public class WindowManager implements HIDEventListener {
 		return action;
 	}
 
-	public List<ActionEvent> drawComponentes(List<GUIComponent> components, PGraphics canvas) {
+	public List<ActionEvent> drawComponentes(List<GUIComponent> components,
+			PGraphics canvas) {
 
 		List<ActionEvent> actions = new ArrayList<ActionEvent>();
 
@@ -167,7 +174,8 @@ public class WindowManager implements HIDEventListener {
 		return actions;
 	}
 
-	public List<ActionEvent> drawComponentes(List<GUIComponent> components, PGraphics canvas, int tint) {
+	public List<ActionEvent> drawComponentes(List<GUIComponent> components,
+			PGraphics canvas, int tint) {
 
 		List<ActionEvent> actions = new ArrayList<ActionEvent>();
 
@@ -176,7 +184,8 @@ public class WindowManager implements HIDEventListener {
 			String action = null;
 
 			if (component.isRendered()) {
-				float t = PApplet.map(component.pos.z, -100.0f, 150.0f, 0f, 255f);
+				float t = PApplet.map(component.pos.z, -100.0f, 150.0f, 0f,
+						255f);
 				action = component.draw(canvas, 255/* (int) t */);
 			}
 			if (action != null) {
@@ -211,24 +220,29 @@ public class WindowManager implements HIDEventListener {
 		c.setWindowManager(this);
 	}
 
-	public ButtonImage addButton(String action, int x, int y, String imgPath, String pressedImgPath, int align) {
+	public ButtonImage addButton(String action, int x, int y, String imgPath,
+			String pressedImgPath, int align) {
 		return addButton(action, x, y, imgPath, pressedImgPath, true, align);
 	}
 
-	public ButtonImage addButton(String action, int x, int y, String imgPath, String pressedImgPath,
-			boolean insertComponent, int align) {
+	public ButtonImage addButton(String action, int x, int y, String imgPath,
+			String pressedImgPath, boolean insertComponent, int align) {
 
-		return addButton(action, x, y, imgPath, pressedImgPath, insertComponent, align, window.components);
+		return addButton(action, x, y, imgPath, pressedImgPath,
+				insertComponent, align, window.components);
 	}
 
 	// --------------------------------------------------------------------------------------------
 	// Buttons
-	public ButtonImage addButton(String action, int x, int y, String imgPath, String pressedImgPath) {
-		return addButton(action, x, y, imgPath, pressedImgPath, true, PApplet.CENTER);
+	public ButtonImage addButton(String action, int x, int y, String imgPath,
+			String pressedImgPath) {
+		return addButton(action, x, y, imgPath, pressedImgPath, true,
+				PApplet.CENTER);
 	}
 
-	public ButtonImage addButton(String action, int x, int y, String imgPath, String pressedImgPath,
-			boolean insertComponent, int align, List<GUIComponent> componentsTemp) {
+	public ButtonImage addButton(String action, int x, int y, String imgPath,
+			String pressedImgPath, boolean insertComponent, int align,
+			List<GUIComponent> componentsTemp) {
 
 		PImage img = contentManager.loadImage(imgPath);
 		PImage pressedImg = contentManager.loadImage(pressedImgPath);
@@ -243,18 +257,67 @@ public class WindowManager implements HIDEventListener {
 		return button;
 	}
 
-	public ButtonVideo addButtonVideo(String action, int x, int y, String imgPath, boolean insertComponent, int align) {
+	public ButtonVideo addButtonVideo(String action, int x, int y,
+			String imgPath, boolean insertComponent, int align) {
 
-		return addButtonVideo(action, x, y, imgPath, insertComponent, align, window.components);
+		return addButtonVideo(action, x, y, imgPath, insertComponent, align,
+				window.components);
 	}
 
 	// --------------------------------------------------------------------------------------------
 	// Buttons ButtonVideo
-	public ButtonVideo addButtonVideo(String action, int x, int y, String imgPath) {
+	public ButtonVideo addButtonVideo(String action, int x, int y,
+			String imgPath) {
 		return addButtonVideo(action, x, y, imgPath, true, PApplet.CENTER);
 	}
 
-	public ButtonVideo addButtonVideo(String action, int x, int y, String imgPath, boolean insertComponent, int align,
+	public ButtonCapture addButtonCapture(String action, int x, int y,
+			boolean insertComponent, int align,
+			List<GUIComponent> componentsTemp) {
+
+		ButtonCapture button = new ButtonCapture();
+		button.init(action, null, null, new PVector(x, y), 33, align);
+		button.setSize(800, 600);
+		addListener(button);
+		if (insertComponent)
+			addComponent(button, componentsTemp);
+
+		String[] cameras = Capture.list();
+		Capture cam = null;
+		if (cameras == null) {
+			// println("Failed to retrieve the list of available cameras, will try the default...");
+			cam = new Capture(contentManager.parent, 640, 480);
+		}
+		if (cameras.length == 0) {
+			// println("There are no cameras available for capture.");
+			contentManager.parent.exit();
+		} else {
+			// println("Available cameras:");
+			for (int i = 0; i < cameras.length; i++) {
+				contentManager.parent.println(cameras[i]);
+			}
+
+			// The camera can be initialized directly using an element
+			// from the array returned by list():
+			cam = new Capture(contentManager.parent, cameras[0]);
+			// Or, the settings can be defined based on the text in the list
+			// cam = new Capture(this, 640, 480, "Built-in iSight", 30);
+
+			// Start capturing the images from the camera
+
+		}
+
+		if (cam != null) {
+			cam.start();
+			button.setCapture(cam);
+		}
+
+		return button;
+
+	}
+
+	public ButtonVideo addButtonVideo(String action, int x, int y,
+			String imgPath, boolean insertComponent, int align,
 			List<GUIComponent> componentsTemp) {
 
 		Movie img = contentManager.loadVideo(imgPath);
@@ -279,7 +342,8 @@ public class WindowManager implements HIDEventListener {
 			float brightness = 0.0f;
 			for (int i = 0; i < thmb.width; i++) {
 				for (int j = 0; j < thmb.height; j++) {
-					brightness += contentManager.parent.brightness(thmb.get(i, j));
+					brightness += contentManager.parent.brightness(thmb.get(i,
+							j));
 				}
 			}
 			brightness = brightness / (float) (thmb.width * thmb.height);
@@ -299,40 +363,35 @@ public class WindowManager implements HIDEventListener {
 				img.pause();
 				thmb = img.get();
 				thmb.loadPixels();
-			}else{
+			} else {
 				break;
 			}
 
 			nRepetitions++;
-			if(nRepetitions>50)
+			if (nRepetitions > 50)
 				break;
 		}
 
-/*		
-		int p1 = thmb.get((int) (thmb.width * 0.2f), (int) (thmb.height * 0.2f));
-		int p2 = thmb.get((int) (thmb.width * 0.3f), (int) (thmb.height * 0.3f));
-		int p3 = thmb.get((int) (thmb.width * 0.4f), (int) (thmb.height * 0.4f));
-		int p4 = thmb.get((int) (thmb.width * 0.8f), (int) (thmb.height * 0.8f));
-
-		float avg = (contentManager.parent.brightness(p1) + contentManager.parent.brightness(p2)
-				+ contentManager.parent.brightness(p3) + contentManager.parent.brightness(p4)) / 4;
-
-		if (avg < 60) {
-			img.play();
-			img.jump(img.duration() * 0.53f);
-
-			try {
-				Thread.sleep(5);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-
-			img.pause();
-			thmb = img.get();
-		} else {
-			System.out.println("EL BRILLO FUE avg " + avg);
-		}
-*/
+		/*
+		 * int p1 = thmb.get((int) (thmb.width * 0.2f), (int) (thmb.height *
+		 * 0.2f)); int p2 = thmb.get((int) (thmb.width * 0.3f), (int)
+		 * (thmb.height * 0.3f)); int p3 = thmb.get((int) (thmb.width * 0.4f),
+		 * (int) (thmb.height * 0.4f)); int p4 = thmb.get((int) (thmb.width *
+		 * 0.8f), (int) (thmb.height * 0.8f));
+		 * 
+		 * float avg = (contentManager.parent.brightness(p1) +
+		 * contentManager.parent.brightness(p2) +
+		 * contentManager.parent.brightness(p3) +
+		 * contentManager.parent.brightness(p4)) / 4;
+		 * 
+		 * if (avg < 60) { img.play(); img.jump(img.duration() * 0.53f);
+		 * 
+		 * try { Thread.sleep(5); } catch (InterruptedException e) {
+		 * e.printStackTrace(); }
+		 * 
+		 * img.pause(); thmb = img.get(); } else {
+		 * System.out.println("EL BRILLO FUE avg " + avg); }
+		 */
 		int size = img.width / 2;
 		ButtonVideo button = new ButtonVideo();
 		button.init(action, thmb, thmb, new PVector(x, y), size, align);
@@ -347,18 +406,23 @@ public class WindowManager implements HIDEventListener {
 		return button;
 	}
 
-	public ButtonSlider addButtonSlider(String action, int x, int y, String imgPath, String pressedImgPath, int align) {
-		return addButtonSlider(action, x, y, imgPath, pressedImgPath, true, align);
+	public ButtonSlider addButtonSlider(String action, int x, int y,
+			String imgPath, String pressedImgPath, int align) {
+		return addButtonSlider(action, x, y, imgPath, pressedImgPath, true,
+				align);
 	}
 
-	public ButtonSlider addButtonSlider(String action, int x, int y, String imgPath, String pressedImgPath,
-			boolean insertComponent, int align) {
+	public ButtonSlider addButtonSlider(String action, int x, int y,
+			String imgPath, String pressedImgPath, boolean insertComponent,
+			int align) {
 
-		return addButtonSlider(action, x, y, imgPath, pressedImgPath, insertComponent, align, window.components);
+		return addButtonSlider(action, x, y, imgPath, pressedImgPath,
+				insertComponent, align, window.components);
 	}
 
-	public ButtonSlider addButtonSlider(String action, int x, int y, String imgPath, String pressedImgPath,
-			boolean insertComponent, int align, List<GUIComponent> componentsTemp) {
+	public ButtonSlider addButtonSlider(String action, int x, int y,
+			String imgPath, String pressedImgPath, boolean insertComponent,
+			int align, List<GUIComponent> componentsTemp) {
 
 		PImage img = contentManager.loadImage(imgPath);
 		PImage pressedImg = contentManager.loadImage(pressedImgPath);
@@ -373,19 +437,23 @@ public class WindowManager implements HIDEventListener {
 		return button;
 	}
 
-	public ButtonImagePortView addButtonPortView(String action, int x, int y, String imgPath, String pressedImgPath,
+	public ButtonImagePortView addButtonPortView(String action, int x, int y,
+			String imgPath, String pressedImgPath, int align) {
+		return addButtonPortView(action, x, y, imgPath, pressedImgPath, true,
+				align);
+	}
+
+	public ButtonImagePortView addButtonPortView(String action, int x, int y,
+			String imgPath, String pressedImgPath, boolean insertComponent,
 			int align) {
-		return addButtonPortView(action, x, y, imgPath, pressedImgPath, true, align);
+
+		return addButtonPortView(action, x, y, imgPath, pressedImgPath,
+				insertComponent, align, window.components);
 	}
 
-	public ButtonImagePortView addButtonPortView(String action, int x, int y, String imgPath, String pressedImgPath,
-			boolean insertComponent, int align) {
-
-		return addButtonPortView(action, x, y, imgPath, pressedImgPath, insertComponent, align, window.components);
-	}
-
-	public ButtonImagePortView addButtonPortView(String action, int x, int y, String imgPath, String pressedImgPath,
-			boolean insertComponent, int align, List<GUIComponent> componentsTemp) {
+	public ButtonImagePortView addButtonPortView(String action, int x, int y,
+			String imgPath, String pressedImgPath, boolean insertComponent,
+			int align, List<GUIComponent> componentsTemp) {
 
 		PImage img = contentManager.loadImage(imgPath);
 		PImage pressedImg = contentManager.loadImage(pressedImgPath);
@@ -400,20 +468,24 @@ public class WindowManager implements HIDEventListener {
 		return button;
 	}
 
-	public ButtonImagePortViewVertical addButtonPortViewVertical(String action, int x, int y, String imgPath,
-			String pressedImgPath, int align) {
-		return addButtonPortViewVertical(action, x, y, imgPath, pressedImgPath, true, align);
+	public ButtonImagePortViewVertical addButtonPortViewVertical(String action,
+			int x, int y, String imgPath, String pressedImgPath, int align) {
+		return addButtonPortViewVertical(action, x, y, imgPath, pressedImgPath,
+				true, align);
 	}
 
-	public ButtonImagePortViewVertical addButtonPortViewVertical(String action, int x, int y, String imgPath,
-			String pressedImgPath, boolean insertComponent, int align) {
+	public ButtonImagePortViewVertical addButtonPortViewVertical(String action,
+			int x, int y, String imgPath, String pressedImgPath,
+			boolean insertComponent, int align) {
 
-		return addButtonPortViewVertical(action, x, y, imgPath, pressedImgPath, insertComponent, align,
-				window.components);
+		return addButtonPortViewVertical(action, x, y, imgPath, pressedImgPath,
+				insertComponent, align, window.components);
 	}
 
-	public ButtonImagePortViewVertical addButtonPortViewVertical(String action, int x, int y, String imgPath,
-			String pressedImgPath, boolean insertComponent, int align, List<GUIComponent> componentsTemp) {
+	public ButtonImagePortViewVertical addButtonPortViewVertical(String action,
+			int x, int y, String imgPath, String pressedImgPath,
+			boolean insertComponent, int align,
+			List<GUIComponent> componentsTemp) {
 
 		PImage img = contentManager.loadImage(imgPath);
 		PImage pressedImg = contentManager.loadImage(pressedImgPath);
@@ -428,8 +500,9 @@ public class WindowManager implements HIDEventListener {
 		return button;
 	}
 
-	public CheckBoxImage addCheckBox(String action, int x, int y, String imgPath, String pressedImgPath,
-			String checkImgPath, boolean insertComponent, int align) {
+	public CheckBoxImage addCheckBox(String action, int x, int y,
+			String imgPath, String pressedImgPath, String checkImgPath,
+			boolean insertComponent, int align) {
 
 		PImage img = contentManager.loadImage(imgPath);
 		PImage pressedImg = contentManager.loadImage(pressedImgPath);
@@ -437,7 +510,8 @@ public class WindowManager implements HIDEventListener {
 
 		int size = img.width / 2;
 		CheckBoxImage button = new CheckBoxImage();
-		button.init(action, img, pressedImg, checkedImg, new PVector(x, y), size, align);
+		button.init(action, img, pressedImg, checkedImg, new PVector(x, y),
+				size, align);
 
 		addListener(button);
 		if (insertComponent)
@@ -448,21 +522,25 @@ public class WindowManager implements HIDEventListener {
 
 	// --------------------------------------------------------------------------------------------
 	// Text buttons
-	public ButtonText addTextButton(PGraphics canvas, String nombre, int x, int y, int textSize, int textAlign) {
+	public ButtonText addTextButton(PGraphics canvas, String nombre, int x,
+			int y, int textSize, int textAlign) {
 
 		return addTextButton(canvas, nombre, nombre, x, y, textSize, textAlign);
 	}
 
-	public ButtonText addTextButton(PGraphics canvas, String nombre, String action, int x, int y, int textSize,
-			int textAlign) {
-		return addTextButton(canvas, nombre, action, x, y, textSize, textAlign, window.components);
+	public ButtonText addTextButton(PGraphics canvas, String nombre,
+			String action, int x, int y, int textSize, int textAlign) {
+		return addTextButton(canvas, nombre, action, x, y, textSize, textAlign,
+				window.components);
 	}
 
-	public ButtonText addTextButton(PGraphics canvas, String nombre, String action, int x, int y, int textSize,
-			int textAlign, List<GUIComponent> components) {
+	public ButtonText addTextButton(PGraphics canvas, String nombre,
+			String action, int x, int y, int textSize, int textAlign,
+			List<GUIComponent> components) {
 
 		ButtonText textButon = new ButtonText();
-		textButon.init(canvas, nombre, action, new PVector(x, y), textSize, 255, textAlign);
+		textButon.init(canvas, nombre, action, new PVector(x, y), textSize,
+				255, textAlign);
 
 		addListener(textButon);
 		addComponent(textButon, components);

@@ -27,16 +27,20 @@ public class ButtonImage extends ButtonText {
 		return img;
 	}
 
-	public void init(String action, PImage img, PImage pressedImg, PVector pos, int size) {
+	public void init(String action, PImage img, PImage pressedImg, PVector pos,
+			int size) {
 		init(action, img, pressedImg, pos, size, PApplet.CENTER);
 	}
 
-	public void init(String action, PImage img, PImage pressedImg, PVector pos, int size, int imageMode) {
+	public void init(String action, PImage img, PImage pressedImg, PVector pos,
+			int size, int imageMode) {
 
 		this.imageMode = imageMode;
 		this.img = img;
-		this.width = img.width;
-		this.height = img.height;
+		if (img != null) {
+			this.width = img.width;
+			this.height = img.height;
+		}
 		this.pressedImg = pressedImg;
 		this.size = -1;
 		super.init(action, pos);
@@ -146,7 +150,7 @@ public class ButtonImage extends ButtonText {
 		canvas.rotate(rotation);
 		updateRealPos(canvas);
 		canvas.pushStyle();
-		if (pastilla ) {
+		if (pastilla) {
 			canvas.tint(255, alpha);
 			canvas.rectMode(PApplet.CENTER);
 			canvas.noStroke();
@@ -158,8 +162,8 @@ public class ButtonImage extends ButtonText {
 			canvas.image(img, 0, 0, resizeOnDraw.x, resizeOnDraw.y);
 		}
 		canvas.fill(255, 0, 0);
-		// canvas.text("c.rot:"+rotation, 0,0);
-		// canvas.text("c.auxRot:"+rotationaUxiliar, 0,30);
+		 canvas.text("c.rot:"+rotation, 0,0);
+		 canvas.text("c.auxRot:"+rotationaUxiliar, 0,30);
 
 		canvas.popStyle();
 		canvas.popMatrix();
@@ -270,13 +274,16 @@ public class ButtonImage extends ButtonText {
 	}
 
 	public boolean isOverParams(PVector pos, float w, float h) {
-		if (imageMode == PApplet.CENTER && this.realPos != null && pos.x + w / 2 > this.realPos.x
-				&& pos.x + w / 2 < this.realPos.x + w && pos.y + h / 2 > this.realPos.y
+		if (imageMode == PApplet.CENTER && this.realPos != null
+				&& pos.x + w / 2 > this.realPos.x
+				&& pos.x + w / 2 < this.realPos.x + w
+				&& pos.y + h / 2 > this.realPos.y
 				&& pos.y + h / 2 < this.realPos.y + h) {
 			return true;
 		}
 
-		if (imageMode == PApplet.CORNER && this.realPos != null && pos.x > this.realPos.x && pos.x < this.realPos.x + w
+		if (imageMode == PApplet.CORNER && this.realPos != null
+				&& pos.x > this.realPos.x && pos.x < this.realPos.x + w
 				&& pos.y > this.realPos.y && pos.y < this.realPos.y + h) {
 			// System.out.println("SI--" + this.pos.dist(pos));
 			return true;

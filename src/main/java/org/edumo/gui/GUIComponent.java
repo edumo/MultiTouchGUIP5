@@ -117,7 +117,7 @@ public abstract class GUIComponent {
 
 		rotation = rotation + (targetRotation - rotation) * 0.2f;
 
-		if (resizeOnDraw != null) {
+		if (resizeOnDraw != null && resizeOnDrawTarget != null) {
 			resizeOnDraw.x = resizeOnDraw.x + (resizeOnDrawTarget.x - resizeOnDraw.x) * 0.2f;
 			resizeOnDraw.y = resizeOnDraw.y + (resizeOnDrawTarget.y - resizeOnDraw.y) * 0.2f;
 		}
