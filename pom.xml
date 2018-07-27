@@ -12,8 +12,14 @@
 			<artifactId>log4j</artifactId>
 			<version>1.2.16</version>
 		</dependency>
-
-		<dependency>
+		
+	
+		<!--		<dependency>
+			<groupId>de.looksgood.ani</groupId>
+			<artifactId>Ani</artifactId>
+			<version>2.5</version>
+		</dependency>
+<dependency>
 			<groupId>javax.mail</groupId>
 			<artifactId>mail</artifactId>
 			<version>1.4.3</version>
@@ -35,11 +41,11 @@
 			<version>1.4.0</version>
 		</dependency>
 
-		<!--  <dependency>
+	  <dependency>
 			<groupId>processing</groupId>
 			<artifactId>TUIO</artifactId>
 			<version>1.0</version>
-		</dependency>-->
+		</dependency>
 
 		<dependency>
 			<groupId>processing</groupId>
@@ -58,12 +64,8 @@
 			<version>2.1.2-rc-20131025</version>
 		</dependency>
 
-		<dependency>
-			<groupId>de.looksgood.ani</groupId>
-			<artifactId>Ani</artifactId>
-			<version>2.5</version>
-		</dependency>
-
+		
+-->
 
 
 	</dependencies>
@@ -75,8 +77,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.3.2</version>
 				<configuration>
-					<source>1.7</source>
-					<target>1.7</target>
+					<source>1.8</source>
+					<target>1.8</target>
 				</configuration>
 			</plugin>
 		</plugins>

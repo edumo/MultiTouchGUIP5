@@ -12,7 +12,7 @@ public class MainKeyboard extends MTGuiP5PApplet {
 
 	public void setup() {
 
-		size(1024, 768, OPENGL);
+		
 		
 		mtContext = new BaseApp(this,g);
 		frameRate(60);
@@ -52,6 +52,11 @@ public class MainKeyboard extends MTGuiP5PApplet {
 	protected void doAction(ActionEvent action) {
 		if (action != null)
 			println("action  " + action.getAction());
+	}
+	
+	@Override
+	public void settings() {
+		size(1024, 768, P3D);
 	}
 
 	static public void main(String[] passedArgs) {

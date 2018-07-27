@@ -1,5 +1,6 @@
 package org.edumo.gui;
 
+import processing.awt.PGraphicsJava2D;
 import processing.core.*;
 
 public class PGraphicsJava2DJustify extends PGraphicsJava2D {

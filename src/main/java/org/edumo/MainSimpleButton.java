@@ -17,7 +17,7 @@ public class MainSimpleButton extends MTGuiP5PApplet {
 
 		// size(displayWidth, displayHeight, OPENGL);
 
-		size(1024, 768, OPENGL);
+		
 		mtContext = new BaseApp(this, g);
 		frameRate(60);
 		mtContext.contentManager.imgContainer = new HashMap<>();
@@ -49,6 +49,11 @@ public class MainSimpleButton extends MTGuiP5PApplet {
 	protected void doAction(ActionEvent action) {
 		if (action != null)
 			println("action  " + action.getAction());
+	}
+	
+	@Override
+	public void settings() {
+		size(1024, 768, P3D);
 	}
 	
 	static public void main(String[] passedArgs) {

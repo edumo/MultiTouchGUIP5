@@ -4,6 +4,7 @@ import org.edumo.content.BaseApp;
 import org.edumo.gui.WindowManager;
 import org.edumo.gui.Window;
 import org.edumo.gui.button.AbstractButton;
+import org.edumo.gui.button.ButtonImage;
 import org.edumo.gui.button.ButtonText;
 import org.edumo.touch.TouchPointer;
 
@@ -18,9 +19,10 @@ public class SecondScreen extends Window {
 
 	@Override
 	public String drawUndecorated(PGraphics canvas) {
-		updateRealPos(canvas);
+		
 		canvas.pushMatrix();
 		canvas.translate(pos.x, pos.y);
+		updateRealPos(canvas);
 		canvas.fill(50);
 		canvas.noStroke();
 		canvas.rect(0, 0, canvas.width, canvas.height);
@@ -35,9 +37,15 @@ public class SecondScreen extends Window {
 		ButtonText butonText = windowManager.addTextButton(contextApp.canvas,
 				"button1Action", contextApp.canvas.width / 2,
 				contextApp.canvas.height / 2, 36, PApplet.CENTER);
+		
+		ButtonImage buttonImage = getWindowManager().addButton("button1Action",
+				contextApp.canvas.width / 2, contextApp.canvas.height / 2,
+				"keyblank.jpg", "keyblank.jpg");
+
 		butonText.setWidth(400);
 		butonText.setRectBoxColor(mtContext.parent.color(100,20,20));
 		components.add(butonText);
+		components.add(buttonImage);
 	}
 
 }

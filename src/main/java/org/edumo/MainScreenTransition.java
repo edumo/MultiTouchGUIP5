@@ -35,7 +35,6 @@ public class MainScreenTransition extends MTGuiP5PApplet {
 
 	public void setup() {
 
-		size(1024, 768, P2D);
 		frameRate(60);
 		Ani.init(this);
 		initGUI();
@@ -60,19 +59,25 @@ public class MainScreenTransition extends MTGuiP5PApplet {
 		background(0);
 		mtContext.drawDebugPointers(g);
 
+		String action = window.drawUndecorated(g);
+
 		if (transition) {
-			auxWindow.drawUndecorated(g);
-			if (anitransition.isEnded()) {
+			
+			if (anitransition != null && anitransition.isEnded()) {
 				transition = false;
+			}else{
+				auxWindow.drawUndecorated(g);
 			}
 		}
-
-		String action = window.drawUndecorated(g);
 
 	}
 
 	protected void doAction(ActionEvent action) {
 
+		if(transition){
+			return;
+		}
+		
 		if (action != null) {
 
 			println("action " + action.getAction());
@@ -80,28 +85,42 @@ public class MainScreenTransition extends MTGuiP5PApplet {
 			if (window == homeScreen) {
 				if (action.getAction().equals("button1Action")) {
 					// vamos a ahcer algo como mover esta pantalla
-					auxWindow = window;
-					secondScreen.getPosition().x = -width;
-					window = secondScreen;
-					transition = true;
 
-					window.animate(0, 0, 3);
-					anitransition = auxWindow.animate(width, 0, 3);
+					transition = true;
+					auxWindow = window;
+					window = secondScreen;
+					window.setPosition(0, 0, 0);
+					// window.animate(0, 0,0);
+					anitransition = auxWindow.animate(width, 0, 1.5f);
+					// anitransition = auxWindow.animate(width, 0, 3);
 				}
 			} else if (window == secondScreen) {
 				if (action.getAction().equals("button1Action")) {
 					// vamos a ahcer algo como mover esta pantalla
-					auxWindow = window;
-					homeScreen.getPosition().x = width;
-					window = homeScreen;
-					transition = true;
+					// transition = true;
+					// auxWindow = window;
+					// secondScreen.setPosition(width, 0);
+					// window = homeScreen;
 
-					window.animate(0, 0, 3);
-					anitransition = auxWindow.animate(-width, 0, 3);
+					transition = true;
+					auxWindow = window;
+					window = homeScreen;
+					window.setPosition(0, 0, 0);
+					
+					anitransition = auxWindow.animate(width, 0, 1.5f);
+					//
+					//
+					// window.animate(0, 0, 3);
+					// anitransition = auxWindow.animate(-width, 0, 3);
 				}
 			}
 		}
 
+	}
+
+	@Override
+	public void settings() {
+		size(1024, 768, P3D);
 	}
 
 	static public void main(String[] passedArgs) {
