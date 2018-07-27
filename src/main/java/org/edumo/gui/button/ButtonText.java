@@ -131,8 +131,7 @@ public class ButtonText extends AbstractButton {
 		return realTextWidth;
 	}
 
-	public void init(PGraphics canvas, String name, String action, PVector pos,
-			int textSize, int textColor) {
+	public void init(PGraphics canvas, String name, String action, PVector pos, int textSize, int textColor) {
 		init(canvas, name, action, pos, textSize, textColor, PApplet.CENTER);
 	}
 
@@ -147,8 +146,8 @@ public class ButtonText extends AbstractButton {
 	 * @param textSize
 	 */
 
-	public void init(PGraphics cavnas, String name, String action, PVector pos,
-			int textSize, int textColor, int textAlign) {
+	public void init(PGraphics cavnas, String name, String action, PVector pos, int textSize, int textColor,
+			int textAlign) {
 
 		this.textColor = textColor;
 		label = name;
@@ -158,10 +157,10 @@ public class ButtonText extends AbstractButton {
 		this.textSize = textSize;
 		super.init(action, pos);
 		this.textAlign = textAlign;
+		super.posTarget = pos.get();
 	}
 
-	public void init(String name, String action, PVector pos, int w, int h,
-			int textSize) {
+	public void init(String name, String action, PVector pos, int w, int h, int textSize) {
 		init(name, action, pos, w, h, textSize, PApplet.CENTER);
 	}
 
@@ -176,8 +175,7 @@ public class ButtonText extends AbstractButton {
 	 * @param textSize
 	 */
 
-	public void init(String name, String action, PVector pos, int w, int h,
-			int textSize, int textAlign) {
+	public void init(String name, String action, PVector pos, int w, int h, int textSize, int textAlign) {
 
 		label = name;
 		this.width = w;
@@ -199,8 +197,7 @@ public class ButtonText extends AbstractButton {
 	 * @param textSize
 	 */
 
-	public void init(PGraphics cavnas, int width, String action, PVector pos,
-			int textSize) {
+	public void init(PGraphics cavnas, int width, String action, PVector pos, int textSize) {
 
 		label = "";
 		this.width = width;
@@ -307,25 +304,58 @@ public class ButtonText extends AbstractButton {
 		return null;
 	}
 
+	public boolean inPolyCheck(PVector v, PVector[] p) {
+		float a = 0;
+		for (int i = 0; i < p.length - 1; ++i) {
+			PVector v1 = p[i].get();
+			PVector v2 = p[i + 1].get();
+			a += vAtan2cent180(v, v1, v2);
+		}
+		PVector v1 = p[p.length - 1].get();
+		PVector v2 = p[0].get();
+		a += vAtan2cent180(v, v1, v2);
+		// if (a < 0.001) println(degrees(a));
+
+		if (PApplet.abs(PApplet.abs(a) - PApplet.TWO_PI) < 0.01)
+			return true;
+		else
+			return false;
+	}
+
+	float vAtan2cent180(PVector cent, PVector v2, PVector v1) {
+		PVector vA = v1.get();
+		PVector vB = v2.get();
+		vA.sub(cent);
+		vB.sub(cent);
+		vB.mult(-1);
+		float ang = PApplet.atan2(vB.x, vB.y) - PApplet.atan2(vA.x, vA.y);
+		if (ang < 0)
+			ang = PApplet.TWO_PI + ang;
+		ang -= PApplet.PI;
+		return ang;
+	}
+
 	@Override
 	public boolean isOver(PVector pos) {
 		boolean over = false;
 		if (pos == null) {
 			return false;
 		}
+
+		if (realPos1 != null) {
+			PVector[] pp = {realPos1,realPos2,realPos3,realPos4};//new PVector[4];
+			return inPolyCheck(pos,pp);
+		}
+
 		if (textAlign == PApplet.CENTER) {
-			if (realPos != null && pos.x > realPos.x - width / 2
-					&& pos.x < realPos.x + width) {
-				if (pos.y > realPos.y - height / 2
-						&& pos.y < realPos.y + height / 2) {
+			if (realPos != null && pos.x > realPos.x - width / 2 && pos.x < realPos.x + width) {
+				if (pos.y > realPos.y - height / 2 && pos.y < realPos.y + height / 2) {
 					over = true;
 				}
 			}
 		} else {
-			if (realPos != null && pos.x > realPos.x - width / 2
-					&& pos.x < realPos.x + width) {
-				if (pos.y + height / 2 > realPos.y
-						&& pos.y < realPos.y + height / 2) {
+			if (realPos != null && pos.x > realPos.x - width / 2 && pos.x < realPos.x + width) {
+				if (pos.y + height / 2 > realPos.y && pos.y < realPos.y + height / 2) {
 					over = true;
 				}
 			}
@@ -346,7 +376,7 @@ public class ButtonText extends AbstractButton {
 			canvas.textSize(textSize);
 			float w = canvas.textWidth(label);
 			float w2 = canvas.textWidth(lastLAbel);
-			if (w > width-textSize/2 && w > w2) {
+			if (w > width - textSize / 2 && w > w2) {
 				System.out.println("tenemos un problema no cabe");
 				this.label = lastLAbel;
 			}

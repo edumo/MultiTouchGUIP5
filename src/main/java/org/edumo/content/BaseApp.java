@@ -17,13 +17,19 @@ public class BaseApp {
 
 	public PApplet parent;
 
+	// A reference to the canvas (we need to know the fill color, the strokeWidth...)
 	public PGraphics canvas;
 
-	public TuioProcessing tuioClient;
-
+	public TuioProcessing[] tuioClients;
+	
+	public int port1 = 3333;
+	public int port2 = 3334;
+	public int port3 = 3335;
+	public int port4 = 3336;
+	
 	public TUIOConverter tuioConverter;
 
-	public int MAX_TUIOS_PROCESSED = 5;
+	public int MAX_TUIOS_PROCESSED = 100;
 
 	public Properties properties;
 
@@ -31,14 +37,20 @@ public class BaseApp {
 	public boolean ignoreMouseIfTUIO = false;
 
 	public BaseApp(PApplet parent, PGraphics canvas) {
-
 		tuioConverter = new TUIOConverter();
-		tuioClient = new TuioProcessing(parent, 3333);
-		tuioConverter.init(tuioClient, this);
-		contentManager = new ContentManager(parent);
+		tuioClients = new TuioProcessing[4];
+		tuioClients[0] = new TuioProcessing(parent, port1);
+		tuioClients[1] = new TuioProcessing(parent, port2);
+		tuioClients[2]= new TuioProcessing(parent, port3);
+		tuioClients[3] = new TuioProcessing(parent, port4);
+		tuioConverter.init(tuioClients, this);
+		createContentManager(parent);
 		this.parent = parent;
 		this.canvas = canvas;
-
+	}
+	
+	protected void createContentManager(PApplet parent) {
+		contentManager = new ContentManager(parent);
 	}
 
 	public void drawDebugPointers(PGraphics canvas) {
@@ -47,9 +59,13 @@ public class BaseApp {
 		for (int i = 0; i < touches.size(); i++) {
 			TouchPointer pointer = touches.get(i);
 
-			canvas.stroke(192, 192, 192);
-			canvas.fill(192, 192, 192);
-			canvas.ellipse(pointer.getScreenX(canvas.width), pointer.getScreenY(canvas.height), 5, 5);
+			canvas.pushStyle();
+			canvas.strokeWeight(5);
+			canvas.stroke(255, 192, 192);
+			canvas.fill(255, 192, 192);
+			canvas.ellipse(pointer.getScreenX(canvas.width), pointer.getScreenY(canvas.height), 15, 15);
+			canvas.text("id:"+pointer.id, pointer.getScreenX(canvas.width), pointer.getScreenY(canvas.height));
+			canvas.popStyle();
 		}
 	}
 

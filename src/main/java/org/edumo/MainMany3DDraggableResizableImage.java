@@ -36,8 +36,8 @@ public class MainMany3DDraggableResizableImage extends MTGuiP5PApplet {
 			dragableImage.setPosition(new PVector(random(width), random(height),random(1000)));
 			dragableImage.setResizeOnDraw(new PVector(200, 200));
 
-			window.getWindowManager().addDraggable("dragabble", dragableImage);
-			window.getWindowManager().addResizable("resizable", dragableImage);
+			window.getWindowManager().addDraggable(dragableImage);
+			window.getWindowManager().addResizable(dragableImage);
 		}
 	}
 

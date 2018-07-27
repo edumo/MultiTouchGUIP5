@@ -1,6 +1,7 @@
 package org.edumo;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.edumo.content.BaseApp;
@@ -17,9 +18,10 @@ public class MainManyDraggableResizableImage extends MTGuiP5PApplet {
 	List<GUIComponent> componentes = new ArrayList<>();
 	
 	public void setup() {
-		size(1600, 900, OPENGL);
+		size(1920*2, 1080*2, OPENGL);
 		smooth(4);
 		mtContext = new BaseApp(this, g);
+		mtContext.contentManager.imgContainer = new HashMap<>();
 		frameRate(60);
 		initGUI();
 		mtContext.ignoreMouseIfTUIO = true;
@@ -36,8 +38,8 @@ public class MainManyDraggableResizableImage extends MTGuiP5PApplet {
 			dragableImage.setPosition(new PVector(random(width), random(height)));
 			dragableImage.setResizeOnDraw(new PVector(200, 200));
 
-			window.getWindowManager().addDraggable("dragabble", dragableImage);
-			window.getWindowManager().addResizable("resizable", dragableImage);
+			window.getWindowManager().addDraggable(dragableImage);
+			window.getWindowManager().addResizable(dragableImage);
 		}
 	}
 
@@ -47,9 +49,7 @@ public class MainManyDraggableResizableImage extends MTGuiP5PApplet {
 		mtContext.drawDebugPointers(g);
 		window.drawUndecorated(g);
 		
-		for(GUIComponent c:componentes){
-			
-		}
+		
 	}
 
 	protected void doAction(ActionEvent action) {
@@ -62,7 +62,7 @@ public class MainManyDraggableResizableImage extends MTGuiP5PApplet {
 
 	static public void main(String[] passedArgs) {
 
-		String[] appletArgs = new String[] { "org.edumo.MainManyDraggableResizableImage" };
+		String[] appletArgs = new String[] { "org.edumo.MainManyDraggableResizableImage","--preset" };
 		if (passedArgs != null) {
 			PApplet.main(concat(appletArgs, passedArgs));
 		} else {

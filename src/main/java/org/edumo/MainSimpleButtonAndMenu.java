@@ -1,7 +1,5 @@
 package org.edumo;
 
-import java.util.HashMap;
-
 import org.edumo.content.BaseApp;
 import org.edumo.gui.ActionEvent;
 import org.edumo.gui.MTGuiP5PApplet;
@@ -11,7 +9,7 @@ import org.edumo.gui.button.ButtonImage;
 
 import processing.core.PApplet;
 
-public class MainSimpleButton extends MTGuiP5PApplet {
+public class MainSimpleButtonAndMenu extends MTGuiP5PApplet {
 
 	public void setup() {
 
@@ -20,7 +18,6 @@ public class MainSimpleButton extends MTGuiP5PApplet {
 		size(1024, 768, OPENGL);
 		mtContext = new BaseApp(this, g);
 		frameRate(60);
-		mtContext.contentManager.imgContainer = new HashMap<>();
 		initGUI();
 	}
 

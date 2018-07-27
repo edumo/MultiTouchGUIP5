@@ -33,10 +33,17 @@ public class Window extends GUIComponent implements HIDEventListener {
 	}
 
 	public Window(BaseApp contextApp) {
-		delegateConstructor( contextApp );
+		delegateConstructor(contextApp);
 		windowManager = new WindowManager(contextApp.contentManager, this);
-		init( contextApp );
-		
+		init(contextApp);
+	}
+
+	public Window(BaseApp contextApp, boolean withInit) {
+		delegateConstructor(contextApp);
+		windowManager = new WindowManager(contextApp.contentManager, this);
+		if (withInit)
+			init(contextApp);
+
 	}
 
 	public ActionEvent doAction(ActionEvent action) {
@@ -54,17 +61,18 @@ public class Window extends GUIComponent implements HIDEventListener {
 	public ActionEvent hidDragged(TouchPointer touche) {
 		return windowManager.hidDragged(touche);
 	}
-	
+
 	public ActionEvent hidMoved(TouchPointer touche) {
 		return windowManager.hidMoved(touche);
 	}
 
 	public void init(BaseApp contextApp) {
 		this.mtContext = contextApp;
+		this.parent = contextApp.parent;
 	}
-	
-	protected void delegateConstructor( BaseApp contextApp ){
-		
+
+	protected void delegateConstructor(BaseApp contextApp) {
+
 	}
 
 	public void setTopDraw(GUIComponent component) {

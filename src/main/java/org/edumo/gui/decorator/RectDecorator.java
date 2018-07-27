@@ -1,11 +1,12 @@
 package org.edumo.gui.decorator;
 
+import org.edumo.gui.AbstractGUIModifier;
 import org.edumo.gui.GUIComponent;
 
 import processing.core.PGraphics;
 import processing.core.PVector;
 
-public class RectDecorator extends Decorator {
+public class RectDecorator extends AbstractGUIModifier {
 
 	private int strokeColor = 255;
 	private int strokeWeight = 2;

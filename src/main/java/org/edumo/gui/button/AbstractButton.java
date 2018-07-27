@@ -11,7 +11,7 @@ import processing.core.PVector;
 public abstract class AbstractButton extends GUIComponent implements
 		HIDEventListener {
 
-	protected boolean pressed;
+	public boolean pressed;
 	protected boolean moved;
 	protected Integer tempIdTouch;
 	protected String action;
@@ -39,7 +39,7 @@ public abstract class AbstractButton extends GUIComponent implements
 			if(actionOnPressed){
 				return new ActionEvent("pressed:" + action, this);
 			}else{
-				return null;
+//				return new ActionEvent("pressed poseido:" + action, this);
 			}
 		}
 
@@ -129,6 +129,7 @@ public abstract class AbstractButton extends GUIComponent implements
 
 	protected void init(String action, PVector pos) {
 		this.pos = pos;
+		this.posTarget.set(pos);
 		this.action = action;
 	}
 

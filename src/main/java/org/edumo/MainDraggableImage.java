@@ -22,7 +22,7 @@ public class MainDraggableImage extends MTGuiP5PApplet {
 		window = new Window(mtContext);
 
 		GUIComponent dragableImage = window.getWindowManager().addButton("", width / 2, height / 2, "keyblank.jpg","keyblank.jpg");
-		window.getWindowManager().addDraggable("dragabble", dragableImage);
+		window.getWindowManager().addDraggable(dragableImage);
 	}
 
 	public void draw() {
