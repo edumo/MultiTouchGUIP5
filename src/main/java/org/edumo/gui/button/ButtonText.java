@@ -131,7 +131,8 @@ public class ButtonText extends AbstractButton {
 		return realTextWidth;
 	}
 
-	public void init(PGraphics canvas, String name, String action, PVector pos, int textSize, int textColor) {
+	public void init(PGraphics canvas, String name, String action, PVector pos,
+			int textSize, int textColor) {
 		init(canvas, name, action, pos, textSize, textColor, PApplet.CENTER);
 	}
 
@@ -146,8 +147,8 @@ public class ButtonText extends AbstractButton {
 	 * @param textSize
 	 */
 
-	public void init(PGraphics cavnas, String name, String action, PVector pos, int textSize, int textColor,
-			int textAlign) {
+	public void init(PGraphics cavnas, String name, String action, PVector pos,
+			int textSize, int textColor, int textAlign) {
 
 		this.textColor = textColor;
 		label = name;
@@ -160,7 +161,8 @@ public class ButtonText extends AbstractButton {
 		super.posTarget = pos.get();
 	}
 
-	public void init(String name, String action, PVector pos, int w, int h, int textSize) {
+	public void init(String name, String action, PVector pos, int w, int h,
+			int textSize) {
 		init(name, action, pos, w, h, textSize, PApplet.CENTER);
 	}
 
@@ -175,7 +177,8 @@ public class ButtonText extends AbstractButton {
 	 * @param textSize
 	 */
 
-	public void init(String name, String action, PVector pos, int w, int h, int textSize, int textAlign) {
+	public void init(String name, String action, PVector pos, int w, int h,
+			int textSize, int textAlign) {
 
 		label = name;
 		this.width = w;
@@ -197,7 +200,8 @@ public class ButtonText extends AbstractButton {
 	 * @param textSize
 	 */
 
-	public void init(PGraphics cavnas, int width, String action, PVector pos, int textSize) {
+	public void init(PGraphics cavnas, int width, String action, PVector pos,
+			int textSize) {
 
 		label = "";
 		this.width = width;
@@ -212,11 +216,11 @@ public class ButtonText extends AbstractButton {
 		if (label == null)
 			return null;
 
-		updateRealPos(canvas);
+		
 		canvas.pushMatrix();
 		canvas.pushStyle();
 		canvas.translate(pos.x, pos.y);
-
+		updateRealPos(canvas);
 		if (withRectBox) {
 			// if (rectBoxColor > -1)
 			if (rectBoxColor != 255)
@@ -338,28 +342,35 @@ public class ButtonText extends AbstractButton {
 	@Override
 	public boolean isOver(PVector pos) {
 		boolean over = false;
+
 		if (pos == null) {
 			return false;
 		}
 
 		if (realPos1 != null) {
-			PVector[] pp = {realPos1,realPos2,realPos3,realPos4};//new PVector[4];
-			return inPolyCheck(pos,pp);
-		}
-
+			PVector[] pp = { realPos1, realPos2, realPos3, realPos4 };// new
+																		// PVector[4];
+			over = inPolyCheck(pos, pp);
+		} else
 		if (textAlign == PApplet.CENTER) {
-			if (realPos != null && pos.x > realPos.x - width / 2 && pos.x < realPos.x + width) {
-				if (pos.y > realPos.y - height / 2 && pos.y < realPos.y + height / 2) {
+			if (realPos != null && pos.x > realPos.x - width / 2
+					&& pos.x < realPos.x + width) {
+				if (pos.y > realPos.y - height / 2
+						&& pos.y < realPos.y + height / 2) {
 					over = true;
 				}
 			}
 		} else {
-			if (realPos != null && pos.x > realPos.x - width / 2 && pos.x < realPos.x + width) {
-				if (pos.y + height / 2 > realPos.y && pos.y < realPos.y + height / 2) {
+			if (realPos != null && pos.x > realPos.x - width / 2
+					&& pos.x < realPos.x + width) {
+				if (pos.y + height / 2 > realPos.y
+						&& pos.y < realPos.y + height / 2) {
 					over = true;
 				}
 			}
 		}
+
+		System.out.println("is over " + over);
 		return over;
 	}
 

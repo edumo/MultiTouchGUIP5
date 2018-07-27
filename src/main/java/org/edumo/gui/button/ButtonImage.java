@@ -162,8 +162,8 @@ public class ButtonImage extends ButtonText {
 			canvas.image(img, 0, 0, resizeOnDraw.x, resizeOnDraw.y);
 		}
 		canvas.fill(255, 0, 0);
-		 canvas.text("c.rot:"+rotation, 0,0);
-		 canvas.text("c.auxRot:"+rotationaUxiliar, 0,30);
+		// canvas.text("c.rot:"+rotation, 0,0);
+		// canvas.text("c.auxRot:"+rotationaUxiliar, 0,30);
 
 		canvas.popStyle();
 		canvas.popMatrix();

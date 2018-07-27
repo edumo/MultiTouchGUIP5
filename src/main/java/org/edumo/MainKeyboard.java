@@ -12,8 +12,6 @@ public class MainKeyboard extends MTGuiP5PApplet {
 
 	public void setup() {
 
-		
-		
 		mtContext = new BaseApp(this,g);
 		frameRate(60);
 		initGUI();

@@ -15,7 +15,6 @@ public class MainSimpleButtonAndMenu extends MTGuiP5PApplet {
 
 		// size(displayWidth, displayHeight, OPENGL);
 
-		size(1024, 768, OPENGL);
 		mtContext = new BaseApp(this, g);
 		frameRate(60);
 		initGUI();
@@ -41,6 +40,11 @@ public class MainSimpleButtonAndMenu extends MTGuiP5PApplet {
 		mtContext.drawDebugPointers(g);
 		window.drawUndecorated(g);
 
+	}
+	
+	@Override
+	public void settings() {
+		size(1024, 768, P3D);
 	}
 
 	protected void doAction(ActionEvent action) {

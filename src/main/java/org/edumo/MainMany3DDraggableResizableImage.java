@@ -17,7 +17,6 @@ public class MainMany3DDraggableResizableImage extends MTGuiP5PApplet {
 	List<GUIComponent> componentes = new ArrayList<>();
 	
 	public void setup() {
-		size(1600, 900, OPENGL);
 		smooth(4);
 		mtContext = new BaseApp(this, g);
 		frameRate(60);
@@ -58,6 +57,11 @@ public class MainMany3DDraggableResizableImage extends MTGuiP5PApplet {
 		
 		if(action != null && action.getAction().trim().equals("action"))
 			window.setTopDraw(action.getComponent());
+	}
+	
+	@Override
+	public void settings() {
+		size(1024, 768, P3D);
 	}
 
 	static public void main(String[] passedArgs) {

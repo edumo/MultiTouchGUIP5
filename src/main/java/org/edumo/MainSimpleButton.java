@@ -40,7 +40,7 @@ public class MainSimpleButton extends MTGuiP5PApplet {
 
 	public void draw() {
 
-		background(0);
+		background(100);
 		mtContext.drawDebugPointers(g);
 		window.drawUndecorated(g);
 

@@ -12,9 +12,6 @@ import processing.opengl.*;
 public class DataParserFromTxt {
 
 	public void parse(PApplet parent,String filePath ) {
-	//	String filePath = "C:/Users/Ros/Desktop/0.Normalizadas/Premios Primavera de Novela/2016/info.txt";
-		
-		
 		
 		String[] s = parent.loadStrings(filePath);
 		String text = "";

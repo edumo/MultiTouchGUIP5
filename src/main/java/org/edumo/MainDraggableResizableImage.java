@@ -12,7 +12,6 @@ import processing.core.PVector;
 public class MainDraggableResizableImage extends MTGuiP5PApplet {
 
 	public void setup() {
-		size(1024, 768, OPENGL);
 		smooth(4);
 		mtContext = new BaseApp(this, g);
 		frameRate(60);
@@ -43,6 +42,11 @@ public class MainDraggableResizableImage extends MTGuiP5PApplet {
 	protected void doAction(ActionEvent action) {
 		if (action != null)
 			println("action " + action.getAction());
+	}
+	
+	@Override
+	public void settings() {
+		size(1024, 768, P3D);
 	}
 
 	static public void main(String[] passedArgs) {
