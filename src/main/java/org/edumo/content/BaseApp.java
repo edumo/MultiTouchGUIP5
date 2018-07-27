@@ -23,9 +23,6 @@ public class BaseApp {
 	public TuioProcessing[] tuioClients;
 	
 	public int port1 = 3333;
-	public int port2 = 3334;
-	public int port3 = 3335;
-	public int port4 = 3336;
 	
 	public TUIOConverter tuioConverter;
 
@@ -38,11 +35,8 @@ public class BaseApp {
 
 	public BaseApp(PApplet parent, PGraphics canvas) {
 		tuioConverter = new TUIOConverter();
-		tuioClients = new TuioProcessing[4];
+		tuioClients = new TuioProcessing[1];
 		tuioClients[0] = new TuioProcessing(parent, port1);
-		tuioClients[1] = new TuioProcessing(parent, port2);
-		tuioClients[2]= new TuioProcessing(parent, port3);
-		tuioClients[3] = new TuioProcessing(parent, port4);
 		tuioConverter.init(tuioClients, this);
 		createContentManager(parent);
 		this.parent = parent;

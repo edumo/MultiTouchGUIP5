@@ -1,4 +1,4 @@
-package org.edumo.screens;
+package org.edumo.photobooth.scenes;
 
 import org.edumo.content.ContentManager;
 import org.edumo.content.BaseApp;
@@ -9,19 +9,21 @@ import org.edumo.gui.button.ButtonCapture;
 import org.edumo.gui.button.ButtonImage;
 import org.edumo.gui.button.ButtonText;
 import org.edumo.gui.decorator.RectDecorator;
+import org.edumo.photobooth.BaseAppPhotoBooth;
+import org.edumo.photobooth.WindowPhotoBooth;
 
 import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.core.PImage;
 
-public class PhotoScene extends Window {
+public class PhotoScene extends WindowPhotoBooth {
 
 	int countDown = -1;
-	int countDownStart = 5;
-	
-	PImage photo;
+	int countDownStart = 3;
 
-	public PhotoScene(BaseApp contextApp) {
+	PGraphics photo;
+
+	public PhotoScene(BaseAppPhotoBooth contextApp) {
 		super(contextApp);
 	}
 
@@ -43,19 +45,28 @@ public class PhotoScene extends Window {
 		if (countDown > 0) {
 			int now = parent.millis() - countDown;
 			int seg = (int) (now / 1000f);
-			
-			if(seg > countDownStart){
-				//disparamos
+
+			if (seg > countDownStart) {
+				// HERE WE TAKE THE PHOTO
+				if (photo == null) {
+					photo = parent.createGraphics(buttonCapture.capture.width,
+							buttonCapture.capture.height, PApplet.P2D);
+				}
+				// disparamos
 				countDown = -1;
-				
-				photo = buttonCapture.capture.copy();
-			}else{
+				photo.beginDraw();
+				photo.image(buttonCapture.capture, 0, 0, photo.width,
+						photo.height);
+				photo.endDraw();
+				mtContext.lastPhoto = photo;
+			} else {
 				canvas.text("CUENTA ATRAS " + (countDownStart - seg), 500, 500);
 			}
 		}
-		
-		if(photo != null){
-			canvas.image(photo,0,0);
+
+		if (photo != null) {
+			canvas.imageMode(PApplet.CORNER);
+			canvas.image(photo, 0, 0, 100, 100);
 		}
 
 		canvas.popMatrix();
@@ -63,7 +74,7 @@ public class PhotoScene extends Window {
 		return null;
 	}
 
-	public void init(BaseApp contextApp) {
+	public void init(BaseAppPhotoBooth contextApp) {
 
 		// ButtonText butonText = windowManager.addTextButton(contextApp.canvas,
 		// "button1Name",
@@ -71,11 +82,11 @@ public class PhotoScene extends Window {
 		// contextApp.canvas.height / 2, 36, PApplet.CENTER);
 		// butonText.setWidth(400);
 		// butonText.setRectBoxColor(100);
-
+		this.mtContext = contextApp;
 		if (buttonCapture == null) {
 			buttonCapture = getWindowManager().addButtonCapture("",
 					contextApp.canvas.width / 2, contextApp.canvas.height / 2,
-					false, PApplet.CENTER, components);
+					false, PApplet.CENTER, components, mtContext.cam);
 
 			components.add(buttonCapture);
 
@@ -83,9 +94,12 @@ public class PhotoScene extends Window {
 					contextApp.canvas.width - 100,
 					contextApp.canvas.height / 2, "keyblank.jpg",
 					"keyblank.jpg");
+
+			buttonImage.setText("Take!", 18, PApplet.CENTER);
 		}
 
 		parent = contextApp.parent;
+
 	}
 
 	public void startCountDown() {

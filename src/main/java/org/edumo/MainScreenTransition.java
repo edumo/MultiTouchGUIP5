@@ -12,7 +12,7 @@ import org.edumo.gui.WindowManager;
 import org.edumo.gui.Window;
 import org.edumo.gui.button.ButtonText;
 import org.edumo.gui.decorator.RectDecorator;
-import org.edumo.screens.Home;
+import org.edumo.photobooth.scenes.Home;
 import org.edumo.screens.SecondScreen;
 import org.edumo.touch.TUIOConverter;
 import org.edumo.touch.TouchPointer;

@@ -1,4 +1,4 @@
-package org.edumo.screens;
+package org.edumo.photobooth.scenes;
 
 import org.edumo.content.ContentManager;
 import org.edumo.content.BaseApp;
@@ -20,8 +20,7 @@ public class Home extends Window {
 
 	@Override
 	public String drawUndecorated(PGraphics canvas) {
-		
-		
+
 		canvas.pushMatrix();
 		canvas.translate(pos.x, pos.y);
 		updateRealPos(canvas);
@@ -30,6 +29,11 @@ public class Home extends Window {
 		canvas.rect(0, 0, canvas.width, canvas.height);
 
 		windowManager.drawComponentes(components, canvas);
+
+		canvas.textSize(32);
+		canvas.fill(0);
+		canvas.textAlign(PApplet.CENTER);
+		canvas.text("PHOTOBOOTH DEMO", canvas.width / 2, canvas.height / 3);
 
 		canvas.popMatrix();
 
@@ -48,6 +52,9 @@ public class Home extends Window {
 		ButtonImage buttonImage = getWindowManager().addButton("button1Action",
 				contextApp.canvas.width / 2, contextApp.canvas.height / 2,
 				"keyblank.jpg", "keyblank.jpg");
+		buttonImage.setResizeOnDraw(contextApp.canvas.width,
+				contextApp.canvas.height);
+		buttonImage.setText("Press for start", 32, PApplet.CENTER);
 
 		components.add(buttonImage);
 	}

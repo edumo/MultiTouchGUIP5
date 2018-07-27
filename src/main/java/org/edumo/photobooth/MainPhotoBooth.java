@@ -1,4 +1,4 @@
-package org.edumo;
+package org.edumo.photobooth;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,8 +12,8 @@ import org.edumo.gui.WindowManager;
 import org.edumo.gui.Window;
 import org.edumo.gui.button.ButtonText;
 import org.edumo.gui.decorator.RectDecorator;
-import org.edumo.screens.Home;
-import org.edumo.screens.PhotoScene;
+import org.edumo.photobooth.scenes.Home;
+import org.edumo.photobooth.scenes.PhotoScene;
 import org.edumo.screens.SecondScreen;
 import org.edumo.touch.TUIOConverter;
 import org.edumo.touch.TouchPointer;
@@ -43,7 +43,9 @@ public class MainPhotoBooth extends MTGuiP5PApplet {
 
 	private void initGUI() {
 
-		mtContext = new BaseApp(this, g);
+		BaseAppPhotoBooth mtContext = new BaseAppPhotoBooth(this, g);
+		mtContext.initCamera();
+		this.mtContext = mtContext;
 
 		homeScreen = new Home(mtContext);
 		homeScreen.init(mtContext);
@@ -100,7 +102,7 @@ public class MainPhotoBooth extends MTGuiP5PApplet {
 
 					anitransition = auxWindow.animate(width, 0, 1.5f);
 				}
-				
+
 				if (action.getAction().equals("takePhoto")) {
 					photoScene.startCountDown();
 				}
@@ -116,7 +118,7 @@ public class MainPhotoBooth extends MTGuiP5PApplet {
 
 	static public void main(String[] passedArgs) {
 
-		String[] appletArgs = new String[] { "org.edumo.MainPhotoBooth" };
+		String[] appletArgs = new String[] { "org.edumo.photobooth.MainPhotoBooth" };
 		if (passedArgs != null) {
 			PApplet.main(concat(appletArgs, passedArgs));
 		} else {

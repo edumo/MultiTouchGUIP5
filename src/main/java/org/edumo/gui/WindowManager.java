@@ -273,7 +273,7 @@ public class WindowManager implements HIDEventListener {
 
 	public ButtonCapture addButtonCapture(String action, int x, int y,
 			boolean insertComponent, int align,
-			List<GUIComponent> componentsTemp) {
+			List<GUIComponent> componentsTemp,Capture cam) {
 
 		ButtonCapture button = new ButtonCapture();
 		button.init(action, null, null, new PVector(x, y), 33, align);
@@ -281,31 +281,6 @@ public class WindowManager implements HIDEventListener {
 		addListener(button);
 		if (insertComponent)
 			addComponent(button, componentsTemp);
-
-		String[] cameras = Capture.list();
-		Capture cam = null;
-		if (cameras == null) {
-			// println("Failed to retrieve the list of available cameras, will try the default...");
-			cam = new Capture(contentManager.parent, 640, 480);
-		}
-		if (cameras.length == 0) {
-			// println("There are no cameras available for capture.");
-			contentManager.parent.exit();
-		} else {
-			// println("Available cameras:");
-			for (int i = 0; i < cameras.length; i++) {
-				contentManager.parent.println(cameras[i]);
-			}
-
-			// The camera can be initialized directly using an element
-			// from the array returned by list():
-			cam = new Capture(contentManager.parent, cameras[0]);
-			// Or, the settings can be defined based on the text in the list
-			// cam = new Capture(this, 640, 480, "Built-in iSight", 30);
-
-			// Start capturing the images from the camera
-
-		}
 
 		if (cam != null) {
 			cam.start();
